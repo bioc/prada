@@ -139,7 +139,7 @@ setMethod("[",
   signature="cytoSet",
   definition=function(x, i, j="missing", drop="missing") {
     fr <-new.env(hash=TRUE)
-    if(is.numeric(i)) {
+    if(is.numeric(i)||is.logical(i)) {
       nm <- x@phenoData$name[i]
     } else {
       nm <- i
@@ -155,7 +155,7 @@ setMethod("[",
 
 setMethod("[[",
   signature="cytoSet",
-  function(x, i, j="missing") {
+  definition=function(x, i, j="missing") {
     if(length(i)!=1)
       stop("subscript out of bounds (index must have length 1 in '[[')")
     if(is.numeric(i))
@@ -165,6 +165,28 @@ setMethod("[[",
     return(rv)
   },
   valueClass="cytoFrame")
+
+setReplaceMethod("[[",
+  signature=c("cytoSet"),
+  definition=function(x, i, j="missing", value) {
+    if(!is.matrix(value))
+      stop("'value' must be a matrix.")
+    if(ncol(value)!=length(x@colnames))
+      stop(paste("'value' has", ncol(value), "columns, while the other elements of this cytoSet have",
+                 length(x@colnames), "- these numbers should be the same."))
+    if(!is.null(colnames(value)))
+      if(!all(colnames(value)==x@colnames))
+        stop("'value' must have the same colnames as the other elements of this cytoSet.")
+    if(length(i)!=1)
+      stop("subscript out of bounds (index must have length 1 in '[[<-')")
+    if(is.numeric(i))
+      i <- x@phenoData$name[i]
+    theFrame <- get(i, envir=x@frames)
+    exprs(theFrame) <- value
+    assign(i, theFrame, envir=x@frames, inherits=FALSE)
+    return(x)
+  },
+  valueClass="cytoSet")
 
 ## show method for cytoSet
 setMethod("show",

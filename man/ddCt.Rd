@@ -3,7 +3,8 @@
 \title{Apply the ddCt method for a given data set}
 \description{Apply the ddCt method for a given data set}
 \usage{
-ddCt(raw.table,calibrationSample,housekeepingGene,sampleInformation=NULL,filename="warning.output.txt",type = "mean")
+ddCt(raw.table,calibrationSample,housekeepingGene,sampleInformation=NULL,filename="warning.output.txt",
+type = "mean"))
 }
 \arguments{
   \item{raw.table}{data frame. It must contain columns with the
@@ -16,7 +17,6 @@ ddCt(raw.table,calibrationSample,housekeepingGene,sampleInformation=NULL,filenam
     \code{phenoData} with a column named 'Sample'.}
   \item{filename}{character of length 1. The name of the file the
     warnings should be stored in.}
-  \item{type}{Character -- FIXME: ADD DETAILS.}
 }
 
 \details{Please see vignette 'How to apply the ddCt method' in the prada
