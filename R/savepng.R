@@ -26,15 +26,15 @@ saveeps <- function(fn, dir, width=6, asp=1) {
   dev.off()
   return(fn)
 }
-savetiff <- function(fn, dir, density=360, keepeps=TRUE, ...) {
-  epsfn  <- saveeps(fn, dir, ...)
+savetiff <- function(fn, dir, density=360, keeppdf=TRUE, ...) {
+  pdffn  <- savepdf(fn, dir, ...)
   fn     <- paste(fn, ".tiff", sep="")
   if(!missing(dir))
     fn <- file.path(dir, fn)
-  cmd   <- paste("convert -density", density, epsfn, "-compress RLE", fn)
+  cmd   <- paste("convert -density", density, pdffn, "-compress RLE", fn)
   ## cat(cmd, "\n")
   system(cmd)
-  if(!keepeps) file.remove(epsfn)
+  if(!keeppdf) file.remove(pdffn)
   return(fn)
 }
   

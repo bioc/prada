@@ -1,7 +1,7 @@
 Package: prada
-Version: 0.3.0
-Date: 21 Nov 2003
-Title: Massively parallel phenotyping data analysis
+Version: 0.4.0
+Date: 15 Jan 2004
+Title: Proliferation assay data analysis
 Author: Wolfgang Huber <w.huber@dkfz.de>
 Maintainer: Wolfgang Huber <w.huber@dkfz.de>
 Depends: R (>= 1.8.1), XML

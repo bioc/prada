@@ -38,7 +38,8 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span) {
   ## check whether range of tau ("transfection efficiency") is large enough
   if(nrcells>40) {
     stau    <- sort(tau)
-    trsfeff <- (stau[nrcells-19] - stau[20]) / rgtau
+    nrctb   <- getPradaPar("nrCellsTopBottom")
+    trsfeff <- (stau[nrcells-nrctb+1] - stau[nrctb]) / rgtau
   } else {
     trsfeff <- 0
   }
@@ -108,9 +109,12 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span) {
 
   pfn <- paste(expId, expRepeat, expWell, sep="_")
   
+  plotfile <- as.character(NA)
+  names(plotfile) <- "plotfile"
   switch(plotwhat,
-     nothing = {
-       plotfile <- as.character(NA)
+     nothing = {},
+     screen  = {
+       myplot(main=cloneId)
      },
      figscp  = {
        par(mfrow=c(1,1))
@@ -120,7 +124,6 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span) {
        f2 <- savetiff(paste(pfn, "zoom", sep="_"), density=150, dir=plotdir)
        plotfile <- c(f1, f2)
        names(plotfile) <- c("plotfull", "plotzoom")
-       
        cat(cloneId, paste(c("delta", "se.delta", "zscore", "niter", "sc.dbg"),
                           signif(c(delta, se.delta, zscore, niter, sc.dbg), 2),
                           sep="=", collapse="\t"), "\n")
@@ -131,8 +134,8 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span) {
        png(file=file.path(plotdir, plotfile), width=1024, height=768)
        layout(matrix(c(1,3,2,4), nrow=2, ncol=2), widths=c(1,1), heights=c(2,1))
        myplot(main=paste(pfn, cloneId))
-       myplot(main=paste("delta=", signif(delta, 2), "+/-", signif(2*se.delta, 2), " z=", signif(zscore, 2), sep=""),
-              xmax=tauzero+rgtau*2)
+       myplot(main=paste("delta=", signif(delta, 2), "+/-", signif(2*se.delta, 2),
+                " z=", signif(zscore, 2), sep=""), xmax=tauzero+rgtau*2)
        if(!is.null(resi)) {
          plot(rank(tau), resi, pch=16, xlab="rank(x)", ylab="residuals")
          abline(h=0, col="red")
