@@ -7,12 +7,11 @@ plotPlate  = function(x, nrow=8, ncol=12, ind, main, xrange, col,
     stop("'nrow' must be a numeric vector of length 1")
   nrwell <- ncol*nrow
   if(!missing(ind))
-    if((length(ind) != length(x)) | (max(ind) > nrwell) |
-       (length(unique(ind)) != length(ind)) | min(ind) < 1)
+    if((length(ind) != length(x)) | (max(ind, na.rm=T) > nrwell))
       stop("'ind' must be vector of unique indices for vector 'x'")
   if(length(x)<nrwell && !missing(ind)){
     y <- rep(NA, nrwell)
-    y[ind] <- x
+    y[ind[which(!is.na(ind))]] <- x[!is.na(x)]
     x <- y
   }
   if(!is.numeric(x) || !is.vector(x) || length(x)!=nrwell)
@@ -26,6 +25,7 @@ plotPlate  = function(x, nrow=8, ncol=12, ind, main, xrange, col,
     stop("'desc' must be a character vector of length 2")
   
   ## user coordinates: x=(-0.5...13.5), y=(-0.5...9.5)
+
   xlim   = c(-0.5, ncol+1.5)
   ylim   = c(-0.5, nrow+1.5)
   colbarwid = 0.4
@@ -50,7 +50,8 @@ plotPlate  = function(x, nrow=8, ncol=12, ind, main, xrange, col,
 
   par(mai=c(0,0,0,0))
   cex = 1.5
-  plot(x=0, y=0, type="n", bty="n", xaxt="n", yaxt="n", xaxs="i", yaxs="i", xlim=xlim, ylim=ylim)
+  plot(x=0, y=0, type="n", bty="n", xaxt="n", yaxt="n", xaxs="i", yaxs="i",
+       xlim=xlim, ylim=ylim)
   graphics::text((1:ncol), 0, paste(1:ncol), adj=c(0.5,0), cex=cex)
   graphics::text(0, (nrow:1), LETTERS[1:nrow], adj=c(0, 0.5), cex=cex)
   if(!missing(main))
@@ -82,7 +83,7 @@ plotPlate  = function(x, nrow=8, ncol=12, ind, main, xrange, col,
   switch(na.action,
          zero = {
            circcol[is.na(circcol)] <- thepalette[z2icol(0)]
-           wh <- 1:nrwell
+           wh <- 1:nrwell       
          }, 
          omit = {
            wh <- which(!is.na(circcol))
@@ -121,6 +122,9 @@ plotPlate  = function(x, nrow=8, ncol=12, ind, main, xrange, col,
   x2 = u2px(x0+dx)
   y1 = u2py(y0-dy)
   y2 = u2py(y0+dy)
+
+  if (!missing(ind))
+    wh <- which(!is.na(ind))
 
   res <- list(which=wh, coord=floor(cbind(x1, y1, x2, y2) + 0.5), height=args$height,
               width=args$width)
