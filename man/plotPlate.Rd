@@ -21,7 +21,7 @@ plotPlate(x, nrow=8, ncol=12, ind, main, xrange, col,
   \item{xrange}{Range of \code{x} that is mapped into the color scale.}
   \item{col}{Character vector. Usually the names of two or three colors
     between which the color map is interpolated, using the function
-    \code{\link{colorramp}}.}
+    \code{\link[geneplotter::colorRampPalette]{colorRampPalette}}.}
   \item{device}{Character. Name of a valid graphics device,
     e.g. \code{x11}, \code{png}, \code{pdf}.}
   \item{file}{The \code{file} argument of the call to

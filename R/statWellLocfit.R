@@ -89,7 +89,7 @@ statWellLocfit = function(x, span, plotwhat="nothing", plotdir=".", plotfile, ..
   
   myplot <- function(qxmin=0, qxmax=1, qymin=0, qymax=1, lxmax, ...) {
     colpal <- c("#4db8a4", "#377db8", "#e31a1c")
-    cols <- colorramp(colpal)(nrcells)[rank(tau)]
+    cols <- colorRampPalette(colpal)(nrcells)[rank(tau)]
     px   <- tau
     py   <- ybg
     xlim <- quantile(px, c(qxmin, qxmax))

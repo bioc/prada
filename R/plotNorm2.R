@@ -8,7 +8,7 @@ plotNorm2 <- function(fn, colrange=c("gray82", "blue"), center=TRUE,
     
 
  nrcolors <- 256
- palette  <- colorramp(colrange)(nrcolors)
+ palette  <- colorRampPalette(colrange)(nrcolors)
  xrange   <- range(fn$p, na.rm=TRUE)
  z2icol   <- function(z) {
     res = round((z-xrange[1])/diff(xrange)*(nrcolors-1))+1

@@ -58,7 +58,7 @@ plotPlate  = function(x, nrow=8, ncol=12, ind, main, xrange, col,
     graphics::text((ncol+1)/2, nrow+1, main, adj=c(0.5, 1), cex=cex)
   
   nrcolors   = 256
-  thepalette = colorramp(col)(nrcolors)
+  thepalette = colorRampPalette(col)(nrcolors)
 
   # the mapping from values to color indices
   z2icol <- function(z) {
