@@ -141,6 +141,22 @@ plot(cleanfdat[,"FL1-H"], cleanfdat[,"FL4-H"], pch=20, col="#303030", xlab="FL1"
 Scatter plots of FL1 vs FL4.}
 \end{figure}
 
+\section{Scatterplots}
+If you think that scatterplots with thousands of points are hard to
+read and annoying to view in a PDF viewer, have a look at the
+function \Rfunction{smoothScatter} (see Fig.~\ref{fig:smoothscatter}):
+<<smoothscatter, fig=TRUE, include=FALSE, width=8, height=8>>=
+smoothScatter(fdat[,c("FSC-H", "SSC-H")], nrpoints=50, 
+              colrange=c("white", "blue"))
+@ 
+%
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{norm2-smoothscatter}
+\caption{\label{fig:smoothscatter}%
+Smooth scatter plots.}
+\end{figure}
+%
 \end{document}
 
 

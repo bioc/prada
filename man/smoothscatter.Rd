@@ -47,7 +47,6 @@ xxx <- exprs(sampdat[,1:2])
 layout(matrix(1:4, ncol=2, byrow=TRUE))
 smoothScatter(xxx, nrpoints=0)
 smoothScatter(xxx)
-smoothScatter(xxx, nrpoints=100, colrange=c("white", "blue"))
 smoothScatter(xxx, nrpoints=Inf, colrange=c("white", "blue", "red"),
 bandwidth=40)  
 }
