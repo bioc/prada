@@ -13,6 +13,9 @@ readFCS <- function(filename)
 
   close(con)
   
+  if(as.integer(readFCSgetPar(txt, "$TOT"))!=nrow(dat))
+    stop(paste("file", filename, "seems to corrupted."))
+  
   attr(dat, "text") <- txt
   return(dat)
 }
@@ -55,19 +58,19 @@ readFCStext <- function(con, offsets, delimiter="\\") {
   return(rv)
 }
 
-readFCSdata <- function(con, offsets, txt, endian="big") {
-  if (readFCSgetPar(txt, "$BYTEORD") != "4,3,2,1")
-    stop(paste("Don't know how to deal with $BYTEORD", readFCSgetPar(txt, "$BYTEORD")))
+readFCSdata <- function(con, offsets, x, endian="big") {
+  if (readFCSgetPar(x, "$BYTEORD") != "4,3,2,1")
+    stop(paste("Don't know how to deal with $BYTEORD", readFCSgetPar(x, "$BYTEORD")))
   
-  if (readFCSgetPar(txt, "$DATATYPE") != "I")
-    stop(paste("Don't know how to deal with $DATATYPE", readFCSgetPar(txt, "$DATATYPE")))
+  if (readFCSgetPar(x, "$DATATYPE") != "I")
+    stop(paste("Don't know how to deal with $DATATYPE", readFCSgetPar(x, "$DATATYPE")))
   
-  if (readFCSgetPar(txt, "$MODE") != "L")
-    stop(paste("Don't know how to deal with $MODE", readFCSgetPar(txt, "$MODE")))
+  if (readFCSgetPar(x, "$MODE") != "L")
+    stop(paste("Don't know how to deal with $MODE", readFCSgetPar(x, "$MODE")))
 
-  nrpar    <- as.integer(readFCSgetPar(txt, "$PAR"))
-  range    <- as.integer(readFCSgetPar(txt, paste("$P", 1:nrpar, "R", sep="")))
-  bitwidth <- as.integer(readFCSgetPar(txt, paste("$P", 1:nrpar, "B", sep="")))
+  nrpar    <- as.integer(readFCSgetPar(x, "$PAR"))
+  range    <- as.integer(readFCSgetPar(x, paste("$P", 1:nrpar, "R", sep="")))
+  bitwidth <- as.integer(readFCSgetPar(x, paste("$P", 1:nrpar, "B", sep="")))
 
   if (!all(bitwidth==16))
     stop(paste("Don't know how to deal with the bit widths"))
@@ -77,7 +80,7 @@ readFCSdata <- function(con, offsets, txt, endian="big") {
                  size=2, signed=FALSE, endian=endian)
   stopifnot(length(dat)%%nrpar==0)
   dat <- matrix(dat, ncol=nrpar, byrow=TRUE)
-  colnames(dat) <- readFCSgetPar(txt, paste("$P", 1:nrpar, "N", sep=""))
+  colnames(dat) <- readFCSgetPar(x, paste("$P", 1:nrpar, "N", sep=""))
   return(dat) 
 }
 
