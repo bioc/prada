@@ -72,7 +72,7 @@ if(interactive()) {
   layout(matrix(1:4, ncol=2, byrow=TRUE))
   smoothScatter(x, nrpoints=0)
   smoothScatter(x)
-  smoothScatter(x, nrpoints=Inf, colrange=brewer.pal(9, "YlOrRd"), bandwidth=40)  
+  smoothScatter(x, nrpoints=Inf, colramp=colorRampPalette(brewer.pal(9, "YlOrRd")), bandwidth=40)  
 
   colors  <- densCols(x)
   plot(x, col=colors, pch=20)
