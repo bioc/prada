@@ -41,7 +41,7 @@ plotPlate  = function(x, nrow=8, ncol=12, main, xrange, col,
   cex = 1.5
   plot(x=0, y=0, type="n", bty="n", xaxt="n", yaxt="n", xaxs="i", yaxs="i", xlim=xlim, ylim=ylim)
   graphics::text((1:ncol), 0, paste(1:ncol), adj=c(0.5,0), cex=cex)
-  graphics::text(0, (nrow:1), c("A","B","C","D","E","F","G","H"), adj=c(0, 0.5), cex=cex)
+  graphics::text(0, (nrow:1), LETTERS[1:nrow], adj=c(0, 0.5), cex=cex)
   if(!missing(main))
     graphics::text((ncol+1)/2, nrow+1, main, adj=c(0.5, 1), cex=cex)
   
