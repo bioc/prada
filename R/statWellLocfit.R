@@ -105,7 +105,7 @@ statWellLocfit = function(x, crosstalk, span,
     abline(v=tauzero, lwd=3, col="#808080")
     if(!is.null(lcft)) {
       if(missing(lxmax))
-        lxmax <- xlim[2]
+        lxmax <- sort(px)[max(1, length(px)-10)]
       px <- seq(xlim[1], lxmax, len=50)
       lines(px, predict(lcft, newdata=px), lwd=3)
     }
@@ -117,7 +117,7 @@ statWellLocfit = function(x, crosstalk, span,
   switch(plotwhat,
      nothing = {},
      screen  = {
-       myplot(...) ## main=cloneId
+       myplot(...) 
        plotfile <- as.character(NA)
      },
      figscp  = {
@@ -130,14 +130,14 @@ statWellLocfit = function(x, crosstalk, span,
                           sep="=", collapse="\t"), "\n")
      },
      mkpp    = {
-       main1 <- paste(plotfile, cloneId)
-       main2 <- paste("delta=", signif(delta, 2), "+/-", signif(2*se.delta, 2),
-                      " z=", signif(zscore, 2), sep="")
+       main1 <- paste(plotfile, paste(mapId(cloneId), "(low range)"))
+       main2 <- paste("delta=", signif(delta, 2), "  se.delta=", signif(se.delta, 2),
+                      "  z=", signif(zscore, 2), "  (full range)", sep="")
        plotfile <- paste(plotfile, ".png", sep="")
        png(file=file.path(plotdir, plotfile), width=1024, height=768)
        layout(matrix(c(1,3,2,4), nrow=2, ncol=2), widths=c(1,1), heights=c(2,1))
-       myplot(main=main1, ...)
-       myplot(main=main2, qxmax=0.95, ...)
+       myplot(main=main1, qxmax=0.95, ...)
+       myplot(main=main2, ...)
        if(!is.null(resi)) {
          plot(rank(tau), resi, pch=16, xlab="rank(x)", ylab="residuals")
          abline(h=0, col="red")
