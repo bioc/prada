@@ -2,7 +2,7 @@
 \alias{csApply}
 \title{Apply a function over the intensities in a cytoSet}
 \description{This a wrapper for \code{\link{sapply}} for
-  objects of class \code{\link{cytoSet}}}
+  objects of class \code{\link{cytoSet-class}}.}
 \usage{
 csApply(X, FUN, ...)
 }
@@ -21,13 +21,15 @@ csApply(X, FUN, ...)
   then the value of this function is an \code{n x length(X)}
   matrix with dimnames.
   Else, the value of this function is a named list whose
-  value are the return values of the individual calls to \code{FUN}.}
+  values are the return values of the individual calls to \code{FUN}.}
 
 \seealso{\code{\link{sapply}}}
 
 \author{Wolfgang Huber \url{http://www.dkfz.de/mga/whuber}}
 \keyword{manip} 
 \examples{
+cset=readCytoSet(path=system.file("extdata", package="prada"),
+  pattern="[A-Z][0-9][0-9]$")
 csApply(cset, nrow)
 csApply(cset, colMeans)
 }
