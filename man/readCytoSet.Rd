@@ -3,7 +3,7 @@
 \title{Create a cytoSet object from one or more FCS 3.0 files}
 \description{Create a cytoSet object from one or more FCS 3.0 files}
 \usage{
-  readCytoSet(files=NULL, path=".", pattern=NULL, phenoData, ...)
+  readCytoSet(files=NULL, path=".", pattern=NULL, phenoData, sep="\t", ...)
 }
 \arguments{
   \item{files}{Optional character vector with filenames}
@@ -13,6 +13,7 @@
     \code{character}.}
   \item{...}{Further arguments that get passed on to
     \code{\link{read.phenoData}}, see details.}
+  \item{sep}{Separator character that gets passed on to function \code{\link[read.phenoData]{read.phenoData}}.}
 }
 
 \details{There are three different ways to specify the file names:

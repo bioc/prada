@@ -4,13 +4,18 @@
 \description{Plot a well statistic in false color representation. The
   plot is supposed to resemble the physical geometry of a microtitre plate.}
 \usage{
-plotPlate(x, nrow=8, ncol=12, main, xrange, col, 
+plotPlate(x, nrow=8, ncol=12, ind, main, xrange, col, 
   device, file, width, na.action="zero", desc)
 }
 \arguments{
   \item{x}{Numeric vector of length \code{ncol*nrow}}
   \item{nrow}{Numeric of length 1. The number of rows of the plate.}
   \item{ncol}{Numeric of length 1. The number of columns of the plate.}
+  \item{ind}{Optional integer vector of equal length as \code{x}. It
+    indicates the position of the respective value of
+    x on the plate. Can be used to adress the problem of missing
+    values. Each well that is not allocated a value of \code{x} by
+    \code{ind} is set to \code{NA}.}
   \item{main}{Character of length 1. Plot title. This arguments gets passed 
      on to \code{\link[graphics:text]{text}} as the argument \code{labels}.}
   \item{xrange}{Range of \code{x} that is mapped into the color scale.}

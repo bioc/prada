@@ -8,10 +8,12 @@ imageMap = function(con, imgname, coord, tooltips, url, target="extra") {
   stopifnot(!any(is.na(coord)), !any(is.na(tooltips)), !any(is.na(url)))
   
   mapname <- paste("map", gsub(" |/|#", "_", imgname), sep="_")
-  base::writeLines(paste("<IMG SRC=\"", imgname, "\" USEMAP=\#", mapname, " BORDER=0>", 
-                   "<MAP NAME=\"", mapname, "\">", sep=""), con)
+  base::writeLines(paste("<IMG SRC=\"", imgname, "\" USEMAP=\#", mapname, " BORDER=0>",
+                         sep=""), con)
+  base::writeLines(paste("<MAP NAME=\"", mapname, "\">", sep=""), con)
   base::writeLines(paste("<AREA SHAPE=\"rect\" HREF=\"", url, "\" TITLE=\"", tooltips,
                    "\" COORDS=\"", coord[,1], ",", coord[,2], ",", coord[,3], ",",
                    coord[,4], "\" TARGET=\"", target, "\">", sep=""), con)
+  base::writeLines("</MAP>", con)
 }
 

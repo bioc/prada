@@ -3,11 +3,11 @@
 ## 2. check argument 'files'. If that is not there,
 ## 3. evaluate directories in 'path'
 
-readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, ...) {
+readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t", ...) {
   if(!missing(phenoData)) {
     if(is.character(phenoData))
       phenoData = read.phenoData(file.path(path, phenoData), header = TRUE,
-        as.is = TRUE, ...)
+        as.is = TRUE, sep=sep, ...)
     if(!is(phenoData, "phenoData"))
       stop("Argument 'phenoData' must be of type 'phenoData'.")
     if(!("name" %in% colnames(pData(phenoData))))

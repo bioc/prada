@@ -1,19 +1,30 @@
-plotPlate  = function(x, nrow=8, ncol=12, main, xrange, col,
+plotPlate  = function(x, nrow=8, ncol=12, ind, main, xrange, col,
   device, file, width, na.action="zero", desc=as.character(c(NA,NA))) {
 
   if(!is.numeric(ncol)||length(ncol)!=1)
-    stop("'ncol' must be a numeric vector of length 1")	
+    stop("'ncol' must be a numeric vector of length 1")
   if(!is.numeric(nrow)||length(nrow)!=1)
-    stop("'nrow' must be a numeric vector of length 1")	
+    stop("'nrow' must be a numeric vector of length 1")
   nrwell <- ncol*nrow
+  if(!missing(ind))
+    if((length(ind) != length(x)) | (max(ind) > nrwell) |
+       (length(unique(ind)) != length(ind)) | min(ind) < 1)
+      stop("'ind' must be vector of unique indices for vector 'x'")
+  if(length(x)<nrwell && !missing(ind)){
+    y <- rep(NA, nrwell)
+    y[ind] <- x
+    x <- y
+  }
   if(!is.numeric(x) || !is.vector(x) || length(x)!=nrwell)
-    stop("'x' must be a numeric vector of length 'ncol*nrow'")
+    stop(paste("'x' must be a numeric vector of length 'ncol*nrow'.",
+               "\nYou might want to include indices for missing wells."))
   if(missing(xrange))
     xrange=range(x, na.rm=TRUE)
   if(!is.numeric(xrange) || length(xrange)!=2 || any(is.na(xrange)))
     stop("'xrange' must be a numeric vector of length 2 with no NA.")  
  if(!is.character(desc)||length(desc)!=2)
-    stop("'desc' must be a character vector of length 2") 
+    stop("'desc' must be a character vector of length 2")
+  
   ## user coordinates: x=(-0.5...13.5), y=(-0.5...9.5)
   xlim   = c(-0.5, ncol+1.5)
   ylim   = c(-0.5, nrow+1.5)
