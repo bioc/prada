@@ -4,12 +4,14 @@
 \description{This a wrapper for \code{\link{sapply}} for
   objects of class \code{\link{cytoSet-class}}.}
 \usage{
-csApply(X, FUN, ...)
+csApply(X, FUN, ..., simplify = TRUE)
 }
 \arguments{
   \item{X}{cytoSet.}
   \item{FUN}{the function to be applied.}
   \item{...}{optional arguments to \code{FUN}.}
+  \item{simplify}{logical; should the result be simplified to a vector or
+          matrix if possible? Gets passed on the \code{\link{sapply}}.}
 }
 
 \details{A wrapper for \code{\link{sapply}}.}

@@ -1,4 +1,4 @@
-fitNorm2 <- function(x, y=NA, scalefac=1, method="covMCD") {
+fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd") {
 
   if (!(is.matrix(x) && ncol(x)==2)){
     if (!length(x)==length(y) || !is.numeric(x) || !is.numeric(y))
@@ -9,15 +9,20 @@ fitNorm2 <- function(x, y=NA, scalefac=1, method="covMCD") {
     stop("Not enough data points for reliable analysis")
   if (!is.numeric(scalefac))
     stop("'scalefac' must be numeric")
-  if (length(method)!=1 || !(method=="covMCD" | method=="cov.rob"))
-    stop("'method' must be one of 'covMCD' or 'cov.rob'")
-   
 
- ## calculate densities
- if (method == "covMCD")
-   cov  <- covMcd(x)
- if (method == "cov.rob")
-   cov  <- cov.rob(x)
+  cov <- switch(method,
+    covMcd = {
+      nmax <- 50000
+      if (nrow(x)>nmax)
+        covMcd(x[sample(nrow(x), nmax),])
+      else
+        covMcd(x)
+    },
+    cov.rob = {
+      cov.rob(x)
+    },
+    stop("'method' must be one of 'covMcd' or 'cov.rob'")
+ ) ## end of switch
   
  mu   <- cov$center
  S    <- cov$cov

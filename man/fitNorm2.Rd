@@ -5,7 +5,7 @@
   paired values and selects data points according to their standard
   deviation from the fitted distribution.
 }
-\usage{fitNorm2(x, y=NA, scalefac=1, method="covMCD")
+\usage{fitNorm2(x, y=NA, scalefac=1, method="covMcd")
 }
 \arguments{
   \item{x}{Numeric vector containing x-value or n by 2 matrix containing x and
@@ -15,13 +15,13 @@
   \item{scalefac}{Numeric vector giving factor of standard deviations
     used for data selection (all points within \code{scalefac} standard
     deviations are selected).}
-  \item{method}{One of \code{covMCD} or \code{cov.rob} defining method
+  \item{method}{One of \code{covMcd} or \code{cov.rob} defining method
     used for computation of covariance matrix.}
 }
 
 \details{Computes the densities of a bivariate normal distribution from
   the covariance matrix of the paired data. Covariance matrices are
-  acquired either by function \code{\link[rrcov::covMCD]{covMCD}}
+  acquired either by function \code{\link[rrcov::covMcd]{covMcd}}
   (considerably faster) or by function \code{\link[MASS::cov.rob]{cov.rob}}.
 }
 
@@ -33,7 +33,7 @@
 }  
 
 \seealso{\code{\link[MASS::cov.rob]{cov.rob}},
-  \code{\link[rrcov::covMCD]{covMCD}},
+  \code{\link[rrcov::covMcd]{covMcd}},
   \code{\link[prada::plotNorm2]{plotNorm2}}}
 
 \author{Florian Hahne}
