@@ -1,5 +1,3 @@
-library(Biobase)
-
 setClass("cytoFrame",
   representation(exprs="matrix",
                  description="character"),
@@ -121,16 +119,16 @@ setClass("cytoSet",
                  colnames="character"),
   prototype=list(frames=new.env(),
                  phenoData=new("phenoData",
-                   pData=data.frame(framename=I(character(0))),
-                   varLabels=list(framename="Name in frame")),
+                   pData=data.frame(name=I(character(0))),
+                   varLabels=list(name="Name in frame")),
                  colnames=character(0)),
   validity=function(object){
     nc <- length(colnames(object))
     is(object@phenoData, "phenoData") &&
     is(object@colnames, "character") &&
     is(object@frames, "environment") &&
-    "framename" %in% colnames(pData(object@phenoData)) &&
-    setequal(ls(object@frames), object@phenoData$framename) &&
+    "name" %in% colnames(pData(object@phenoData)) &&
+    setequal(ls(object@frames), object@phenoData$name) &&
     all(sapply(ls(object@frames), function(x)
       { fr <- get(x, envir=object@frames, inherits=FALSE)
         is(fr, "cytoFrame") && is.null(colnames(fr))  &&
@@ -142,10 +140,10 @@ setMethod("[",
   definition=function(x, i, j="missing", drop="missing") {
     fr <-new.env(hash=TRUE)
     if(is.numeric(i)) {
-      nm <- x@phenoData$framename[i]
+      nm <- x@phenoData$name[i]
     } else {
       nm <- i
-      i <- match(nm, x@phenoData$framename)
+      i <- match(nm, x@phenoData$name)
     }
     multiassign(nm, mget(nm, x@frames), envir=fr, inherits=FALSE) 
     new("cytoSet",
@@ -161,7 +159,7 @@ setMethod("[[",
     if(length(i)!=1)
       stop("subscript out of bounds (index must have length 1 in '[[')")
     if(is.numeric(i))
-      i <- x@phenoData$framename[i]
+      i <- x@phenoData$name[i]
     rv <- get(i, x@frames, inherits=FALSE)
     colnames(exprs(rv)) <- x@colnames
     return(rv)

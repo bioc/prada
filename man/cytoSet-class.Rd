@@ -56,7 +56,7 @@ containing one or more \code{\link[cytoFrame-class]{cytoFrame}} objects.}
 \item{\code{phenoData}:}{A
 \code{\link[Biobase:phenoData-class]{phenoData}}. Each row
 corresponds to one of the cytoFrames in the \code{frames} slot.
-It is mandatory that the pData has column named \code{framename}}
+It is mandatory that the pData has column named \code{name}}
 
 \item{\code{colnames}:}{A \code{character} object with the
 (common) column names of all the data matrices in the cytoFrames.}

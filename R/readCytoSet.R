@@ -1,14 +1,36 @@
-readCytoSet <- function(files, path=".", ...) {
-  ## if(!is.(pd, "phenoData"))
-  ##  stop("'pd' must be an object of class 'phenoData'")
-  if(missing(files)) {
-    files <- dir(path, ...)
+## How filenames are obtained:
+## 1. check for column 'filename' in pData(phenoData). If that is not there,
+## 2. check argument 'files'. If that is not there,
+## 3. evaluate directories in 'path'
+
+readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, ...) {
+  if(!missing(phenoData)) {
+    if(is.character(phenoData))
+      phenoData = read.phenoData(file.path(path, phenoData), ...)
+    if(!is(phenoData, "phenoData"))
+      stop("Argument 'phenoData' must be of type 'phenoData'.")
+    if("name" %in% colnames(pData(phenoData)))
+      stop("'phenoData' must contain a column 'name'")
+    if(!is.null(files))
+      warning("Argument 'files' is ignored.")
+    files <- phenoData$name
+  }
+
+  if(is.null(files)) {
+    files <- dir(path, pattern)
     if(length(files)<1)
       stop(paste("No (matching) files found in directory", path))
   }
   if(!is.character(files))
     stop("'files' must be a character vector")
 
+  if(missing(phenoData))
+    phenoData <- new("phenoData",
+       pData     = data.frame(name=I(files)),
+       varLabels = list(name="Name of the FCS 3.0 file"))
+  
+  ## now we have everything in place: files, and phenoData
+  
   env <- new.env(hash=TRUE)
   cn  <- NULL
   for(f in files) {
@@ -25,9 +47,7 @@ readCytoSet <- function(files, path=".", ...) {
 
   return(new("cytoSet",
     frames    = env,
-    phenoData = new("phenoData",
-       pData = data.frame(framename=I(files)),
-       varLabels = list(framename="Filename of the FCS 3.0 file")),
+    phenoData = phenoData,
     colnames=cn))
 }
   
