@@ -52,8 +52,8 @@ readFCStext <- function(con, offsets) {
   txt <- readChar(con, offsets["textend"]-offsets["textstart"]+1)
   delimiter <- substr(txt, 1, 1)
   sp  <- strsplit(substr(txt, 2, nchar(txt)), split=delimiter, fixed=TRUE)[[1]]
-  ##if(length(sp)%%2!=0)
-  ##  stop("In readFCStext: unexpected format of the text segment")
+  if(length(sp)%%2!=0)
+    stop("In readFCStext: unexpected format of the text segment")
   rv <- sp[seq(2, length(sp), by=2)]
   names(rv) <- sp[seq(1, length(sp)-1, by=2)]
   return(rv)
