@@ -1,0 +1,10 @@
+Package: prada
+Version: 0.3.0
+Date: 21 Nov 2003
+Title: Massively parallel phenotyping data analysis
+Author: Wolfgang Huber <w.huber@dkfz.de>
+Maintainer: Wolfgang Huber <w.huber@dkfz.de>
+Depends: R (>= 1.8.1), XML
+Description: Tools for analysing and navigating data from high-throughput phenotyping experiments based on cellular assays and fluorescent detection (flow cytometry (FACS), high-content screening microscopy).
+License: LPGL
+URL: http://www.dkfz.de/mga/whuber, http://www.dkfz.de/bioconductor, http://www.dkfz.de/LIFEdb
