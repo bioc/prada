@@ -1,9 +1,8 @@
-
 % NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
 % likely to be overwritten.
 %
-% \VignetteIndexEntry{How to apply the ddCt method}
-%\VignetteDepends{Biobase,prada}
+%\VignetteIndexEntry{FACS quality control}
+%\VignetteDepends{prada}
 %\VignetteKeywords{}
 %\VignettePackage{none}
 \documentclass[11pt]{article}
