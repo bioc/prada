@@ -56,7 +56,7 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGene,sampleInformation=
  
  if (! is.null(sampleInformation)) {
    if( !("Sample" %in% colnames(pData(sampleInformation)))) stop("Your phenoData must contain a column named 'Sample'.")
-   the.match <- match(as.character(pData(sampleInformation)$Sample), rownames(pData(result)))
+   the.match <- match(rownames(pData(result)),as.character(pData(sampleInformation)$Sample))
    pData(result) <- cbind(pData(result),pData(sampleInformation)[the.match,colnames(pData(sampleInformation))!="Sample"])
    phenoData(result)@varLabels<- c(varLabels(phenoData(result)),varLabels(sampleInformation)[names(varLabels(sampleInformation))!="Sample"])
  }
