@@ -23,6 +23,8 @@ The implementation provided here is incomplete!
 \examples{
 sampdat <- readFCS(system.file("extdata", "fas Bcl2 plate323-04-04.A01", package="prada"))
 sampdat[1:5,]
+dim(sampdat)
+attr(sampdat, "text")[3:6]
 }
 \keyword{IO}
 
