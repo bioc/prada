@@ -35,16 +35,16 @@ readFCSheader <- function(con) {
   
   tmp <- readChar(con, 4)
   stopifnot(tmp=="    ")
+
+  coffs <- character(6)
+  for(i in 1:length(coffs))
+    coffs[i] <- readChar(con=con, nchars=8)
   
-  offsets   <- numeric(6)
-  names(offsets) <- c("textstart", "textend", "datastart", "dataend", "anastart", "anaend")
-  for(i in 1:length(offsets))
-    offsets[i] <- as.integer(readChar(con, 8))
+  ioffs <- as.integer(coffs)
+  names(ioffs) <- c("textstart", "textend", "datastart", "dataend", "anastart", "anaend")
   
-  stopifnot(!any(is.na(offsets)))
-  stopifnot(!any(offsets[1:4]==0))
-  
-  return(offsets)
+  stopifnot(all(!is.na(ioffs) | coffs=="        "), !any(ioffs[1:4]==0))
+  return(ioffs)
 }
 
 readFCStext <- function(con, offsets) {
@@ -52,16 +52,20 @@ readFCStext <- function(con, offsets) {
   txt <- readChar(con, offsets["textend"]-offsets["textstart"]+1)
   delimiter <- substr(txt, 1, 1)
   sp  <- strsplit(substr(txt, 2, nchar(txt)), split=delimiter, fixed=TRUE)[[1]]
-  if(length(sp)%%2!=0)
-    stop("In readFCStext: unexpected format of the text segment")
+  ## if(length(sp)%%2!=0)
+  ##  stop("In readFCStext: unexpected format of the text segment")
   rv <- sp[seq(2, length(sp), by=2)]
   names(rv) <- sp[seq(1, length(sp)-1, by=2)]
   return(rv)
 }
 
-readFCSdata <- function(con, offsets, x, endian="big") {
-  if (readFCSgetPar(x, "$BYTEORD") != "4,3,2,1")
-    stop(paste("Don't know how to deal with $BYTEORD", readFCSgetPar(x, "$BYTEORD")))
+readFCSdata <- function(con, offsets, x) {
+  endian <- switch(readFCSgetPar(x, "$BYTEORD"),
+    "4,3,2,1" = "big",
+        "2,1" = "big",
+        "1,2" = "little",     
+    "1,2,3,4" = "little",
+    stop(paste("Don't know how to deal with $BYTEORD", readFCSgetPar(x, "$BYTEORD"))))
   
   if (readFCSgetPar(x, "$DATATYPE") != "I")
     stop(paste("Don't know how to deal with $DATATYPE", readFCSgetPar(x, "$DATATYPE")))

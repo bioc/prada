@@ -10,7 +10,7 @@
   readFCSgetPar(x, pnam)
   readFCSheader(con)
   readFCStext(con, offsets)
-  readFCSdata(con, offsets, x, endian="big")
+  readFCSdata(con, offsets, x)
 }
 \arguments{
   \item{x}{Named character vector.}
@@ -19,7 +19,6 @@
   \item{con}{Connection.}
   \item{offsets}{Integer vector of length 6 with byte offsets of the
     header, text, and data blocks.}
-  \item{endian}{Character. Specifies the byte order, see \code{\link[base:readBin]{readBin}}.}
 }
 
 \details{These functions are not normally called by the user. See
