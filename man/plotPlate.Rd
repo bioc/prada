@@ -27,7 +27,7 @@ plotPlate(z, well, sizex=12, sizey=8, main, zlim=NULL, col, device,
   \item{na.action}{Character. One of \code{"zero"} or \code{"omit"}.
     How should the wells for which \code{z} is NA be treated?
     For \code{"zero"}, they are plotted as if the value were 0. 
-    For \code{"omit"}, they are omitted. 
+    For \code{"omit"}, they are omitted. }
 }
 
 \details{To do.}
