@@ -23,9 +23,10 @@ collectdat(thedir, verbose=TRUE)
 }
 
 \details{These functions are rather ideosyncratic for the particular format in
-which Urban Liebel's (EMBL) high contents screening microscope stores its data
-and how that data was transfered to the DKFZ for Dorit Arlt's proliferation
-assay. They are probably not of much interest otherwise.
+which the EMBL's high contents screening microscope (Urban Liebel, Rainer
+Pepperkok) store its data, and how that data was transfered to the DKFZ for
+Dorit Arlt's proliferation assay. These functions are probably not of much
+interest beyond that.
 
 \code{readWellXML} reads an XML file with the data for one well
 from Urban Liebel's (EMBL) HCS-microscope.
