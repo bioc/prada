@@ -21,8 +21,8 @@ It returns the value invisible(NULL).
 }
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \examples{
-## setPradaPars(list(tomato=1, apple="two", pear=as.integer(3)))
-## getPradaPar("pear")
+ setPradaPars(list(tomato=1, apple="two", pear=as.integer(3)))
+ getPradaPar("pear")
 }
 \keyword{manip}
 
