@@ -4,38 +4,50 @@
 \description{Plot a well statistic in false color representation. The
   plot is supposed to resemble the physical geometry of a microtitre plate.}
 \usage{
-plotPlate(z, well, sizex=12, sizey=8, main, zlim=NULL, col, device,
-          plotfile=NULL, width, na.action="zero")
+plotPlate(x, nrow=8, ncol=12, main, xrange, col, 
+  device, file, width, na.action="zero")
 }
 \arguments{
-  \item{z}{Numeric vector}
-  \item{well}{Numeric vector of the same length as z. Its elements
-    are expected to be integer in the range \code{1:(sizex*sizey)}.}
-  \item{sizex}{Integer. The number of columns of the plate.}
-  \item{sizey}{Integer. The number of rows of the plate.}
-  \item{main}{Character of length 1. Plot title.}
-  \item{zlim}{Range of z that is mapped into the color scale.}
-  \item{col}{Character vector. Usually the names of 2 or 3 colors
+  \item{x}{Numeric vector of length \code{ncol*nrow}}
+  \item{nrow}{Numeric of length 1. The number of rows of the plate.}
+  \item{ncol}{Numeric of length 1. The number of columns of the plate.}
+  \item{main}{Character of length 1. Plot title. This arguments gets passed 
+     on to \code{\link[graphics:text]{text}} as the argument \code{labels}.}
+  \item{xrange}{Range of \code{x} that is mapped into the color scale.}
+  \item{col}{Character vector. Usually the names of two or three colors
     between which the color map is interpolated, using the function
     \code{\link{colorramp}}.}
   \item{device}{Character. Name of a valid graphics device,
     e.g. \code{x11}, \code{png}, \code{pdf}.}
-  \item{plotfile}{The \code{file} argument of the call to the
+  \item{file}{The \code{file} argument of the call to
     \code{device}, i.e. the name of the graphics output file.}
-  \item{width}{The \code{width} argument of the call to the
+  \item{width}{The \code{width} argument of the call to 
     \code{device}, i.e. the width of the graphic.}
   \item{na.action}{Character. One of \code{"zero"} or \code{"omit"}.
-    How should the wells for which \code{z} is NA be treated?
+    How should the wells for which \code{x} is NA be treated?
     For \code{"zero"}, they are plotted as if the value were 0. 
     For \code{"omit"}, they are omitted. }
 }
 
-\details{To do.}
-\value{To do..}
+\details{}
+
+\value{The function produces a plot in the graphics device specified by the
+\code{device} argument.  
+
+It returns a list with two elements. The element \code{which} is a vector with
+the indices of those elements in \code{x} that were plotted (see argument
+\code{na.action}). The element \code{coord} is a \code{length(which)} by 4
+matrix in which each row specifies the corners of a rectangle that contains a
+well. It is intended to be use as an argument to a subsequent call to
+\code{\link{imageMap}}.}
+
+\seealso{\code{\link[prada::imageMap]{imageMap}}}
 
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \keyword{hplot}
-\example{
-
+\examples{
+  plotPlate(runif(96), main="example 1", col=c("#0000e0", "#e00000"), width=7)
+  plotPlate(runif(384), nrow=16, ncol=24,  
+     main="example 2", col=c("#0000e0", "white", "#e00000"), width=7)
 }
 
