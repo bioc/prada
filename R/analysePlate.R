@@ -21,8 +21,7 @@ analysePlate <-  function(eid, er, stat, pars, outdir, nrwell=96) {
     rv <- do.call(stat,
       list(    x      = datwh[datwh$well==w, ],
                 pars  = append(pars, list(ct=ct)),
-              outdir  = outdir,
-             plotfile = paste(platename, "--", w, ".png", sep="")))
+             plotfile = file.path(outdir, paste(platename, "--", w, ".png", sep=""))))
     crv <- sapply(rv, class)
 
     if(pars$debug) {
