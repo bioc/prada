@@ -1,0 +1,402 @@
+<?xml version='1.0' standalone='yes' ?>
+<LVData>
+<Version>6.1</Version>
+<Cluster>
+<Name></Name>
+<NumElts>2</NumElts>
+<String>
+<Name>current clone</Name>
+<Val>dorit13_2c-1-2--13-Ytrail</Val>
+</String>
+<Array>
+<Name>reports cluster</Name>
+<Dimsize>3</Dimsize>
+<Dimsize>2</Dimsize>
+<Cluster>
+<Name></Name>
+<NumElts>11</NumElts>
+<I32>
+<Name>Area (pixels)</Name>
+<Val>0</Val>
+</I32>
+<SGL>
+<Name>Perimeter</Name>
+<Val>0.00000</Val>
+</SGL>
+<I32>
+<Name>Projection x</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Projection y</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Longest Segment Length</Name>
+<Val>0</Val>
+</I32>
+<Cluster>
+<Name>Global Rectangle</Name>
+<NumElts>4</NumElts>
+<I32>
+<Name>x1Left</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>y1Top</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>x2Right</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>y2Bottom</Name>
+<Val>0</Val>
+</I32>
+</Cluster>
+<I32>
+<Name>Number of Holes</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Hole's Area (pixels)</Name>
+<Val>0</Val>
+</I32>
+<DBL>
+<Name>Dapi mean</Name>
+<Val>0.00000</Val>
+</DBL>
+<DBL>
+<Name>Brdu mean</Name>
+<Val>0.00000</Val>
+</DBL>
+<DBL>
+<Name>transfection mean</Name>
+<Val>0.00000</Val>
+</DBL>
+</Cluster>
+<Cluster>
+<Name></Name>
+<NumElts>11</NumElts>
+<I32>
+<Name>Area (pixels)</Name>
+<Val>0</Val>
+</I32>
+<SGL>
+<Name>Perimeter</Name>
+<Val>0.00000</Val>
+</SGL>
+<I32>
+<Name>Projection x</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Projection y</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Longest Segment Length</Name>
+<Val>0</Val>
+</I32>
+<Cluster>
+<Name>Global Rectangle</Name>
+<NumElts>4</NumElts>
+<I32>
+<Name>x1Left</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>y1Top</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>x2Right</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>y2Bottom</Name>
+<Val>0</Val>
+</I32>
+</Cluster>
+<I32>
+<Name>Number of Holes</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Hole's Area (pixels)</Name>
+<Val>0</Val>
+</I32>
+<DBL>
+<Name>Dapi mean</Name>
+<Val>0.00000</Val>
+</DBL>
+<DBL>
+<Name>Brdu mean</Name>
+<Val>0.00000</Val>
+</DBL>
+<DBL>
+<Name>transfection mean</Name>
+<Val>0.00000</Val>
+</DBL>
+</Cluster>
+<Cluster>
+<Name></Name>
+<NumElts>11</NumElts>
+<I32>
+<Name>Area (pixels)</Name>
+<Val>3426</Val>
+</I32>
+<SGL>
+<Name>Perimeter</Name>
+<Val>262.97598</Val>
+</SGL>
+<I32>
+<Name>Projection x</Name>
+<Val>104</Val>
+</I32>
+<I32>
+<Name>Projection y</Name>
+<Val>55</Val>
+</I32>
+<I32>
+<Name>Longest Segment Length</Name>
+<Val>91</Val>
+</I32>
+<Cluster>
+<Name>Global Rectangle</Name>
+<NumElts>4</NumElts>
+<I32>
+<Name>x1Left</Name>
+<Val>583</Val>
+</I32>
+<I32>
+<Name>y1Top</Name>
+<Val>522</Val>
+</I32>
+<I32>
+<Name>x2Right</Name>
+<Val>687</Val>
+</I32>
+<I32>
+<Name>y2Bottom</Name>
+<Val>573</Val>
+</I32>
+</Cluster>
+<I32>
+<Name>Number of Holes</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Hole's Area (pixels)</Name>
+<Val>0</Val>
+</I32>
+<DBL>
+<Name>Dapi mean</Name>
+<Val>153.47676</Val>
+</DBL>
+<DBL>
+<Name>Brdu mean</Name>
+<Val>120.46060</Val>
+</DBL>
+<DBL>
+<Name>transfection mean</Name>
+<Val>56.75177</Val>
+</DBL>
+</Cluster>
+<Cluster>
+<Name></Name>
+<NumElts>11</NumElts>
+<I32>
+<Name>Area (pixels)</Name>
+<Val>1907</Val>
+</I32>
+<SGL>
+<Name>Perimeter</Name>
+<Val>168.35429</Val>
+</SGL>
+<I32>
+<Name>Projection x</Name>
+<Val>54</Val>
+</I32>
+<I32>
+<Name>Projection y</Name>
+<Val>47</Val>
+</I32>
+<I32>
+<Name>Longest Segment Length</Name>
+<Val>52</Val>
+</I32>
+<Cluster>
+<Name>Global Rectangle</Name>
+<NumElts>4</NumElts>
+<I32>
+<Name>x1Left</Name>
+<Val>1035</Val>
+</I32>
+<I32>
+<Name>y1Top</Name>
+<Val>742</Val>
+</I32>
+<I32>
+<Name>x2Right</Name>
+<Val>1089</Val>
+</I32>
+<I32>
+<Name>y2Bottom</Name>
+<Val>789</Val>
+</I32>
+</Cluster>
+<I32>
+<Name>Number of Holes</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Hole's Area (pixels)</Name>
+<Val>0</Val>
+</I32>
+<DBL>
+<Name>Dapi mean</Name>
+<Val>129.95134</Val>
+</DBL>
+<DBL>
+<Name>Brdu mean</Name>
+<Val>114.18098</Val>
+</DBL>
+<DBL>
+<Name>transfection mean</Name>
+<Val>56.45298</Val>
+</DBL>
+</Cluster>
+<Cluster>
+<Name></Name>
+<NumElts>11</NumElts>
+<I32>
+<Name>Area (pixels)</Name>
+<Val>723</Val>
+</I32>
+<SGL>
+<Name>Perimeter</Name>
+<Val>108.46616</Val>
+</SGL>
+<I32>
+<Name>Projection x</Name>
+<Val>23</Val>
+</I32>
+<I32>
+<Name>Projection y</Name>
+<Val>38</Val>
+</I32>
+<I32>
+<Name>Longest Segment Length</Name>
+<Val>23</Val>
+</I32>
+<Cluster>
+<Name>Global Rectangle</Name>
+<NumElts>4</NumElts>
+<I32>
+<Name>x1Left</Name>
+<Val>1257</Val>
+</I32>
+<I32>
+<Name>y1Top</Name>
+<Val>316</Val>
+</I32>
+<I32>
+<Name>x2Right</Name>
+<Val>1280</Val>
+</I32>
+<I32>
+<Name>y2Bottom</Name>
+<Val>354</Val>
+</I32>
+</Cluster>
+<I32>
+<Name>Number of Holes</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Hole's Area (pixels)</Name>
+<Val>0</Val>
+</I32>
+<DBL>
+<Name>Dapi mean</Name>
+<Val>576.29175</Val>
+</DBL>
+<DBL>
+<Name>Brdu mean</Name>
+<Val>410.56866</Val>
+</DBL>
+<DBL>
+<Name>transfection mean</Name>
+<Val>106.35469</Val>
+</DBL>
+</Cluster>
+<Cluster>
+<Name></Name>
+<NumElts>11</NumElts>
+<I32>
+<Name>Area (pixels)</Name>
+<Val>0</Val>
+</I32>
+<SGL>
+<Name>Perimeter</Name>
+<Val>0.00000</Val>
+</SGL>
+<I32>
+<Name>Projection x</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Projection y</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Longest Segment Length</Name>
+<Val>0</Val>
+</I32>
+<Cluster>
+<Name>Global Rectangle</Name>
+<NumElts>4</NumElts>
+<I32>
+<Name>x1Left</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>y1Top</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>x2Right</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>y2Bottom</Name>
+<Val>0</Val>
+</I32>
+</Cluster>
+<I32>
+<Name>Number of Holes</Name>
+<Val>0</Val>
+</I32>
+<I32>
+<Name>Hole's Area (pixels)</Name>
+<Val>0</Val>
+</I32>
+<DBL>
+<Name>Dapi mean</Name>
+<Val>0.00000</Val>
+</DBL>
+<DBL>
+<Name>Brdu mean</Name>
+<Val>0.00000</Val>
+</DBL>
+<DBL>
+<Name>transfection mean</Name>
+<Val>0.00000</Val>
+</DBL>
+</Cluster>
+</Array>
+</Cluster>
+
+</LVData>
