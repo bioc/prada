@@ -10,13 +10,10 @@ as.all(x, what)
   \item{what}{character of length 1.} 
 }
 
-\details{
-  The function calls
-  \code{do.call(paste("as.", what, sep=""), list(x))},
-  and checks whether any \code{NAs} were introduced.
-}
+\details{}
 
-\value{A vector of type \code{what}}
+\value{A vector of type \code{what}: 
+the result of \code{do.call(paste("as.", what, sep=""), list(x))}.}
 
 \seealso{\code{\link[methods:as]{as}}}
 

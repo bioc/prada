@@ -1,4 +1,5 @@
-statWellLocfit = function(x, span, plotwhat="nothing", plotdir=".", plotfile, ...) {
+statWellLocfit = function(x, span,
+  plotwhat="nothing", plotdir=".", plotfile, ...) {
   
   stopifnot(all(c("brdu", "trsf", "dapi", "Field", "cloneId") %in% colnames(x)),
             is.numeric(span),      length(span)==1,      !is.na(span),
@@ -18,13 +19,10 @@ statWellLocfit = function(x, span, plotwhat="nothing", plotdir=".", plotfile, ..
   expRepeat <- as.character(unique(x$expRepeat))
   expWell   <- unique(x$well)
   dye       <- unique(getDye(as.character(x$cloneId)))
-  stopifnot(length(cloneId)==1, length(expId)==1, length(expRepeat)==1,
-            length(expWell)==1, length(dye)==1,
-            !is.na(cloneId), !is.na(expId), !is.na(expRepeat),
-            !is.na(expWell), !is.na(dye))
+  rgtau     <- getPradaPar("minRgTau")[dye]
 
-  rgtau   <- getPradaPar("minRgTau")[dye]
-  stopifnot(!is.na(rgtau))
+  stopifnot(length(cloneId)==1, length(expId)==1, length(expRepeat)==1,
+            length(expWell)==1, length(dye)==1,   !is.na(rgtau))
 
   tau     <- x$trsf
   tauzero <- shorth(tau)
@@ -87,7 +85,8 @@ statWellLocfit = function(x, span, plotwhat="nothing", plotdir=".", plotfile, ..
     
   } ## if (enough transfections efficiency, nrcells, etc.)
   
-  myplot <- function(qxmin=0, qxmax=1, qymin=0, qymax=1, lxmax, ...) {
+  myplot <- function(qxmin=0, qxmax=1, qymin=0, qymax=1, 
+                     xlab="Signal intensity (expression)", ylab="BrdU intensity", lxmax, ...) {
     colpal <- c("#4db8a4", "#377db8", "#e31a1c")
     cols <- colorramp(colpal)(nrcells)[rank(tau)]
     px   <- tau
@@ -95,7 +94,7 @@ statWellLocfit = function(x, span, plotwhat="nothing", plotdir=".", plotfile, ..
     xlim <- quantile(px, c(qxmin, qxmax))
     ylim <- quantile(py, c(qymin, qymax))
     plot(px, py, pch=20, col=cols,
-         xlim=xlim, ylim=ylim, xlab=getPradaPar("xlab")[dye], ylab=getPradaPar("ylab"),
+         xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab,
          cex.lab=1.4, cex.main=1.4, ...)
     abline(v=tauzero, lwd=3, col="#808080")
     if(!is.null(lcft)) {

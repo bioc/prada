@@ -1,7 +1,4 @@
-require(Biobase)
 require(XML)
 require(RColorBrewer)
 require(MASS)
 require(locfit)
-require(KernSmooth)
-require(rrcov)

@@ -9,14 +9,15 @@ readFCS <- function(filename)
   
   offsets <- readFCSheader(con)
   txt     <- readFCStext(con, offsets)
-  mat     <- readFCSdata(con, offsets, txt)
+  dat     <- readFCSdata(con, offsets, txt)
 
   close(con)
   
-  if(as.integer(readFCSgetPar(txt, "$TOT"))!=nrow(mat))
+  if(as.integer(readFCSgetPar(txt, "$TOT"))!=nrow(dat))
     stop(paste("file", filename, "seems to corrupted."))
   
-  return(new("cytoFrame", exprs=mat, description=txt))
+  attr(dat, "text") <- txt
+  return(dat)
 }
 
 readFCSgetPar <- function(x, pnam) {
@@ -30,42 +31,36 @@ readFCSgetPar <- function(x, pnam) {
 readFCSheader <- function(con) {
   seek(con, 0)
   version <- readChar(con, 6)
-  if(!version %in% c("FCS2.0", "FCS3.0"))
-    stop("This does not seem to be a valid FCS2.0 or FCS3.0 file")
+  stopifnot(version %in% c("FCS2.0", "FCS3.0"))
   
   tmp <- readChar(con, 4)
   stopifnot(tmp=="    ")
-
-  coffs <- character(6)
-  for(i in 1:length(coffs))
-    coffs[i] <- readChar(con=con, nchars=8)
   
-  ioffs <- as.integer(coffs)
-  names(ioffs) <- c("textstart", "textend", "datastart", "dataend", "anastart", "anaend")
+  offsets   <- numeric(6)
+  names(offsets) <- c("textstart", "textend", "datastart", "dataend", "anastart", "anaend")
+  for(i in 1:length(offsets))
+    offsets[i] <- as.integer(readChar(con, 8))
   
-  stopifnot(all(!is.na(ioffs) | coffs=="        "), !any(ioffs[1:4]==0))
-  return(ioffs)
+  stopifnot(!any(is.na(offsets)))
+  stopifnot(!any(offsets[1:4]==0))
+  
+  return(offsets)
 }
 
-readFCStext <- function(con, offsets) {
+readFCStext <- function(con, offsets, delimiter="\\") {
   seek(con, offsets["textstart"])
   txt <- readChar(con, offsets["textend"]-offsets["textstart"]+1)
-  delimiter <- substr(txt, 1, 1)
-  sp  <- strsplit(substr(txt, 2, nchar(txt)), split=delimiter, fixed=TRUE)[[1]]
-  ## if(length(sp)%%2!=0)
-  ##  stop("In readFCStext: unexpected format of the text segment")
+  sp  <- strsplit(txt, split=delimiter, fixed=TRUE)[[1]]
+  if(sp[1]=="") sp<-sp[-1]
+  stopifnot(length(sp)%%2==0)
   rv <- sp[seq(2, length(sp), by=2)]
   names(rv) <- sp[seq(1, length(sp)-1, by=2)]
   return(rv)
 }
 
-readFCSdata <- function(con, offsets, x) {
-  endian <- switch(readFCSgetPar(x, "$BYTEORD"),
-    "4,3,2,1" = "big",
-        "2,1" = "big",
-        "1,2" = "little",     
-    "1,2,3,4" = "little",
-    stop(paste("Don't know how to deal with $BYTEORD", readFCSgetPar(x, "$BYTEORD"))))
+readFCSdata <- function(con, offsets, x, endian="big") {
+  if (readFCSgetPar(x, "$BYTEORD") != "4,3,2,1")
+    stop(paste("Don't know how to deal with $BYTEORD", readFCSgetPar(x, "$BYTEORD")))
   
   if (readFCSgetPar(x, "$DATATYPE") != "I")
     stop(paste("Don't know how to deal with $DATATYPE", readFCSgetPar(x, "$DATATYPE")))
@@ -76,19 +71,13 @@ readFCSdata <- function(con, offsets, x) {
   nrpar    <- as.integer(readFCSgetPar(x, "$PAR"))
   range    <- as.integer(readFCSgetPar(x, paste("$P", 1:nrpar, "R", sep="")))
   bitwidth <- as.integer(readFCSgetPar(x, paste("$P", 1:nrpar, "B", sep="")))
-  bitwidth <- unique(bitwidth)
-  if(length(bitwidth)!=1)
-    stop("Sorry, I am expecting the bitwidth to be the same for all parameters")
+
+  if (!all(bitwidth==16))
+    stop(paste("Don't know how to deal with the bit widths"))
 
   seek(con, offsets["datastart"])
-
-  size <- bitwidth/8
-  if (!size %in% c(2, 4, 8))
-    stop(paste("Don't know how to deal with bitwidth", bitwidth))
-
-  dat <- readBin(con, "integer", n = (offsets["dataend"]-offsets["datastart"]+1)/size,
-                 size=size, signed=FALSE, endian=endian)
-
+  dat <- readBin(con, "integer", n=offsets["dataend"]-offsets["datastart"]+1,
+                 size=2, signed=FALSE, endian=endian)
   stopifnot(length(dat)%%nrpar==0)
   dat <- matrix(dat, ncol=nrpar, byrow=TRUE)
   colnames(dat) <- readFCSgetPar(x, paste("$P", 1:nrpar, "N", sep=""))
