@@ -47,33 +47,40 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span) {
       (trsfeff >= 1) &&
       (nrcells >= getPradaPar("minNrCells"))) {
 
-    ## for location estimation (including background)
     bg     <- numeric(nrcells)
-    sc.dbg <- sc.res.old <- Inf
-    niter  <- 0
-    tol    <- 1
-    while(sc.dbg > tol) {
-      lcft     <- locfit.robust(x=tau, y=x$brdu - bg, deg=1, alpha=span, maxk=512)
-      resi     <- residuals(lcft)
-      sc.res   <- mad(resi)
-      ## stopifnot(sc.res <= sc.res.old)  ## should monotonously decrease ?
-      sc.res.old <- sc.res
-      bgff       <- tapply(resi, ffield, median)
-      dbg      <- bgff[as.character(ffield)]
-      sc.dbg   <- diff(range(bgff))
-      bg       <- bg + dbg
-      bg       <- bg - median(bg)
-      stopifnot(!any(is.na(bg)))
-      niter    <- niter+1
-    }
-    ybg <- x$brdu - bg 
 
+    if(TRUE) {
+      ## with background
+      sc.dbg <- sc.res.old <- Inf
+      niter  <- 0
+      tol    <- 1
+      while((sc.dbg > tol) && (niter < 10)) {
+        lcft     <- locfit.robust(x=tau, y=x$brdu - bg, deg=1, alpha=span, maxk=512)
+        resi     <- residuals(lcft)
+        sc.res   <- mad(resi)
+        ## stopifnot(sc.res <= sc.res.old)  ## should monotonously decrease ?
+        sc.res.old <- sc.res
+        bgff     <- tapply(resi, ffield, median)
+        dbg      <- bgff[as.character(ffield)]
+        sc.dbg   <- diff(range(bgff))
+        bg       <- bg + dbg
+        bg       <- bg - mean(bg)
+        stopifnot(!any(is.na(bg)))
+        niter    <- niter+1
+      }
+    } else {
+      ## without background
+      lcft <- locfit.robust(x=tau, y=x$brdu, deg=1, alpha=span, maxk=512)
+      resi <- residuals(lcft)
+    }
+    
+    ybg <- x$brdu - bg 
     ## for slope estimation
     dlcft <- locfit.robust(x=tau, y=ybg, deg=1, alpha=span, deriv=1, maxk=512)
 
     slp      <- preplot(dlcft, newdata=tauzero, band="local")
-    delta    <- slp$fit     ## point estimate
-    se.delta <- slp$se.fit  ## estimated local standard deviation
+    delta    <- slp$fit*rgtau     ## point estimate
+    se.delta <- slp$se.fit*rgtau  ## estimated local standard deviation
     zscore   <- delta/se.delta
     stopifnot(almostEqual(tauzero, slp$xev$xev)) ## evaluation point
     
@@ -138,7 +145,7 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span) {
   
   rv <- append(list(
     cloneId=cloneId, nrcells=nrcells, trsfeff=trsfeff,
-    delta=delta*rgtau, se.delta=se.delta*rgtau, zscore=zscore),
+    delta=delta, se.delta=se.delta, zscore=zscore),
     plotfile)
   
   return(rv)

@@ -15,8 +15,9 @@ getDye <- function(x) {
   stopifnot(length(intersect(cfp, yfp))==0)
 
   res <- character(length(x))
+  res[is.na(x)] <- as.character(NA)
   res[cfp] <- "cfp"
   res[yfp] <- "yfp"
-  stopifnot(all(res %in% c("cfp", "yfp")))
+  stopifnot(all(res %in% c("cfp", "yfp") | is.na(res)))
   return(res)  
 }
