@@ -34,10 +34,18 @@ smoothScatter <- function(x, y,
                           xlab, ylab, ...) {
   if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) > 1) )
     stop("'nrpoints' should be integer or inf")
-  if(missing(xlab))
-    xlab <- ifelse(missing(y), colnames(x)[1], deparse(substitute(x)))
-  if(missing(ylab))
-    ylab <- ifelse(missing(y), colnames(x)[2], deparse(substitute(y)))
+  if(missing(xlab)) {
+    xlab <- if(missing(y))
+      colnames(x)[1]
+    else
+      deparse(substitute(x))
+  }
+  if(missing(ylab)) {
+    ylab <- if(missing(y))
+      colnames(x)[2]
+    else
+      deparse(substitute(y))
+  }
 
   x    <- .pradaMakeX(x, y)
   map  <- .pradaMakeDens(x, nbin, bandwidth)
