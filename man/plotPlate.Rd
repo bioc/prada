@@ -5,7 +5,7 @@
   plot is supposed to resemble the physical geometry of a microtitre plate.}
 \usage{
 plotPlate(x, nrow=8, ncol=12, main, xrange, col, 
-  device, file, width, na.action="zero")
+  device, file, width, na.action="zero", desc)
 }
 \arguments{
   \item{x}{Numeric vector of length \code{ncol*nrow}}
@@ -27,6 +27,7 @@ plotPlate(x, nrow=8, ncol=12, main, xrange, col,
     How should the wells for which \code{x} is NA be treated?
     For \code{"zero"}, they are plotted as if the value were 0. 
     For \code{"omit"}, they are omitted. }
+  \item{desc}{Character of length 2. Legend for the two ends of the colorbar, e.g. 'act' and 'inh'. }
 }
 
 \details{}

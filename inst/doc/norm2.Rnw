@@ -63,7 +63,7 @@ plot(fdat[,"FSC-H"], fdat[,"SSC-H"], pch=20, col="#303030",
 %
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.5\textwidth]{bivar-plotsbefore}
+\includegraphics[width=0.5\textwidth]{norm2-plotsbefore}
 \caption{\label{fig:plotsbefore}%
 Scatter plot FACS data: FSC vs SSC.}
 \end{figure}
@@ -104,8 +104,8 @@ plotNorm2(nfit, selection=TRUE, ellipse=TRUE)
 @
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.48\textwidth]{bivar-plotNorm2-1}
-\includegraphics[width=0.48\textwidth]{bivar-plotNorm2-2}
+\includegraphics[width=0.48\textwidth]{norm2-plotNorm2-1}
+\includegraphics[width=0.48\textwidth]{norm2-plotNorm2-2}
 \caption{\label{fig:plotNorm2}% 
 Selection of the main population, using two different values of the
 parameter \Robject{scalefac}.}
@@ -137,7 +137,7 @@ plot(cleanfdat[,"FL1-H"], cleanfdat[,"FL4-H"], pch=20, col="#303030", xlab="FL1"
 
 \begin{figure}[htp]
 \centering
-\includegraphics{bivar-plotafter}
+\includegraphics{norm2-plotafter}
 \caption{\label{fig:plotafter}%
 Scatter plots of FL1 vs FL4.}
 \end{figure}

@@ -1,5 +1,5 @@
 plotPlate  = function(x, nrow=8, ncol=12, main, xrange, col,
-  device, file, width, na.action="zero") {
+  device, file, width, na.action="zero", desc=as.character(c(NA,NA))) {
 
   if(!is.numeric(ncol)||length(ncol)!=1)
     stop("'ncol' must be a numeric vector of length 1")	
@@ -11,12 +11,13 @@ plotPlate  = function(x, nrow=8, ncol=12, main, xrange, col,
   if(missing(xrange))
     xrange=range(x, na.rm=TRUE)
   if(!is.numeric(xrange) || length(xrange)!=2 || any(is.na(xrange)))
-    stop("'xrange' must be a numeric vector of length 2 with no NA.")
-
+    stop("'xrange' must be a numeric vector of length 2 with no NA.")  
+ if(!is.character(desc)||length(desc)!=2)
+    stop("'desc' must be a character vector of length 2") 
   ## user coordinates: x=(-0.5...13.5), y=(-0.5...9.5)
   xlim   = c(-0.5, ncol+1.5)
   ylim   = c(-0.5, nrow+1.5)
-  colbarwid = 0.3
+  colbarwid = 0.4
   fw     = diff(xlim)+colbarwid
   fh     = diff(ylim)
 
@@ -90,10 +91,15 @@ plotPlate  = function(x, nrow=8, ncol=12, main, xrange, col,
   ymax = nrow + 0.5
   polygon(c(xmin, xmax, xmax, xmin, xmin), c(ymin, ymin, ymax, ymax, ymin))
         
-  par(mai=0.5*c(1,0,1,0))
+  par(mai=0.5*c(1,0,1,0.12))
   image(x=0, y=icol2z(1:nrcolors), z=matrix(1:nrcolors, nrow=1),
         col = thepalette, xaxt="n")
+  if(any(!is.na(desc))){
+     mtext(desc[1], side=3, line=0.5, font=2, adj=0.5, col=thepalette[nrcolors])
+     mtext(desc[2], side=1, line=0.5, font=2, adj=0.5, col=thepalette[1])
+  }
 
+  
   if(!missing(device) && device %in% c("pdf", "png", "jpeg"))
     dev.off()	   
 
@@ -105,6 +111,7 @@ plotPlate  = function(x, nrow=8, ncol=12, main, xrange, col,
   y1 = u2py(y0-dy)
   y2 = u2py(y0+dy)
 
-  res <- list(which=wh, coord=floor(cbind(x1, y1, x2, y2) + 0.5))
+  res <- list(which=wh, coord=floor(cbind(x1, y1, x2, y2) + 0.5), height=args$height,
+              width=args$width)
   invisible(res)
 }
