@@ -56,7 +56,7 @@ the connection \code{con}.}
 fhtml  <- tempfile()
 fpng   <- tempfile()
 
-if(capabilities()["png"]) {
+if(capabilities()["png"] && interactive()) {
   width <- height <- 512
   png(fpng, width=width, height=height)
   par(mai=rep(0,4))
