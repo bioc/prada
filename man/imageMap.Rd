@@ -11,7 +11,8 @@
     construct the map.}
   \item{coord}{Matrix with 4 columns. Each row specifies the corners of a 
   rectangle within the image, in the following order: (left x,
-  lower y, right x, upper y).}
+  lower y, right x, upper y). Note that the point (x=0, y=0) is 
+  at the left upper side of the image.}
 \item{tooltips}{Character vector of length \code{nrow(coord)}. It
   contains the text that is displayed when the mouse moves over a rectangle.}
 \item{url}{Character vector of length \code{nrow(coord)}. It contains
