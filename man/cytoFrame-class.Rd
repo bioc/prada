@@ -13,7 +13,7 @@
 \alias{exprs<-,cytoFrame,matrix-method}
 
 \alias{colnames,cytoFrame-method}
-\alias{colnames<-,cytoFrame,ANY-method}
+\alias{colnames<-,cytoFrame-method}
 
 \alias{show,cytoFrame-method}
 

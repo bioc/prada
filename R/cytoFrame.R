@@ -84,8 +84,8 @@ setMethod("show",
   definition=function(object) {
     dm <- dim(exprs(object))
     msg <- paste("cytoFrame object with ", dm[1], " cells and ", dm[2],
-       " observables:\n", paste(colnames(exprs(object)), collapse=" "), "\n",
-       "slot 'description' has length ", length(description(object)),
+       "observables:\n", paste(colnames(exprs(object)), collapse=" "), 
+       "\nslot 'description' has length ", length(description(object)),
        "\n", sep="")
     cat(msg)
     return(msg)
