@@ -20,7 +20,7 @@
 \details{There are three different ways to specify the file names:
   
   First, if the argument \code{phenoData} is present and is of class
-  \code[Biobase:phenoData]{phenoData}, then it is
+  \code{\link[Biobase:phenoData]{phenoData}}, then it is
   obtained from its column \code{name}. The column is mandatory, and an
   error will be generated if it is not there.
   Alternatively, the argument \code{phenoData} can be of class
