@@ -18,10 +18,8 @@ analysePlate <-  function(eid, er, stat, outdir=".", nrwell=96, ...) {
   
   y  <- NULL
   for (w in 1:nrwell) {
-    rv <- do.call(stat,
-                  list(x = datwh[datwh$well==w, ],
-                       plotdir  = outdir,
-                       crosstalk = crosstalk, ...))
+    rv <- do.call(stat, list(x = datwh[datwh$well==w, ],
+                  plotdir  = outdir, crosstalk = crosstalk, ...))
     crv <- sapply(rv, class)
     stopifnot(all(sapply(rv, length) == 1))
     stopifnot(all(crv %in% c("numeric", "integer", "logical", "character")))

@@ -71,7 +71,7 @@ plotPlate  = function(x, stat, main, zlim=NULL, col, device, plotfile=NULL, widt
            wh <- 1:nrow(x)
          }, 
          omit = {
-         wh <- !is.na(circcol)
+           wh <- which(!is.na(circcol))
          },
          stop(paste("Invalid value of 'na.action':", na.action))
   )
