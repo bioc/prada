@@ -20,8 +20,6 @@ plotPlate  = function(x, nrow=8, ncol=12, main, xrange, col,
   fw     = diff(xlim)+colbarwid
   fh     = diff(ylim)
 
-  if(missing(width))
-    stop("Argument 'width' is missing, with no default")
   height <- width/fw * fh
   args <- list(width=width, height=height)
 
