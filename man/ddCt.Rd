@@ -1,11 +1,9 @@
 \name{ddCt}
 \alias{ddCt}
-\alias{ddCtwithE}
 \title{Apply the ddCt method for a given data set (with or without efficiencies}
 \description{Apply the ddCt method for a given data set}
 \usage{
 ddCt(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation=NULL,filename="warning.output.txt")
-ddCtwithE(raw.table,calibrationSample,housekeepingGenes,efficiencies=NULL,efficiencies.error=NULL,type="mean",sampleInformation=NULL,filename="warning.output.txt")
 }
 
 \arguments{
