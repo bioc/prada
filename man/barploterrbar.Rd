@@ -3,7 +3,7 @@
 \title{Barplot with error bars.}
 \description{Barplot with error bars.}
 \usage{
-barploterrbar(y, yl, yh, barcol, errcol, horiz=FALSE, w=0.2, ...)
+barploterrbar(y, yl, yh, barcol="orange", errcol="black", horiz=FALSE, w=0.2, ...)
 }
 \arguments{
   \item{y}{Numeric vector.}
