@@ -22,7 +22,7 @@ saveeps <- function(fn, dir=".", width=6, asp=1) {
 savetiff <- function(fn, dir = ".", density=150, ...) {
   epsfn <- saveeps(fn, dir=dir, ...)
   fn    <- paste(fn, ".tiff", sep="")
-  cmd   <- paste("convert -density", density, epsfn, fn)
+  cmd   <- paste("convert", epsfn, "-density", density, "-compress LZW", fn)
   cat(cmd, "\n")
   system(cmd)
   return(fn)
