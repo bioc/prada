@@ -1,10 +1,10 @@
-readWellXML = function(file, path=".", verbose=TRUE) {
-  stopifnot(is.character(file) && length(file)==1)
+readWellXML = function(filename, path=".", verbose=TRUE) {
+  stopifnot(is.character(filename) && length(filename)==1)
   stopifnot(is.character(path) && length(path)==1)
   stopifnot(is.logical(verbose) && length(verbose)==1)
   
-  if(verbose) cat(file, "\t")
-  z = xmlTreeParse(file.path(path, file))
+  if(verbose) cat(filename, "\t")
+  z = xmlTreeParse(file.path(path, filename))
   r = xmlRoot(z)[[2]]
   ## Name, NumElts, String, Array 
   stopifnot(xmlValue(r[[2]]) == "2")
@@ -13,7 +13,7 @@ readWellXML = function(file, path=".", verbose=TRUE) {
   wellname = getElement(r[[3]], name="current clone", type="character")
 
   ## check whether consistent with file
-  f = strsplit(file, "=")[[1]][1]
+  f = strsplit(filename, "=")[[1]][1]
   stopifnot(f==wellname)  
   welldat = splitWellName(f)
   if(verbose) cat(welldat, sep="\t")

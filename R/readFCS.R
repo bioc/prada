@@ -2,18 +2,19 @@
 ## http://www.isac-net.org and the file
 ## fcs3.html in the doc directory
 
-readFCS <- function(file)
+readFCS <- function(filename)
 {
-    fsz <- file.info(file)$size
-    con <- file(file, open="rb")
+  stopifnot(is.character(filename), length(filename)==1, filename!="")
+  con <- file(filename, open="rb")
+  
+  offsets <- readFCSheader(con)
+  txt     <- readFCStext(con, offsets)
+  dat     <- readFCSdata(con, offsets, txt)
 
-    
-    offsets <- readFCSheader(con)
-    txt     <- readFCStext(con, offsets)
-    dat     <- readFCSdata(con, offsets, txt)
-
-    attr(dat, "text") <- txt
-    return(dat)
+  close(con)
+  
+  attr(dat, "text") <- txt
+  return(dat)
 }
 
 readFCSgetPar <- function(x, pnam) {

@@ -43,7 +43,7 @@
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \seealso{}
 \examples{ 
-  exfile = file.path(.path.package("prada"), "data", "dorit13_2c-1-2--13-Ytrail=3143937171.xml")
+  exfile = file.path(.path.package("prada"), "extdata", "dorit13_2c-1-2--13-Ytrail=3143937171.xml")
   z      = xmlTreeParse(exfile)
   r      = xmlRoot(z)[[2]]
   getElement(r[[3]], name="current clone", type="character")
