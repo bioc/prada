@@ -32,10 +32,6 @@ sampdat
 exprs(sampdat[1:3,])
 description(sampdat)[3:6]
 
-## single precision floating point data file
-sampdat2 <- readFCS(system.file("extdata", "Unstained.fcs",
-                               package="prada"))
-sampdat2
 }
 \keyword{IO}
 

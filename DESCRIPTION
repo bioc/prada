@@ -5,6 +5,7 @@ Title: Data analysis for cell-based assays
 Author: Wolfgang Huber <w.huber@dkfz.de>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, Florian Hahne <f.hahne@dkfz.de>
 Maintainer: Florian Hahne <f.hahne@dkfz.de>
 Depends: R (>= 1.9.1), Biobase
+Suggests: MASS, KernSmooth, rrcov, geneplotter
 Description: Tools for analysing and navigating data from high-throughput phenotyping experiments based on cellular assays and fluorescent detection (flow cytometry (FACS), high-content screening microscopy).
 License: LPGL
 URL: http://www.dkfz.de/mga/whuber, http://www.dkfz.de/LIFEdb
