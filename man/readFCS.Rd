@@ -13,7 +13,11 @@
 \url{http://www.isac-net.org} and the file
 fcs3.html in the doc directory.
 
-The implementation provided here is incomplete!
+The FCS 3.0 has a many options that are not yet implemented in this
+function. It works for the data produced by the FACS machine Calibur
+from BD Bioscience together with the software Cellquest PRO, at the
+Division of Molecular Genome Analysis at the German Cancer Research
+Center. If you need extensions, please let me know.
 }
 
 \value{A matrix with column names, and atrribute "text".}
