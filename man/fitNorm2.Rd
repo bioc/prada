@@ -5,7 +5,7 @@
   paired values and selects data points according to their standard
   deviation from the fitted distribution.
 }
-\usage{fitNorm2(x, y=NA, scalefac=1, method="covMcd")
+\usage{fitNorm2(x, y=NA, scalefac=1, method="covMcd", noise)
 }
 \arguments{
   \item{x}{Numeric vector containing x-value or n by 2 matrix containing x and
@@ -17,6 +17,8 @@
     deviations are selected).}
   \item{method}{One of \code{covMcd} or \code{cov.rob} defining method
     used for computation of covariance matrix.}
+  \item{noise}{Numeric index vector defining value pairs in x that are
+    not used for fitting of distributions. Can be used to deal with noisy data.} 
 }
 
 \details{Computes the densities of a bivariate normal distribution from

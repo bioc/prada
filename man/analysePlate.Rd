@@ -33,8 +33,6 @@ reporting is performed, and the return value is a data frame.}
   \code{well-ID} (from \code{x[, wellcol]}), and the
   results from statfun.}
 
-\seealso{\code{\link{statWellLocfit}}}
-
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \keyword{manip}
 \examples{##see vignette}

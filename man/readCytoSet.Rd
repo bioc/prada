@@ -8,13 +8,14 @@
 \arguments{
   \item{files}{Optional character vector with filenames}
   \item{path}{Directory where to look for the files}
-  \item{pattern}{This argument is passed on to \code{\link{dir}} (see details). }
+  \item{pattern}{This argument is passed on to \code{\link{dir}} (see
+    details). }
   \item{phenoData}{Either an object of class \code{phenoData} or 
     \code{character}.}
   \item{sep}{Separator character that gets passed on to
-    \code{\link[read.phenoData]{read.phenoData}}.}
+    \code{\link[Biobase::read.phenoData]{read.phenoData}}.}
   \item{...}{Further arguments that get passed on to
-    \code{\link{read.phenoData}}, see details.}
+    \code{\link[Biobase::read.phenoData]{read.phenoData}}, see details.}
 }
 
 \details{There are three different ways to specify the file names:
@@ -26,7 +27,9 @@
   Alternatively, the argument \code{phenoData} can be of class
   \code{character}, in which case this function tries to read a
   \code{phenoData} object from the file with that name by 
-  calling \code{\link[read.phenoData]{read.phenoData(file.path(path, phenoData), ...)}}.
+  calling
+  \code{\link[Biobase::read.phenoData]{read.phenoData(file.path(path,
+      phenoData), ...)}}.
   
   Second, if the argument \code{phenoData} is not present and
   the argument \code{files} is not \code{NULL}, then \code{files}

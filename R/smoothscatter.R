@@ -8,6 +8,7 @@
 }
 
 .pradaMakeDens <- function(x, nbin, bandwidth) {
+  require(KernSmooth)
   if (length(nbin) == 1)
     nbin <- c(nbin, nbin)
   if (!is.numeric(nbin) || (length(nbin)!=2))
@@ -32,6 +33,8 @@ smoothScatter <- function(x, y,
                           nrpoints=100,
                           transformation=function(x) x^.25,
                           xlab, ylab, ...) {
+  
+  require(geneplotter); require(RColorBrewer)
   if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) > 1) )
     stop("'nrpoints' should be integer or inf")
   if(missing(xlab)) {
@@ -47,13 +50,12 @@ smoothScatter <- function(x, y,
       deparse(substitute(y))
   }
 
+  ## create density map
   x    <- .pradaMakeX(x, y)
   map  <- .pradaMakeDens(x, nbin, bandwidth)
   xm   <- map$x1
   ym   <- map$x2
   dens <- map$fhat
-
-  ## dens[dens < ( diff(range(ym)) * diff(range(xm)) / (prod(dim(dens)-1)*prod(map$bandwidth)) )] <- NA
   dens <- array(transformation(dens), dim=dim(dens))
   
   ## plot color image
@@ -78,7 +80,8 @@ densCols <- function(x, y,
                      nbin=128,
                      bandwidth,
                      colramp=colorRampPalette(brewer.pal(9, "YlGnBu")[-(1:3)])) {
-  
+
+  require(geneplotter); require(RColorBrewer)
   ## create density map 
   x    <- .pradaMakeX(x, y)
   map  <- .pradaMakeDens(x, nbin, bandwidth)

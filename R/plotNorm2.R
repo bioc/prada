@@ -1,5 +1,7 @@
 plotNorm2 <- function(fn, colrange=c("gray82", "blue"), center=TRUE,
                       selection=FALSE, ellipse=FALSE, pch=20, cex=1, ...) {
+
+  require(geneplotter)
   
   if(!is.list(fn) || any(names(fn)!=c("mu", "S", "p", "sel", "scalefac", "data")))
     stop("Parameter 'fn' must be a list with elements mu, S, p, sel, scalefac, data")

@@ -1,6 +1,8 @@
 plotPlate <- function (x, nrow = 8, ncol = 12, ind = 1: (ncol*nrow), main,
                        xrange, col, device, file, width, na.action = "zero",
                        desc = as.character(c(NA, NA)), char){
+
+    require(geneplotter)
     if (!is.numeric(ncol) || length(ncol) != 1)
         stop("'ncol' must be a numeric vector of length 1")
     if (!is.numeric(nrow) || length(nrow) != 1)

@@ -68,7 +68,7 @@ the indices of those elements in \code{x} that were plotted (see argument
 \code{na.action}). The element \code{coord} is a \code{length(which)} by 4
 matrix in which each row specifies the corners of a rectangle that contains a
 well. It is intended to be use as an argument to a subsequent call to
-\code{\link{imageMap}}.}
+\code{\link[geneplotter::imageMap]{imageMap}}.}
 
 \seealso{\code{\link[prada::imageMap]{imageMap}}}
 

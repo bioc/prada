@@ -1,11 +1,10 @@
 Package: prada
-Version: 1.1.16
-Date: 16 Feb 2005
+Version: 1.2.0
+Date: 22 March 2005
 Title: Data analysis for cell-based assays
 Author: Wolfgang Huber <w.huber@dkfz.de>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, Florian Hahne <f.hahne@dkfz.de>
 Maintainer: Florian Hahne <f.hahne@dkfz.de>
 Depends: R (>= 1.9.1), Biobase
-Suggests: RColorBrewer, geneplotter, MASS, locfit, KernSmooth, rrcov, XML
 Description: Tools for analysing and navigating data from high-throughput phenotyping experiments based on cellular assays and fluorescent detection (flow cytometry (FACS), high-content screening microscopy).
 License: LPGL
 URL: http://www.dkfz.de/mga/whuber, http://www.dkfz.de/LIFEdb
