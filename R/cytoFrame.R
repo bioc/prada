@@ -191,4 +191,4 @@ setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
 
           
 setMethod("length",signature(x="cytoSet"),
-          function(x) nrow(x@phenoData))
+          function(x) nrow(x@phenoData@pData))
