@@ -10,8 +10,8 @@ analysePlate <-  function(eid, er, stat, pars, outdir, nrwell=96) {
   
   datwh <- dat[(dat$expId==eid) & (dat$expRepeat==er), ]
 
-  ct <- estimateCrosstalk(datwh, device="png", 
-        plotfile = file.path(outdir, paste(platename, "--ct.png", sep="")),
+  ct <- estimateCrosstalkPlate(datwh,  
+        plotfileprefix = file.path(outdir, paste(platename, "_ct", sep="")),
         pars     = pars)
   if(pars$debug)
     cat(" ct:", paste(names(ct), signif(ct, 2), sep=":", collapse="\t"), "\n")
