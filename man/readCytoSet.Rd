@@ -18,8 +18,7 @@
 \seealso{\code{\link{readFCSdata}}}
 
 \examples{
-readCytoSet(path=system.file("extdata", package="prada"), pattern="[A-Z][0-9][0-9]$")
-
+## Please see man page for cytoSet-class
 }
 \keyword{IO}
 

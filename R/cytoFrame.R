@@ -141,12 +141,17 @@ setMethod("[",
   signature="cytoSet",
   definition=function(x, i, j="missing", drop="missing") {
     fr <-new.env(hash=TRUE)
-    nm <- x@phenoData$framename[i]
+    if(is.numeric(i)) {
+      nm <- x@phenoData$framename[i]
+    } else {
+      nm <- i
+      i <- match(nm, x@phenoData$framename)
+    }
     multiassign(nm, mget(nm, x@frames), envir=fr, inherits=FALSE) 
     new("cytoSet",
       frames=fr,
       phenoData=x@phenoData[i, ],
-      colnames=x@phenoData)
+      colnames=colnames(x))
    },
    valueClass="cytoSet")
 
@@ -155,7 +160,9 @@ setMethod("[[",
   function(x, i, j="missing") {
     if(length(i)!=1)
       stop("subscript out of bounds (index must have length 1 in '[[')")
-    rv <- get(x@phenoData$framename[i], x@frames, inherits=FALSE)
+    if(is.numeric(i))
+      i <- x@phenoData$framename[i]
+    rv <- get(i, x@frames, inherits=FALSE)
     colnames(exprs(rv)) <- x@colnames
     return(rv)
   },
@@ -182,13 +189,22 @@ setReplaceMethod("colnames",
   })      
 
 ## get and set phenoData slot of cytoSet
-setMethod("phenoData", "cytoSet", function(object) object@phenoData)
+setMethod("phenoData",
+  signature="cytoSet",
+  definition=function(object) object@phenoData,
+  valueClass="phenoData")
+
 setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
   function(object, value) {
     object@phenoData <- value
     return(object)
   })      
 
-          
+## get phenoData@pData slot of cytoSet
+setMethod("pData",
+  signature="cytoSet",
+  definition=function(object) object@phenoData@pData,
+  valueClass="data.frame")
+
 setMethod("length",signature(x="cytoSet"),
           function(x) nrow(x@phenoData@pData))

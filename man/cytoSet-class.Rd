@@ -8,6 +8,7 @@
 
 \alias{show,cytoSet-method}
 \alias{length,cytoSet-method}
+\alias{pData,cytoSet-method}
 
 \alias{colnames,cytoSet-method}
 \alias{colnames<-,cytoSet-method}
@@ -24,6 +25,7 @@ a quantitative cell-based assay}
 \usage{
 \S4method{phenoData}{cytoSet}(object)
 \S4method{phenoData<-}{cytoSet,ANY}(object,value)
+\S4method{pData}{cytoSet}(object)
 \S4method{colnames}{cytoSet}(object)
 \S4method{colnames<-}{cytoSet,ANY}(object,value)
 \S4method{show}{cytoSet}(object)
@@ -74,7 +76,14 @@ operators for lists.}
 
 \seealso{\code{\link{readCytoSet}}, \code{\link{cytoFrame-class}}}
 \examples{
-## see readCytoSet
+cset=readCytoSet(path=system.file("extdata", package="prada"),
+  pattern="[A-Z][0-9][0-9]$")
+cset
+pData(cset)
+cset[[1]]
+cset[["fas Bcl2 plate323-04-04.A02"]]
+cset["fas Bcl2 plate323-04-04.A02"]
+cset[1:3]
 }
 \keyword{classes}
 
