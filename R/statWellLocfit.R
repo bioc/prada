@@ -5,6 +5,14 @@ statWellLocfit = function(x, span, plotwhat="nothing", plotdir=".", plotfile, ..
             is.character(plotwhat), length(plotwhat)==1,
             is.character(plotdir),  length(plotdir)==1)
   
+  nrcells <- nrow(x)
+  if(nrcells==0) {
+    num <- as.numeric(NA)
+    chr <- as.character(NA)
+    return(list(cloneId=chr, nrcells=num, trsfeff=num,
+                delta=num, se.delta=num, zscore=num, plotfile=chr))
+  }
+  
   cloneId   <- as.character(unique(x$cloneId))
   expId     <- as.character(unique(x$expId))
   expRepeat <- as.character(unique(x$expRepeat))
@@ -15,14 +23,6 @@ statWellLocfit = function(x, span, plotwhat="nothing", plotdir=".", plotfile, ..
             !is.na(cloneId), !is.na(expId), !is.na(expRepeat),
             !is.na(expWell), !is.na(dye))
 
-  nrcells <- nrow(x)
-  if(nrcells==0) {
-    num <- as.numeric(NA)
-    chr <- as.character(NA)
-    return(list(cloneId=cloneId, nrcells=num, trsfeff=num,
-                delta=num, se.delta=num, zscore=num, plotfile=chr))
-  }
-  
   rgtau   <- getPradaPar("minRgTau")[dye]
   stopifnot(!is.na(rgtau))
 
