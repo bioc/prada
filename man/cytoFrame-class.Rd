@@ -12,6 +12,9 @@
 \alias{exprs,cytoFrame-method}
 \alias{exprs<-,cytoFrame,matrix-method}
 
+\alias{colnames,cytoFrame-method}
+\alias{colnames<-,cytoFrame,ANY-method}
+
 \alias{show,cytoFrame-method}
 
 \alias{$.cytoFrame}
@@ -28,6 +31,8 @@
 \S4method{exprs<-}{cytoFrame,matrix}(object,value)
 \S4method{description}{cytoFrame}(object)
 \S4method{description<-}{cytoFrame,character}(object,value)
+\S4method{colnames}{cytoFrame}(object)
+\S4method{colnames<-}{cytoFrame,ANY}(object,value)
 \S4method{show}{cytoFrame}(object)
 \S4method{[}{cytoFrame,ANY}(x, i, j, ..., drop=FALSE)
 % \S4method{[<-}{cytoFrame,ANY,ANY,...,matrix}(x, i, j, ..., value)

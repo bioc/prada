@@ -19,7 +19,7 @@ readCytoSet <- function(files, path=".", ...) {
       if(!identical(cn, colnames(x)))
         stop(paste(f, "has different 'colnames' than previously read files."))
     }
-    colnames(exprs(x)) <- NULL
+    colnames(x) <- NULL
     assign(f, x, envir=env, inherits=FALSE)
   }
 

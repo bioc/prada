@@ -36,50 +36,73 @@ if(!isGeneric("colnames"))
 ##    standardGeneric("description"))
 
 ## accessor methods for slots exprs and description
-setMethod("exprs",      "cytoFrame", function(object) object@exprs)
-setMethod("description", "cytoFrame", function(object) object@description)
+setMethod("exprs",
+  signature="cytoFrame",
+  definition=function(object) object@exprs,
+  valueClass="matrix")
 
-setReplaceMethod("exprs", c("cytoFrame", "matrix"),
-   function(object, value) {
+setMethod("description",
+  signature="cytoFrame",
+  definition=function(object) object@description,
+  valueClass="character")
+
+setMethod("colnames",
+  signature="cytoFrame",
+  definition=function(x, do.NULL="missing", prefix="missing")
+          colnames(exprs(x)),
+  valueClass="character")
+
+## replace methods
+setReplaceMethod("exprs",
+   signature=c("cytoFrame", "matrix"),
+   definition=function(object, value) {
      object@exprs <- value
      return(object)
    })
 
-setReplaceMethod("description", c("cytoFrame", "character"),
-   function(object, value) {
+setReplaceMethod("description",
+   signature=c("cytoFrame", "character"),
+   definition=function(object, value) {
      object@description <- value
      return(object)
    })
 
-## convenience method 'colnames'
-setMethod("colnames", "cytoFrame",
-  function(x, do.NULL="missing", prefix="missing") colnames(exprs(x)))
+setReplaceMethod("colnames",
+  signature=c("cytoFrame", "ANY"),
+  definition=function(x, value) {
+    colnames(x@exprs) <- value
+    return(x)
+  })
 
-## This does not seem to work (calling it has no effect):
-## setReplaceMethod("colnames", c("cytoFrame", "character"),
-##  function(x, value) {
-##    colnames(exprs(x)) <- value
-##    return(x)
-##  })
-
+## the $-operator
 "$.cytoFrame" <- function(x, val)
     (description(x))[val]
 
-setMethod("show", "cytoFrame", function(object) {
+## show method
+setMethod("show",
+  signature="cytoFrame",
+  definition=function(object) {
     dm <- dim(exprs(object))
-    cat("cytoFrame object with", dm[1], "cells and", dm[2], "observables:\n")
-    cat(colnames(exprs(object)), "\n")
-    cat("slot 'description' has length", length(description(object)), "\n")
-})
+    msg <- paste("cytoFrame object with", dm[1], "cells and", dm[2],
+       "observables:\n", colnames(exprs(object)), "\n",
+       "slot 'description' has length", length(description(object)),
+       "\n", sep="")
+    cat(msg)
+    return(msg)
+  },
+  valueClass="character")
 
-setMethod("[", "cytoFrame", function(x, i, j, ..., drop=FALSE) {
-  exprs(x) <-  switch(1+missing(i)+2*missing(j),
+setMethod("[",
+  signature="cytoFrame",
+  definition=function(x, i, j, ..., drop=FALSE) {
+    exprs(x) <-  switch(1+missing(i)+2*missing(j),
          { exprs(x)[i, j, ..., drop=drop] },
          { exprs(x)[ , j, ..., drop=drop] },
          { exprs(x)[i,  , ..., drop=drop] },
          { exprs(x)[ ,  , ..., drop=drop] } )
-  x
-})
+    x
+  },
+  valueClass="cytoFrame")
 
 ## FIXME: do we need this or is it odd?
 ##
@@ -99,7 +122,7 @@ setClass("cytoSet",
                  colnames=character(0)),
   validity=function(object){
     nc <- length(colnames(object))
-    TRUE  ||
+    TRUE||
     is(object@phenoData, "phenoData") &&
     is(object@colnames, "character") &&
     is(object@frames, "environment") &&
@@ -111,36 +134,47 @@ setClass("cytoSet",
         ncol(exprs(fr))==nc } ))
   })
 
-setMethod("[", "cytoSet", function(x, i, j="missing", drop="missing") {
-  fr <-new.env(hash=TRUE)
-  nm <- x@phenoData$framename[i]
-  multiassign(nm, mget(nm, x@frames), envir=fr, inherits=FALSE) 
-  new("cytoSet",
+setMethod("[",
+  signature="cytoSet",
+  definition=function(x, i, j="missing", drop="missing") {
+    fr <-new.env(hash=TRUE)
+    nm <- x@phenoData$framename[i]
+    multiassign(nm, mget(nm, x@frames), envir=fr, inherits=FALSE) 
+    new("cytoSet",
       frames=fr,
       phenoData=x@phenoData[i, ],
       colnames=x@phenoData)
-}, valueClass="cytoSet")
+   },
+   valueClass="cytoSet")
 
-setMethod("[[", "cytoSet", function(x, i, j="missing") {
-  if(length(i)!=1)
-    stop("subscript out of bounds (index must have length 1 in '[[')")
-  rv <- get(x@phenoData$framename[i], x@frames, inherits=FALSE)
-  colnames(exprs(rv)) <- x@colnames
-  return(rv)
-}, valueClass="cytoFrame")
+setMethod("[[",
+  signature="cytoSet",
+  function(x, i, j="missing") {
+    if(length(i)!=1)
+      stop("subscript out of bounds (index must have length 1 in '[[')")
+    rv <- get(x@phenoData$framename[i], x@frames, inherits=FALSE)
+    colnames(exprs(rv)) <- x@colnames
+    return(rv)
+  },
+  valueClass="cytoFrame")
 
 ## show method for cytoSet
-setMethod("show", "cytoSet", function(object) {
+setMethod("show",
+  signature="cytoSet",
+  definition=function(object) {
   cat("\tcytoSet object. Its colnames are:\n\t",
       colnames(object), "\n", sep="")
   show(phenoData(object))
 })
 
-setMethod("colnames", "cytoSet",
-  function(x, do.NULL="missing", prefix="missing") x@colnames)
+setMethod("colnames",
+  signature="cytoSet",
+  definition=function(x, do.NULL="missing", prefix="missing") x@colnames,
+  valueClass="character")
 
-setReplaceMethod("colnames", c("cytoSet", "character"),
-  function(x, value) {
+setReplaceMethod("colnames",
+  signature=c("cytoSet", "ANY"),
+  definition=function(x, value) {
     x@colnames <- value
     return(x)
   })      
