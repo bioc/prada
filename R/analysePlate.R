@@ -13,7 +13,7 @@ analysePlate <-  function(x, wellcol="well", wellrange, statfun, platename, plot
   y  <- NULL
   for (w in wellrange) {
     rv <- do.call(statfun, list(x = x[x[, jw]==w, ],
-                  plotdir  = outdir, ...))
+                  plotdir  = plotdir, ...))
     stopifnot(all(sapply(rv, length) == 1))
     crv <- sapply(rv, class)
     stopifnot(all(crv %in% c("numeric", "integer", "logical", "character")))
