@@ -34,6 +34,10 @@ if(!isGeneric("colnames"))
 ##if(!isGeneric("description"))
 ##  setGeneric("description", function(object)
 ##    standardGeneric("description"))
+##
+##if(!isGeneric("length"))
+##  setGeneric("length", function(x)
+##    standardGeneric("colnames"))
 
 ## accessor methods for slots exprs and description
 setMethod("exprs",
@@ -84,9 +88,9 @@ setMethod("show",
   definition=function(object) {
     dm <- dim(exprs(object))
     msg <- paste("cytoFrame object with ", dm[1], " cells and ", dm[2],
-       "observables:\n", paste(colnames(exprs(object)), collapse=" "), 
-       "\nslot 'description' has length ", length(description(object)),
-       "\n", sep="")
+       " observables:\n", paste(colnames(exprs(object)), collapse=" "), 
+       "\nslot 'description' has ", length(description(object)),
+       " elements\n", sep="")
     cat(msg)
     return(msg)
   },
@@ -122,7 +126,6 @@ setClass("cytoSet",
                  colnames=character(0)),
   validity=function(object){
     nc <- length(colnames(object))
-    TRUE||
     is(object@phenoData, "phenoData") &&
     is(object@colnames, "character") &&
     is(object@frames, "environment") &&
@@ -162,9 +165,8 @@ setMethod("[[",
 setMethod("show",
   signature="cytoSet",
   definition=function(object) {
-  cat("\tcytoSet object. Its colnames are:\n\t",
-      colnames(object), "\n", sep="")
-  show(phenoData(object))
+  cat("cytoSet object with", length(object), "cytoFrames and",
+      "colnames\n", paste(colnames(object)), "\n")
 })
 
 setMethod("colnames",
@@ -188,3 +190,5 @@ setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
   })      
 
           
+setMethod("length",signature(x="cytoSet"),
+          function(x) nrow(x@phenoData))

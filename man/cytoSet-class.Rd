@@ -7,6 +7,7 @@
 \alias{[[,cytoSet-method}
 
 \alias{show,cytoSet-method}
+\alias{length,cytoSet-method}
 
 \alias{colnames,cytoSet-method}
 \alias{colnames<-,cytoSet-method}
