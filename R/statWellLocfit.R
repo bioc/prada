@@ -1,13 +1,12 @@
-statWellLocfit = function(x, plotfileprefix, crosstalk, xmax, span) {
+statWellLocfit = function(x, plotfileprefix, crosstalk, span) {
   stopifnot(all(c("brdu", "trsf", "dapi", "Field", "cloneId") %in% colnames(x)),
             is.numeric(crosstalk), length(crosstalk)==1, !is.na(crosstalk),
-            is.numeric(xmax),      length(xmax)==1,      !is.na(xmax),
             is.numeric(span),      length(span)==1,      !is.na(span))
 
   ## default values
   nrcells <- nrow(x)
-  trsfeff <- pval <- as.numeric(NA)
-  delta   <- as.numeric(NA)
+  trsfeff <- as.numeric(NA)
+  delta   <- se.delta <- zscore <- as.numeric(NA)
   cloneId <- as.character(NA)
   alm     <- NULL
   bg <- numeric(nrow(x))
@@ -19,11 +18,10 @@ statWellLocfit = function(x, plotfileprefix, crosstalk, xmax, span) {
     expRepeat <- as.character(unique(x$expRepeat))
     expWell   <- unique(x$well)
     dye       <- as.character(unique(getDye(as.character(x$cloneId))))
-    rgtau     <- getPradaPar("minRgTau")
+    rgtau     <- getPradaPar("minRgTau")[dye]
     
     stopifnot(length(cloneId)==1, length(expId)==1, length(expRepeat)==1,
-              length(expWell)==1, length(dye)==1,
-              dye %in% names(rgtau))
+              length(expWell)==1, length(dye)==1,   !is.na(rgtau))
 
     mx <- data.frame(tau    = x$trsf - crosstalk * x$brdu,
                      brdu   = x$brdu,
@@ -32,7 +30,7 @@ statWellLocfit = function(x, plotfileprefix, crosstalk, xmax, span) {
     ## check whether range of tau is large enough
     if(nrcells>40) {
       stau    <- sort(mx$tau)
-      trsfeff <- (stau[nrcells-19] - stau[20]) / rgtau[dye]
+      trsfeff <- (stau[nrcells-19] - stau[20]) / rgtau
     } else {
       trsfeff <- 0
     }
@@ -47,26 +45,34 @@ statWellLocfit = function(x, plotfileprefix, crosstalk, xmax, span) {
       bg <- predict(alm, newdata=data.frame(tau=numeric(nrow(mx)), ffield=mx$ffield))
       fg <- function(x) { (coefa[1] + coefa[2] * x) * x }
       
-      stopifnot(almostIdentical(fg(mx$tau)+bg, fitted.values(alm)))
+      stopifnot(almostEqual(fg(mx$tau)+bg, fitted.values(alm)))
       stopifnot(identical(coefa, coef(sma)[c("tau", "I(tau * tau)"), "Value"]))
 
-      ## tval  <- coef(sma)["tau", "t value"]
-      ## pval1 <- pt(tval, df=sma$df[1], lower.tail=TRUE)
-      ## pval2 <- pt(tval, df=sma$df[1], lower.tail=FALSE)
-      ## pval  <- 2*min(pval1, pval2)
+      ## for visualization
+      lf  <- locfit.robust(x=mx$tau, y=mx$brdu, base=bg, deg=1, alpha=span)
+      
+      ## for slope estimation
+      dlf <- locfit.robust(x=mx$tau, y=mx$brdu, base=bg, deg=1, alpha=span, deriv=1)
 
-      lf  <- locfit.raw(x=mx$tau, y=mx$brdu, base=bg, deg=1, alpha=span)
-      dlf <- locfit.raw(x=mx$tau, y=mx$brdu, base=bg, deg=1, alpha=span, deriv=1)
-      fg  <- function(x) {predict(lf, newdata=x)}
-      tauzero <- shorth(mx$tau)
-      delta   <- predict(dlf, newdata=tauzero)
-      cat(main, "\tdelta: ", signif(delta, 2), "\n")
+      tauzero  <- shorth(mx$tau)
+      slp      <- preplot(dlf, newdata=tauzero, band="local")
+      delta    <- slp$fit     ## point estimate
+      se.delta <- slp$se.fit  ## estimated local standard deviation
+      zscore   <- delta/se.delta
+      stopifnot(almostEqual(tauzero, slp$xev$xev)) ## evaluation point
+
+      do.lines <- FALSE
+      if(do.lines) {
+        crv <- preplot(lf, newdata=tauzero, band="local")
+      }
     }
 
-    
+    main <- cloneId
+    cat(main, paste(c("delta", "se.delta", "zscore"), signif(c(delta, se.delta, zscore), 2),
+                    sep="=", collapse="\t"), "\n")
+
     myplot <- function(xmin=NULL,xmax=NULL,ymin=NULL,ymax=NULL,...) {
       colpal <- c("#4db8a4", "#377db8", "#e31a1c")
-      main <- paste(paste(expId, expRepeat, expWell, sep="_"), cloneId)
       cols <- colorramp(colpal)(nrow(mx))[rank(mx$tau)]
       px   <- mx$tau
       py   <- mx$brdu - bg
@@ -74,31 +80,34 @@ statWellLocfit = function(x, plotfileprefix, crosstalk, xmax, span) {
       if(is.null(xmax)) xmax<-quantile(px, 0.98)
       if(is.null(ymin)) ymin<-quantile(py, 0.02)
       if(is.null(ymax)) ymax<-quantile(py, 0.98)
-      plot(px, py, pch=16, col=cols, main=main, xlim=c(xmin,xmax), ylim=c(ymin,ymax),
+      plot(px, py, pch=16, col=cols, xlim=c(xmin,xmax), ylim=c(ymin,ymax), main=main, 
            xlab="Signal intensity (transfection)", ylab="BrdU intensity",
-           cex.lab=1.4, cex.main=1.4,...)
-      
-      px <- seq(from=min(mx$tau), to=max(mx$tau), length=100)
-      lines(px, fg(px), lwd=3, col="black")
+           cex.lab=1.4, cex.main=1.4, ...)
       abline(v=tauzero, lwd=3, col="#808080")
+      par(new=TRUE)
+      plot(lf, lwd=3, xlim=c(xmin,xmax), ylim=c(ymin,ymax), xlab="", ylab="")
       
+      if(do.lines) {
+        myline <- function(slop) {
+          abline(a=crv$fit-slop*tauzero, b=slop, lty=3)
+        }
+        myline(delta); myline(delta-se.delta); myline(delta+se.delta)
+      }
     }
 
-    dev.set(dev.next())
     myplot()
     if(!missing(plotfileprefix)) {
       fn <- paste(paste(plotfileprefix, expId, expRepeat, expWell, sep="_"))
-      savetiff(paste(fn, "full", sep="_"), density=150)
+      plotfile1 <- savetiff(paste(fn, "full", sep="_"), density=150)
     }
-    
-    dev.set(dev.next())
-    myplot(xmax=xmax)
-    
+    myplot(xmax=tauzero+rgtau*2)
     if(!missing(plotfileprefix))
-      savetiff(paste(fn, "zoom", sep="_"), density=150)
+      plotfile2 <- savetiff(paste(fn, "zoom", sep="_"), density=150)
   } ## if (nrcells>0)
   
-  rv = list(nrcells=nrcells, trsfeff=trsfeff, delta=delta, 
-             pval=pval, cloneId=cloneId, plotfile=NA)
+  rv = list(nrcells=nrcells, trsfeff=trsfeff,
+            delta=delta*rgtau, se.delta=se.delta*rgtau, zscore=zscore,
+            plotfile1=plotfile1, plotfile2=plotfile2, 
+            cloneId=cloneId, plotfile=NA)
   return(rv)
 }
