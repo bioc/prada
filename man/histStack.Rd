@@ -2,11 +2,13 @@
 \alias{histStack}
 \title{Stacked histogram}
 \description{Stacked histogram}
-\usage{histStack(x, breaks, ...) }
+\usage{histStack(x, breaks, midsFun=paste, ...) }
 \arguments{
   \item{x}{A list of numeric vectors.}
   \item{breaks}{Histogram breaks, as in
     \code{\link[graphics:hist]{hist}}}
+  \item{midsFun}{Function, can be used to control the formatting and
+    number of the bar labels on the x-axis. See example.}
   \item{...}{Further arguments that get passed to
     \code{\link[graphics:barplot]{barplot}}}
 }
