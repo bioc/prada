@@ -73,6 +73,40 @@ operators for lists.}
 \item{show}{display summary.}
 }}
 
+\section{Important note on storage and performance}{
+The bulk of the data in a \code{cytoSet} object is stored in an
+\code{\link[base:environment]{environment}}, and is therefore not
+automatically copied when the \code{cytoSet} object is copied. If
+\code{x} is an object of class \code{cytoSet}, then the code
+\preformatted{y <- x} will create a an object \code{y} that contains
+copies of the \code{\link[Biobase:phenoData-class]{phenoData}} and
+administrative data in \code{x}, but refers to the \emph{same}
+environment with the actual fluorescence data. See below for how to
+create proper copies.
+
+The reason for this is performance. The pass-by-value semantics of
+function calls in \code{R} can result in numerous copies of the same
+data object being made in the course of a series of nested function
+calls. If the data object is large, this can result in a considerable
+cost of memory and performance. \code{cytoSet} objects are intended to
+contain experimental data in the order of hundreds of Megabytes,
+which can effectively be treated as read-only: typical tasks
+are the extraction of subsets and the calculation of summary statistics.
+This is afforded by the design of the \code{cytoSet}
+class: an object of that class contains a \code{phenoData} slot,
+some administrative information, and a \emph{reference} to an
+environment with the fluorescence data; when it is copied, only the
+reference is copied, but not the potentially large set of fluorescence
+data themselves.
+
+However, note that subsetting operations, such as
+\preformatted{y <- x[i]}
+do create proper copies, including a copy of the appropriate part of the
+fluorescence data, as it should be expected. Thus, to make a proper copy
+of a \code{cytoSet} \code{x}, use
+\preformatted{y <- x[seq(along=x)]}
+}
+
 \author{Wolfgang Huber}
 
 \seealso{\code{\link{readCytoSet}}, \code{\link{cytoFrame-class}}}
