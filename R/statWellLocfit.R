@@ -1,28 +1,30 @@
-statWellLocfit = function(x, span,
-  plotwhat="nothing", plotdir=".", plotfile, ...) {
+statWellLocfit = function(x, span, plotwhat="nothing", plotdir=".", plotfile, ...) {
   
   stopifnot(all(c("brdu", "trsf", "dapi", "Field", "cloneId") %in% colnames(x)),
             is.numeric(span),      length(span)==1,      !is.na(span),
             is.character(plotwhat), length(plotwhat)==1,
             is.character(plotdir),  length(plotdir)==1)
   
-  nrcells <- nrow(x)
-  if(nrcells==0) {
-    num <- as.numeric(NA)
-    chr <- as.character(NA)
-    return(list(cloneId=chr, nrcells=num, trsfeff=num,
-                delta=num, se.delta=num, zscore=num, plotfile=chr))
-  }
-  
   cloneId   <- as.character(unique(x$cloneId))
   expId     <- as.character(unique(x$expId))
   expRepeat <- as.character(unique(x$expRepeat))
   expWell   <- unique(x$well)
   dye       <- unique(getDye(as.character(x$cloneId)))
-  rgtau     <- getPradaPar("minRgTau")[dye]
-
   stopifnot(length(cloneId)==1, length(expId)==1, length(expRepeat)==1,
-            length(expWell)==1, length(dye)==1,   !is.na(rgtau))
+            length(expWell)==1, length(dye)==1,
+            !is.na(cloneId), !is.na(expId), !is.na(expRepeat),
+            !is.na(expWell), !is.na(dye))
+
+  nrcells <- nrow(x)
+  if(nrcells==0) {
+    num <- as.numeric(NA)
+    chr <- as.character(NA)
+    return(list(cloneId=cloneId, nrcells=num, trsfeff=num,
+                delta=num, se.delta=num, zscore=num, plotfile=chr))
+  }
+  
+  rgtau   <- getPradaPar("minRgTau")[dye]
+  stopifnot(!is.na(rgtau))
 
   tau     <- x$trsf
   tauzero <- shorth(tau)
@@ -85,8 +87,7 @@ statWellLocfit = function(x, span,
     
   } ## if (enough transfections efficiency, nrcells, etc.)
   
-  myplot <- function(qxmin=0, qxmax=1, qymin=0, qymax=1, 
-                     xlab="Signal intensity (expression)", ylab="BrdU intensity", lxmax, ...) {
+  myplot <- function(qxmin=0, qxmax=1, qymin=0, qymax=1, lxmax, ...) {
     colpal <- c("#4db8a4", "#377db8", "#e31a1c")
     cols <- colorramp(colpal)(nrcells)[rank(tau)]
     px   <- tau
@@ -94,7 +95,7 @@ statWellLocfit = function(x, span,
     xlim <- quantile(px, c(qxmin, qxmax))
     ylim <- quantile(py, c(qymin, qymax))
     plot(px, py, pch=20, col=cols,
-         xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab,
+         xlim=xlim, ylim=ylim, xlab=getPradaPar("xlab")[dye], ylab=getPradaPar("ylab"),
          cex.lab=1.4, cex.main=1.4, ...)
     abline(v=tauzero, lwd=3, col="#808080")
     if(!is.null(lcft)) {
