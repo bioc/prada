@@ -35,7 +35,9 @@
 
 \begin{document}
 
-\section*{How to apply the ddCt method}
+\title{How to apply the ddCt method}
+\author{Markus Ruschhaupt}
+\maketitle
 
 In this vignette we describe how the functions \Rfunction{ddCt},
 \Rfunction{readSDM} and \Rfunction{eSetWrite}, available in the package \Rpackage{prada},

@@ -14,7 +14,10 @@ readSDM <- function (files,withoutPath=TRUE){
     if (withoutPath){a <- unlist(strsplit(file.name, .Platform$file.sep)); file.name <- a[length(a)]}
     Platename <- rep(file.name, nrow(w)) 
     Ctvalues <- rbind(Ctvalues,cbind(w,Platename))}
+  ow <- getOption("warn")
+  options(warn=-1)
   Ctvalues[,"Ct"] <- as.numeric( Ctvalues[,"Ct"])
+  options(warn=ow)
   Ctvalues[,"Platename"] <- as.character( Ctvalues[,"Platename"])
   
   return(Ctvalues)}

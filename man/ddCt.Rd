@@ -17,7 +17,7 @@ ddCt(raw.table,calibrationSample,housekeepingGene,sampleInformation=NULL,filenam
     warnings should be stored in.}
 }
 
-\details{Please see vignette for details.}
+\details{Please see vignette rtPCR.pdf in the prada/doc directory for details.}
 
 \value{A an object of class
   \code{\link[Bioconductor:eSet-class]{eSet}}.The names of the eList
@@ -28,4 +28,4 @@ ddCt(raw.table,calibrationSample,housekeepingGene,sampleInformation=NULL,filenam
 
 \author{Markus Ruschhaupt \url{mailto:m.ruschhaupt@dkfz.de}}
 \keyword{}
-\examples{##see vignette}
+\examples{##see vignette rtPCR.pdf}

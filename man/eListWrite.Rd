@@ -17,4 +17,4 @@ eListWrite(x,...)
 
 \author{Markus Ruschhaupt \url{mailto:m.ruschhaupt@dkfz.de}}
 \keyword{}
-\examples{##see vignette}
+\examples{##see vignette rtPCR.pdf in prada/doc}
