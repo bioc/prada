@@ -9,22 +9,23 @@
   \item{files}{Optional character vector with filenames}
   \item{path}{Directory where to look for the files}
   \item{pattern}{This argument is passed on to \code{\link{dir}} (see details). }
-  \item{phenoData}{Either an object of class \code{phenoData} or of
+  \item{phenoData}{Either an object of class \code{phenoData} or 
     \code{character}.}
+  \item{sep}{Separator character that gets passed on to
+    \code{\link[read.phenoData]{read.phenoData}}.}
   \item{...}{Further arguments that get passed on to
     \code{\link{read.phenoData}}, see details.}
-  \item{sep}{Separator character that gets passed on to function \code{\link[read.phenoData]{read.phenoData}}.}
 }
 
 \details{There are three different ways to specify the file names:
   
-  First, if the argument \code{phenoData} is present, then it is
+  First, if the argument \code{phenoData} is present and is of class
+  \code[Biobase:phenoData]{phenoData}, then it is
   obtained from its column \code{name}. The column is mandatory, and an
   error will be generated if it is not there.
-  The argument \code{phenoData} can either be of class \code{phenoData},
-  in which case it is taken directly, or of class \code{character},
-  in which case this function tries to read a \code{phenoData} object
-  from the file with that name by 
+  Alternatively, the argument \code{phenoData} can be of class
+  \code{character}, in which case this function tries to read a
+  \code{phenoData} object from the file with that name by 
   calling \code{\link[read.phenoData]{read.phenoData(file.path(path, phenoData), ...)}}.
   
   Second, if the argument \code{phenoData} is not present and
