@@ -1,0 +1,155 @@
+
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+% \VignetteIndexEntry{How to apply the ddCt method}
+%\VignetteDepends{Biobase,prada}
+%\VignetteKeywords{}
+%\VignettePackage{none}
+\documentclass[11pt]{article}
+\usepackage{times}
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rvariable}[1]{{\textit{#1}}}
+
+\begin{document}
+\title{Fitting a bivariate normal distribution to a 2D scatterplot}
+\author{Florian Hahne}
+\maketitle
+
+\section{Overview}
+
+Using FACS (fluorescence-activated cell sorter) one can measure
+certain properties of each individual cell in a population of
+cells. Examples for these properties: 
+\begin{itemize}
+\item Forward light scatter (FSC): this measures a cell's size
+\item Sideward light scatter (SSC): this measures a cell's granularity
+\item Several fluorescence channels (typically 3 to 4) that measure
+the abundance of fluorophores, which may be bound to specific
+antibodies for surface or intracellular markers, or be encoded by a
+GFP-tagged transcript.
+\end{itemize}
+
+First, we load example data from a FACS analysis that was
+performed by Mamatha Sauermann at the German Cancer Research Center in
+Heidelberg.
+%
+<<setup, echo=FALSE, results=hide>>=
+par(mfrow=c(1,1))
+@ 
+<<importData,results=hide>>=
+library(prada)
+sampdat <- readFCS(system.file("extdata", "fas Bcl2 plate323-04-04.A01", 
+                               package="prada"))
+fdat    <- exprs(sampdat)
+@ 
+%
+The scatterplot of FSC vs SSC is often used for quality control.
+It is shown in Fig.~\ref{fig:plotsbefore}.
+<<plotsbefore, fig=TRUE, include=FALSE>>=
+plot(fdat[,"FSC-H"], fdat[,"SSC-H"], pch=20, col="#303030", 
+     xlab="FSC", ylab="SSC", main="Scatter plot FSC vs SSC")
+@
+%
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{bivar-plotsbefore}
+\caption{\label{fig:plotsbefore}%
+Scatter plot FACS data: FSC vs SSC.}
+\end{figure}
+@
+%
+The cell population is often contaminated by cell debris or
+conjugates.  These can be identified by their size: they are either
+much smaller or much larger than the main population, or they have an
+unusual degree of granularity. Segmentation is often performed
+manually by looking at the FSC-SCC scatterplot. 
+
+Here we describe an automated algorithm for this task.
+
+\section{Fitting}
+
+The package \Rpackage{prada} provides the functions
+\Rfunction{fitNorm2} and \Rfunction{plotNorm2}.  We assume that the
+shape of the main population in the FSC vs SSC plot can be
+approximated by a normal distribution. The function
+\Rfunction{fitNorm2} fits a bivariate normal distribution into the
+data (by robust estimation of its covariance matrix). Contours of
+equal probability of a bivariate normal are ellipses. We select those
+cells as being part of the main population that lie within such an
+ellipse. Its size is controled by the parameter \Rvariable{scalefac}. 
+The function returns a list.
+%
+<<plotNorm2,results=hide>>=
+nfit <- fitNorm2(fdat[,"FSC-H"], fdat[,"SSC-H"], scalefac=2)
+@  
+%
+We can plot this with the function \Rfunction{plotNorm2} (see
+Fig~\ref{fig:plotNorm2}). It shows the ellipse, and the set of
+discarded points is marked by a red dot. Also the center of the
+normal distribution is marked by the red cross.
+%
+<<plotNorm2-1, fig=TRUE, include=FALSE>>=
+plotNorm2(nfit, selection=TRUE, ellipse=TRUE)
+@
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.48\textwidth]{bivar-plotNorm2-1}
+\includegraphics[width=0.48\textwidth]{bivar-plotNorm2-2}
+\caption{\label{fig:plotNorm2}% 
+Selection of the main population, using two different values of the
+parameter \Robject{scalefac}.}
+\end{figure}
+%
+<<plotNorm2-2, fig=TRUE, include=FALSE>>=
+nfit3 <- fitNorm2(fdat[,"FSC-H"], fdat[,"SSC-H"], scalefac=3)
+plotNorm2(nfit3, selection=TRUE, ellipse=TRUE)
+@
+%
+To select the cells from within the ellipse, the list item
+\Robject{nfit\$sel} 
+is a logical vector with the same length as the number of 
+data points.
+<<indexing, results=hide>>=
+cleanfdat <- fdat[nfit$sel,]
+@
+Fig.~\ref{fig:plotafter} shows again a scatter plot of the two fluorescense channels
+ FL1 and FL4 this time using the 'clean' data set \Robject{cleanfdat}.
+<<plotafter, fig=TRUE, include=FALSE, width=10, height=5.5>>=
+par(mfrow=c(1,2))
+xlim <- range(fdat[,"FL1-H"])
+ylim <- range(fdat[,"FL4-H"])
+plot(fdat[,"FL1-H"], fdat[,"FL4-H"], pch=20, col="#303030", xlab="FL1", 
+     ylab="FL4", main="all data", xlim=xlim, ylim=ylim)
+plot(cleanfdat[,"FL1-H"], cleanfdat[,"FL4-H"], pch=20, col="#303030", xlab="FL1", 
+     ylab="FL4", main="clean data only", xlim=xlim, ylim=ylim)
+@
+
+\begin{figure}[htp]
+\centering
+\includegraphics{bivar-plotafter}
+\caption{\label{fig:plotafter}%
+Scatter plots of FL1 vs FL4.}
+\end{figure}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
