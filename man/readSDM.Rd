@@ -3,12 +3,12 @@
 \title{Read an SDM file}
 \description{Read an SDM file: Data Output File for SDS, Version 2.1}
 \usage{
-  readSDM(files,withoutPath=TRUE))
+  readSDM(files, withoutPath=TRUE)
 }
 \arguments{
   \item{files}{Character vector of filenames}
-  \item{withoutPath}{logical - indicates if only the filename without a
-    possible path should be included in the result.} 
+  \item{withoutPath}{logical - if \code{TRUE}, the path to the files is
+    stripped from the \code{filename} column of the resulting data frame.} 
 }
 
 \details{This function reads the data given in the colums

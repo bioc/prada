@@ -46,7 +46,6 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGene,sampleInformation=
  the.level <- apply(ddCt,c(1,2),function(x) 2^(-x))
 
 # putting the stuff together
- require(Biobase)
  cali <- rownames(ddCt)==calibrationSample
  names(cali) <-rownames(ddCt) 
 

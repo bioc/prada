@@ -102,6 +102,11 @@ write.table(exprs(result),file=datadir("level_matrix.txt"), sep = "\t", col.name
 write.table(eList(result)$dCt,file=datadir("dCt_matrix.txt"), sep = "\t", col.names =NA)
 @
 
+
+\section*{Impressum}
+<<>>=
+sapply(search(), function(p) packageDescription(gsub("package:", "", p), fields="Version"))
+@ 
 \end{document}
 
 
