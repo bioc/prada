@@ -1,53 +1,66 @@
-
-ddCt <- function(raw.table,name.referenz.sample,name.referenz.gene){
-
- the.warning <- c()
- if (! all(c("Ct","Sample","Detector")%in% colnames(raw.table))) stop ("Your .txt file must include columns with the following names : 'Ct','Sample','Detector'")
+ddCt <- function(raw.table,calibrationSample,housekeepingGene,sampleInformation=NULL,filename="warning.output.txt"){withCallingHandlers({
+ if (! all(c("Ct","Sample","Detector","Platename")%in% colnames(raw.table))) stop ("Your .txt file must include columns with the following names : 'Ct','Sample','Detector','Platename'.")
   
- aaa <- as.numeric(as.character(raw.table$Ct))
+ aaa <- raw.table$Ct
+ bbb <- raw.table$Platename
  reduced.set <- raw.table[,c("Sample","Detector")]
 
- if (! name.referenz.gene %in% reduced.set[,2])        stop(paste("Your reference gene",name.referenz.gene,"is not part of your your .txt file."))
- if (! all(name.referenz.sample %in% reduced.set[,1])) stop("At least one of your reference samples is not part of your .txt file.")
+ if (! housekeepingGene %in% reduced.set[,2])        stop(paste("Your reference gene",housekeepingGene,"is not part of your your .txt file."))
+ if (! all(calibrationSample %in% reduced.set[,1])) stop("At least one of your reference samples is not part of your .txt file.")
 
 
- for (sample in name.referenz.sample)
+ for (sample in calibrationSample)
   for( Detector in levels(reduced.set[,2])){
-   if (! (sample %in% reduced.set[reduced.set[,2]==Detector,1])) the.warning <- c(the.warning,paste(sample,"is a reference sample but is not present for gene",Detector))
+   if (! (sample %in% reduced.set[reduced.set[,2]==Detector,1]))
+     warning(paste(sample,"is a reference sample but is not present for gene",Detector))
   }
 
+ the.difference <- function(x) return (ifelse (any(is.na(x)), NA, max(diff(sort(x)))))
+ sum.na <- function(x) {sum(is.na(x))}
+ unique.plate <- function(x) {
+              if (length(unique(x))!=1) warning("The genes for one sample does not seem to be on one plate.")
+              return (unique(x)[1])}
+                
  number.of.na          <- tapply(aaa,reduced.set,sum.na)               # Nr. der nicht ausgewerteten Punkte
  the.Ct.values         <- tapply(aaa,reduced.set,median,na.rm=TRUE)    # der Median der Triplets
  the.mad.values        <- tapply(aaa,reduced.set,mad,na.rm=TRUE,con=1) # der MAD in einem Triplet
  the.difference.values <- tapply(aaa,reduced.set,the.difference)       # Verhältnis lange zu kurze Strecke
+ the.plate             <- tapply(bbb,reduced.set,unique.plate)
 
- values.of.reference.gene <- the.Ct.values[,name.referenz.gene]
+ 
+ values.of.reference.gene <- the.Ct.values[,housekeepingGene]
  if (any (is.na(values.of.reference.gene))){
    b <- names(values.of.reference.gene)[is.na(values.of.reference.gene)]
-  the.warning <- c(the.warning,paste("There is/are no Ct values of the reference gene for the following sample/s:",paste(b,collapse=",")))}
+   warning(paste("There is/are no Ct values of the reference gene for the following sample/s:",paste(b,collapse=",")))}
 
-# der delta CT Wert: neuer Mittelwert - neuer Mittelwert von einem Referenzgen
+# the delta CT value
  dCt <- the.Ct.values - values.of.reference.gene
 
-# der Delta Delta CT Wert : Delta CT - gemitteltem Delta CT Wert von Referenzsamplen
- ref2a  <- dCt[name.referenz.sample,,drop=FALSE]
+# the delta delta CT value
+ ref2a  <- dCt[calibrationSample,,drop=FALSE]
  ref2b <- apply(ref2a,2,mean,na.rm=TRUE)
  ddCt <- t (t(dCt)-ref2b)
 
-# der Level
+# the level
+ 
  the.level <- apply(ddCt,c(1,2),function(x) 2^(-x))
 
- the.result.of.all <- cbind(convert(the.Ct.values),
-                            convert(dCt)[,3],
-                            convert(ddCt)[,3],
-                            convert(the.level)[,3],
-                            convert(the.mad.values)[,3],
-                            convert(the.difference.values)[,3],
-                            convert(number.of.na)[,3])
+# putting the stuff together
+ require(Biobase)
+ cali <- rownames(ddCt)==calibrationSample
+ names(cali) <-rownames(ddCt) 
 
- colnames(the.result.of.all) <- c("Sample","Detector","Ct","dCt","ddCt","Level","Triplet_MAD","Long distance (for triplet)","Number_of_NA")
-
- return(list(all.table=the.result.of.all,levelMatrix=the.level,dCtMatrix=dCt,warn=the.warning))
-}
-
+ a  <- new("phenoData", pData=data.frame(Calibrator=cali),varLabels=list(Calibrator="given by user"))
+ result <- new("eSet",eList=list (exprs=t(the.level),Ct=t(the.Ct.values),dCt=t(dCt),ddCt=t(ddCt),MAD=t(the.mad.values),Difference=t(the.difference.values),number_NA=t(number.of.na),Plate=t(the.plate)),phenoData=a)
  
+ if (! is.null(sampleInformation)) {
+   if( !("Sample" %in% colnames(pData(sampleInformation)))) stop("Your phenoData must contain a column named 'Sample'.")
+   the.match <- match(as.character(pData(sampleInformation)$Sample), rownames(pData(result)))
+   pData(result) <- cbind(pData(result),pData(sampleInformation)[the.match,colnames(pData(sampleInformation))!="Sample"])
+   phenoData(result)@varLabels<- c(varLabels(phenoData(result)),varLabels(sampleInformation)[names(varLabels(sampleInformation))!="Sample"])
+ }
+
+               
+ return(result)},
+  warning = function(x){ww <- file(filename,open="a+");writeLines(as.character(x),con=ww);close(ww)})
+}

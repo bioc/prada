@@ -1,0 +1,39 @@
+SDS 2.1RQ Results	1.0
+Filename	Experiment2.sdm
+Assay Type	X Study
+EmbeddedFile	Experiment2
+Run DateTime	Fri Jan 01 00:00:01 CET 2000
+Operator
+ThermalCycleParams
+
+Well	PlateID	Sample	Detector	Task	Ct	delta Rn	delta Ct	Ct Avg	Ct SD	Avg Delta Ct	delta Ct SD	Endo Ct Avg	Endo Ct SD	delta delta Ct	RQ	RQ Min	RQ Max	Baseline Type	Baseline Start	Baseline Stop	Threshold Type	Threshold	Instrument	Outlier	Filename
+361		Sample3	Gene1	Target	32.687252	2.043817												Automatic			Manual	0.2	200107		2c18brain_230903
+362		Sample3	Gene1	Target	32.90133	1.9414495												Automatic			Manual	0.2	200107		2c18brain_230903
+363		Sample3	Gene1	Target	33.289005	1.9662578												Automatic			Manual	0.2	200107		2c18brain_230903
+364		Sample3	Gene2	Endogenous Control	26.578478	3.045567												Automatic			Manual	0.2	200107		2c18brain_230903
+365		Sample3	Gene2	Endogenous Control	26.516047	3.0518239												Automatic			Manual	0.2	200107		2c18brain_230903
+366		Sample3	Gene2	Endogenous Control	26.629774	3.0453374												Automatic			Manual	0.2	200107		2c18brain_230903
+367		Sample3	Gene3	Target	35.691975	0.76707894												Automatic			Manual	0.2	200107		2c18brain_230903
+368		Sample3	Gene3	Target	37.228813	0.3520473												Automatic			Manual	0.2	200107		2c18brain_230903
+369		Sample3	Gene3	Target	36.727028	0.37741697												Automatic			Manual	0.2	200107		2c18brain_230903
+370		Sample4	Gene1	Target	33.453643	0.017310798												Automatic			Manual	0.2	200107		2c18brain_230903
+371		Sample4	Gene1	Target	33.221242	0.01617539												Automatic			Manual	0.2	200107		2c18brain_230903
+372		Sample4	Gene1	Target	Undetermined	0.014100254												Automatic			Manual	0.2	200107		2c18brain_230903
+373		Sample4	Gene2	Endogenous Control	19.941282	4.287531												Automatic			Manual	0.2	200107		2c18brain_230903
+374		Sample4	Gene2	Endogenous Control	19.855236	4.338851												Automatic			Manual	0.2	200107		2c18brain_230903
+375		Sample4	Gene2	Endogenous Control	19.84477	4.447838												Automatic			Manual	0.2	200107		2c18brain_230903
+376		Sample4	Gene3	Target	20.198372	4.480269												Automatic			Manual	0.2	200107		2c18brain_230903
+377		Sample4	Gene3	Target	20.170155	4.5432916												Automatic			Manual	0.2	200107		2c18brain_230903
+378		Sample4	Gene3	Target	20.334232	4.568758												Automatic			Manual	0.2	200107		2c18brain_230903
+
+Summary Data for Study AllPlates.sdm
+Endogenous Control	Hs00274853_m1/ RPS27L
+Calibrator	Normal_0_BiocatBrain_633
+Multiplicity	Non-Multiplex
+PlateID	Sample	Detector	Avg delta Ct	delta Ct SD	delta delta Ct	RQ	RQ Min	RQ Max	Threshold
+	Sample3	Gene1							0.2
+	Sample3	Gene2							0.2
+	Sample3	Gene3							0.2
+	Sample4	Gene1							0.2
+	Sample4	Gene2							0.2
+	Sample4	Gene3							0.2

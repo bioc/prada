@@ -1,0 +1,39 @@
+SDS 2.1RQ Results	1.0
+Filename	Experiment1.sdm
+Assay Type	RQ Study
+EmbeddedFile	Experiment1
+Run DateTime	Thu Nov 01 00:00:01 CET 2000
+Operator
+ThermalCycleParams
+
+Well	PlateID	Sample	Detector	Task	Ct	delta Rn	delta Ct	Ct Avg	Ct SD	Avg Delta Ct	delta Ct SD	Endo Ct Avg	Endo Ct SD	delta delta Ct	RQ	RQ Min	RQ Max	Baseline Type	Baseline Start	Baseline Stop	Threshold Type	Threshold	Instrument	Outlier	Filename
+1		Sample1	Gene1	Target	35.52575	1.4142473												Automatic			Manual	0.2	200107		DMBT1_VEGF
+2		Sample1	Gene1	Target	35.083927	1.6057788												Automatic			Manual	0.2	200107		DMBT1_VEGF
+3		Sample1	Gene1	Target	36.5687	1.148361												Automatic			Manual	0.2	200107		DMBT1_VEGF
+4		Sample1	Gene2	Target	35.94195	1.3415291												Automatic			Manual	0.2	200107		DMBT1_VEGF
+5		Sample1	Gene2	Target	35.951077	1.3505977												Automatic			Manual	0.2	200107		DMBT1_VEGF
+6		Sample1	Gene2	Target	36.135334	1.3154317												Automatic			Manual	0.2	200107		DMBT1_VEGF
+7		Sample1	Gene3	Target	38.635117	0.46928272												Automatic			Manual	0.2	200107		DMBT1_VEGF
+8		Sample1	Gene3	Target	37.29236	0.90924853												Automatic			Manual	0.2	200107		DMBT1_VEGF
+9		Sample1	Gene3	Target	39.78783	0.22511308												Automatic			Manual	0.2	200107		DMBT1_VEGF
+10		Sample2	Gene1	Target	37.47395	0.84732866												Automatic			Manual	0.2	200107		DMBT1_VEGF
+11		Sample2	Gene1	Target	35.973854	1.3193865												Automatic			Manual	0.2	200107		DMBT1_VEGF
+12		Sample2	Gene1	Target	35.288692	1.5440687												Automatic			Manual	0.2	200107		DMBT1_VEGF
+13		Sample2	Gene2	Target	37.966335	0.641628												Automatic			Manual	0.2	200107		DMBT1_VEGF
+14		Sample2	Gene2	Target	37.93541	0.6855685												Automatic			Manual	0.2	200107		DMBT1_VEGF
+15		Sample2	Gene2	Target	37.665806	0.7727376												Automatic			Manual	0.2	200107		DMBT1_VEGF
+16		Sample2	Gene3	Target	34.44003	1.7715969												Automatic			Manual	0.2	200107		DMBT1_VEGF
+17		Sample2	Gene3	Target	34.597477	1.648816												Automatic			Manual	0.2	200107		DMBT1_VEGF
+18		Sample2	Gene3	Target	34.040577	1.9114858												Automatic			Manual	0.2	200107		DMBT1_VEGF
+
+Summary Data for Study Experiment1.sdm
+Endogenous Control	Gene2
+Calibrator	Sample1
+Multiplicity	Non-Multiplex
+PlateID	Sample	Detector	Avg delta Ct	delta Ct SD	delta delta Ct	RQ	RQ Min	RQ Max	Threshold
+	Sample1	Gene1							0.2
+	Sample1	Gene2							0.2
+	Sample1	Gene3							0.2
+	Sample2	Gene1							0.2
+	Sample2	Gene2							0.2
+	Sample2	Gene3							0.2

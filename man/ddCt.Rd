@@ -1,40 +1,31 @@
 \name{ddCt}
 \alias{ddCt}
-\title{Apply a statistic to the data from each well in a plate}
-\description{Apply a statistic to the data from each well in a plate}
+\title{Apply the ddCt method for a given data set}
+\description{Apply the ddCt method for a given data set}
 \usage{
-analysePlate(x, wellcol="well", wellrange, statfun, platename, plotdir=".", ...)
+ddCt(raw.table,calibrationSample,housekeepingGene,sampleInformation=NULL,filename="warning.output.txt")
 }
 \arguments{
-  \item{x}{data frame. It must contain a column whose name is the value
-    of \code{wellcol}, and further columns that are needed by the function
-    named by \code{stat}.}
-  \item{wellcol}{character of length 1. Name of a column in \code{x} that
-    contains the well ID.}
-  \item{wellrange}{vector of the same type as \code{x[, wellcol]}. All
-    values \code{x[, wellcol]} must be contained in \code{wellrange}.}
-  \item{statfun}{character of length 1. Name of a function that can calculate
-    a statistic from selected rows of \code{x}.}
-  \item{platename}{character of length 1. The name or ID of this plate, which
-  will be used for graphics output filenames and as the value of the column
-  \code{platename} of the return value.}
-  \item{plotdir}{character of length 1. The name of directory where
-    diagnostic plots will be saved.}
-  \item{...}{further arguments that are passed on to \code{statfun}.}
+  \item{raw.table}{data frame. It must contain columns with the
+    following names:'Ct','Sample','Detector','Platename'. The column
+    'Ct' must contain numeric values.}
+  \item{calibrationSample}{character. Name of the calibration samples.}
+  \item{housekeepingGene}{character of length 1: name of the
+    housekeeping gene.}
+  \item{sampleInformation}{if specified it must be an object of class \code{phenoData}.}
+  \item{filename}{character of length 1. The name of the file the
+    warnings should be stored in.}
 }
 
-\details{The semantics of this function are similar to
-\code{\link[base:tapply]{tapply}}, but some additional checking and 
-reporting is performed, and the return value is a data frame.}
+\details{Please see vignette for details.}
 
-\value{A data frame with number of rows equal to
-  \code{length(wellrange)}. Rows (wells) for which there is no data
-  contains \code{NA}s. The columns comprise \code{platename},
-  \code{well-ID} (from \code{x[, wellcol]}), and the
-  results from statfun.}
+\value{A an object of class
+  \code{\link[Bioconductor:eSet-class]{eSet}}.The names of the eList
+  have the following names: exprs(includes the level),
+  Ct,dCt,ddCt,MAD,Difference,number\_NA,Plate.}
 
-\seealso{\code{\link{statWellLocfit}}}
+\seealso{\code{\link{readSDM}},\code{\link{eListWrite}}}
 
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
-\keyword{manip}
+\author{Markus Ruschhaupt \url{mailto:m.ruschhaupt@dkfz.de}}
+\keyword{}
 \examples{##see vignette}

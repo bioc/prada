@@ -1,0 +1,5 @@
+Sample	Variable1	Variable2	Variable3	
+Sample2	1	0	1	
+Sample1	1	1	1	
+Sample3	0	0	0	
+Sample4	0	1	1	
