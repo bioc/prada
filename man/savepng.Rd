@@ -5,8 +5,8 @@
 \description{Save the contents of the current graphics device to a PDF or PNG file}
 
 \usage{
-  savepng(fn, dir=".", width=480, asp=1)
-  savepdf(fn, dir=".", width=6, asp=1)
+  savepng(fn, dir, width=480, asp=1)
+  savepdf(fn, dir, width=6, asp=1)
 }
 
 \arguments{
