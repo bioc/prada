@@ -12,12 +12,14 @@ ddCt(raw.table,calibrationSample,housekeepingGene,sampleInformation=NULL,filenam
   \item{calibrationSample}{character. Name of the calibration samples.}
   \item{housekeepingGene}{character of length 1: name of the
     housekeeping gene.}
-  \item{sampleInformation}{if specified it must be an object of class \code{phenoData}.}
+  \item{sampleInformation}{if specified it must be an object of class
+    \code{phenoData} with a column named 'Sample'.}
   \item{filename}{character of length 1. The name of the file the
     warnings should be stored in.}
 }
 
-\details{Please see vignette rtPCR.pdf in the prada/doc directory for details.}
+\details{Please see vignette 'How to apply the ddCt method' in the prada
+  package for details.}
 
 \value{A an object of class
   \code{\link[Bioconductor:eSet-class]{eSet}}.The names of the eList

@@ -34,10 +34,10 @@
 \bibliographystyle{plainnat}
 
 \begin{document}
-
 \title{How to apply the ddCt method}
 \author{Markus Ruschhaupt}
 \maketitle
+
 
 In this vignette we describe how the functions \Rfunction{ddCt},
 \Rfunction{readSDM} and \Rfunction{eSetWrite}, available in the package \Rpackage{prada},
@@ -52,9 +52,11 @@ a text file specified by the parameter 'warningFile'.
 <<specifyFiles,results=hide>>=
 library(prada)
 datadir <- function(x) file.path(.path.package("prada"), "extdata", x)
+savedir <- function(x) file.path(.path.package("prada"), "extdata", x)
+
 file.names <- c(datadir("Experiment1.txt"),datadir("Experiment2.txt"))
 info <- datadir("sampleData.txt")
-warningFile <- datadir("warning.output.txt")
+warningFile <- savedir("warning.output.txt")
 @
 The housekeeping gene and the calibration sample/s must be specified. If there
 is more than one calibration sample the mean of the Ct values will be uses for calibration. 
@@ -99,16 +101,11 @@ eList(result)$MAD
 We save the results as tab-delimited text files. Therefor we use the function 
 \Rfunction{eSetWrite}.
 <<write Tables>>=
-eListWrite(result,file=datadir("allValues.txt"),sep="\t",row.names=FALSE)
-write.table(exprs(result),file=datadir("level_matrix.txt"), sep = "\t", col.names = NA)
-write.table(eList(result)$dCt,file=datadir("dCt_matrix.txt"), sep = "\t", col.names =NA)
+eListWrite(result,file=savedir("allValues.txt"),sep="\t",row.names=FALSE)
+write.table(exprs(result),file=savedir("level_matrix.txt"), sep = "\t", col.names = NA)
+write.table(eList(result)$dCt,file=savedir("dCt_matrix.txt"), sep = "\t", col.names =NA)
 @
 
-
-\section*{Impressum}
-<<>>=
-sapply(search(), function(p) packageDescription(gsub("package:", "", p), fields="Version"))
-@ 
 \end{document}
 
 

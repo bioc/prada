@@ -9,16 +9,11 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGene,sampleInformation=
  if (! all(calibrationSample %in% reduced.set[,1])) stop("At least one of your reference samples is not part of your .txt file.")
 
 
- for (sample in calibrationSample)
-  for( Detector in levels(reduced.set[,2])){
-   if (! (sample %in% reduced.set[reduced.set[,2]==Detector,1]))
-     warning(paste(sample,"is a reference sample but is not present for gene",Detector))
-  }
 
  the.difference <- function(x) return (ifelse (any(is.na(x)), NA, max(diff(sort(x)))))
  sum.na <- function(x) {sum(is.na(x))}
  unique.plate <- function(x) {
-              if (length(unique(x))!=1) warning("The genes for one sample does not seem to be on one plate.")
+              if (length(unique(x))!=1) warning(paste("g-s comb. on more than one plate:",paste(unique(x),collapse=",")))
               return (unique(x)[1])}
                 
  number.of.na          <- tapply(aaa,reduced.set,sum.na)               # Nr. der nicht ausgewerteten Punkte
@@ -26,6 +21,12 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGene,sampleInformation=
  the.mad.values        <- tapply(aaa,reduced.set,mad,na.rm=TRUE,con=1) # der MAD in einem Triplet
  the.difference.values <- tapply(aaa,reduced.set,the.difference)       # Verhältnis lange zu kurze Strecke
  the.plate             <- tapply(bbb,reduced.set,unique.plate)
+
+ for (sample in calibrationSample)
+  for( Detector in unique(reduced.set[,2])){
+   if (is.na(the.Ct.values[sample,Detector]))
+     warning(paste(sample,"is a reference sample but has no Ct value for gene",Detector))
+  }
 
  
  values.of.reference.gene <- the.Ct.values[,housekeepingGene]
@@ -46,6 +47,7 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGene,sampleInformation=
  the.level <- apply(ddCt,c(1,2),function(x) 2^(-x))
 
 # putting the stuff together
+ require(Biobase)
  cali <- rownames(ddCt)==calibrationSample
  names(cali) <-rownames(ddCt) 
 
