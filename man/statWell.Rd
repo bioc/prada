@@ -1,17 +1,14 @@
-\name{statWellLocfit}
+\name{statWell}
 \alias{statWellLocfit}
 \title{Calculate a statistic for the data from one well}
 \description{Calculate a statistic for the data from one well}
 \usage{
-statWellLocfit(x, crosstalk, span,
+statWellLocfit(x, span,
   plotwhat="nothing", plotdir=".", plotfile, ...)
 }
 \arguments{
   \item{x}{data.frame with (at least) columns \code{brdu}, \code{trsf},
     \code{dapi}, \code{Field}, and \code{cloneId}.}
-  \item{crosstalk}{numeric.
-    Crosstalk factor between \code{dapi} and \code{trsf} channels.
-    See also \code{\link{estimateCrosstalkPlate}} and the vignette.}
   \item{span}{numeric. Is used as the parameter of \code{alpha}
     in the call to the function \code{\link[locfit:locfit]{locfit}}.}
   \item{plotwhat}{character of length 1. Allowed values are
@@ -37,4 +34,4 @@ statWellLocfit(x, crosstalk, span,
 
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \keyword{manip}
-
+\examples{##see vignette}
