@@ -9,6 +9,7 @@ plotPlate <- function (x, nrow = 8, ncol = 12, ind = 1: (ncol*nrow), main,
     if ((length(ind) != length(x)) | (max(ind, na.rm = TRUE) > nrwell))
       stop("'ind' must be vector of unique indices for vector 'x'")
     y <- rep(NA, nrwell)
+    xorig <-  x
     y[ind] <- x
     x <- y
     if (!is.numeric(x) || !is.vector(x) || length(x) != nrwell)
@@ -78,17 +79,17 @@ plotPlate <- function (x, nrow = 8, ncol = 12, ind = 1: (ncol*nrow), main,
     yc = radius * sin(seq(0, 2 * pi, len = 73))
     x0 = 1 + (0:(nrwell - 1))%%ncol
     y0 = nrow - (0:(nrwell - 1))%/%ncol
+    wh <- (1:nrwell)[ind]
+    whorig <- seq(along=xorig)
     switch(na.action, zero = {
         circcol[is.na(circcol)] <- thepalette[z2icol(0)]
-        wh <- (1:nrwell)[ind]
     }, omit = {
         wh <- which(!is.na(circcol))
+        whorig <- which(!is.na(xorig))
     }, xout = {
-        #nawell <- which(which((is.na(circcol)) %in% ind)
         nawell <- which(is.na(circcol))
         sel <- nawell[which((nawell %in% ind))]
         circcol[is.na(circcol)] <- "lightgray"
-        wh <- (1:nrwell)[ind]
     }, stop(paste("Invalid value of 'na.action':", na.action)))
     for (i in wh) {
         polygon(x = x0[i] + xc, y = y0[i] + yc, col = circcol[i])
@@ -129,9 +130,8 @@ plotPlate <- function (x, nrow = 8, ncol = 12, ind = 1: (ncol*nrow), main,
     x2 = u2px(x0 + dx)
     y1 = u2py(y0 - dy)
     y2 = u2py(y0 + dy)
-    if (!missing(ind))
-        wh <- which(!is.na(x[ind]))
-    res <- list(which = wh, coord = floor(cbind(x1, y1, x2, y2) +
+
+    res <- list(which = whorig, coord = floor(cbind(x1, y1, x2, y2) +
         0.5), height = args$height, width = args$width)
     invisible(res)
 }
