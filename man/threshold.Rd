@@ -1,12 +1,12 @@
-\name{threshold}
-\alias{threshold}
+\name{thresholds}
+\alias{thresholds}
 \title{Discretize a two-dimensional data space into quadrants by
   applying thresholds}
 
 \description{Discretize a two-dimensional data space into quadrants by
   applying thresholds.}
 
-\usage{threshold(x, y, xthr, ythr)}
+\usage{thresholds(x, y, xthr, ythr)}
 
 \arguments{
   \item{x}{Vector containing x or matrix containing x and y values of
@@ -27,6 +27,6 @@ counted to the left or down respectively.}
 \author{Florian Hahne}
 \keyword{}
 \examples{
-threshold(cbind(c(1, 1, 2, 2, 2, 4), c(1, 4, 2, 4, 5, 4)), xthr=3, ythr=3)
+thresholds(cbind(c(1, 1, 2, 2, 2, 4), c(1, 4, 2, 4, 5, 4)), xthr=3, ythr=3)
 }
 

@@ -11,16 +11,12 @@ ddCt(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation
     following names:'Ct','Sample','Detector','Platename'. The column
     'Ct' must contain numeric values.}
   \item{calibrationSample}{character. Name of the calibration samples.}
-  \item{housekeepingGenes}{character of length 1: name of the
-    housekeeping gene.}
-  \item{efficiencies}{named vector with efficiencies for all genes}
-  \item{efficiencies.error}{named vector with error for efficiencies for
-    all genes}
+  \item{housekeepingGenes}{character. Name of the housekeeping genes.}
   \item{sampleInformation}{if specified it must be an object of class
     \code{phenoData} with a column named 'Sample'.}
   \item{filename}{character of length 1. The name of the file the
     warnings should be stored in.}
-  \item{type}{`mean` or `median`- which method should be used for the
+  \item{type}{character of length 1. `mean` or `median`- which method should be used for the
     aggregation of the repicates}
 }
 
@@ -28,11 +24,10 @@ ddCt(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation
   package for details.}
 
 \value{A an object of class
-  \code{\link[Bioconductor:eSet-class]{eSet}}.For ddCt the eList
-  has the following names: exprs(the level),level.err,
-  Ct,Ct.error,dCt,dCt.error,ddCt,ddCt.error,Difference,number\_NA,number,Plate.
-  For ddCtwithE the eList has the following names: exprs(the level),level.err,
-  Ct,Ct.error,efficiencies,efficiencies.error,Difference,number\_NA,number,Plate.}
+  \code{\link[Bioconductor:eSet-class]{eSet}}. Its eList
+  has the following names: exprs(the level), level.err,
+  Ct, Ct.error, dCt, dCt.error, ddCt, ddCt.error, Difference,
+  number\_NA, number, Plate.}
 
 \seealso{\code{\link{readSDM}},\code{\link{eListWrite}}}
 
