@@ -12,6 +12,6 @@ imageMap = function(con, imgname, coord, tooltips, url, target="extra") {
                    "<MAP NAME=\"", mapname, "\">", sep=""), con)
   base::writeLines(paste("<AREA SHAPE=\"rect\" HREF=\"", url, "\" TITLE=\"", tooltips,
                    "\" COORDS=\"", coord[,1], ",", coord[,2], ",", coord[,3], ",",
-                   coord[,4], "\" TARGET=", target, "\">", sep=""), con)
+                   coord[,4], "\" TARGET=\"", target, "\">", sep=""), con)
 }
 
