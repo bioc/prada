@@ -1,0 +1,186 @@
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+% \VignetteIndexEntry{Hypothesis Testing and GO}
+%\VignetteDepends{Biobase, genefilter, graph, GOstats, GO, hgu95av2}
+%\VignetteKeywords{Hypothesis testing, graphs, ontology}
+%\VignettePackage{none}
+\documentclass[12pt]{article}
+
+\usepackage{times}
+\usepackage{hyperref}
+
+\usepackage[authoryear,round]{natbib}
+\usepackage{times}
+\usepackage{comment}
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+
+\bibliographystyle{plainnat}
+
+\begin{document}
+
+# hier muss der Name des Referenzsamples stehen, das auf Null gesetzt werden soll;
+# sollte hier ein Vektor mit Namen stehen, so wird der Mittelwert dieser Werte als neuer referenzwert genommen
+<<>>=
+name.referenz.sample <- c("Hela1")
+@
+# hier muss der Name des Genes stehen, welches als Referenz genutzt werden soll
+name.referenz.gene <- "GAPD (Hs99999905_m1)"
+
+# hier muss der Name der Textdatei stehen, die gelesen werden soll. Es muss sich um ein tab delimited textfile handeln. Normalerweise muss
+#dieses so bearbeitet sein, dass es genau eine Tabelle enthält mit den Spaltennamen Detector ,
+#Sample und Ct enthalten; alle anderen Spalten werden nicht genutzt.
+#Sollte es sich um ein SDM file handeln, so muss dieses nur als tab delimited textfile abgespeichert und der Parameter sdm.file auf 'TRUE' gesetzt werden.
+#(diese Fkt ist noch nicht ausgetestet aus diesem Grund lieber von Hand das File ändern
+
+file.name <- "1p4_161203b.txt"
+
+
+
+sdm.file <- FALSE
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+# Ausgaben : Das Programm gibt mehrere tab-delimited-text Tabellen aus. Die wichtigste ist "ddCt_table.csv" in der man alle daten findet.
+# Die dCt Werte und die Level werden auch noch mal in einer Tabelle ausgegeben('ddCt_level_matrix.csv','ddCt_dCt_matrix.csv') ,
+# wo die Zeilen die Sample und die Spalten die  Gene sind. Ausserdem gibt es auch noch ein Textfile mit warnings, die während der
+# Processierung aufgetreten sind ('warnings.txt')
+
+sdm.table.read <- function (file.name=file.name){
+    x <- scan(file=file.name,what="character",sep="\n")
+    anfang <- grep("Well",x)
+    ende   <- grep("Summary",x)
+    if(length(anfang)==0 | length(ende)==0) stop("Your file does not seem to be a sdm file. Please check this !")
+    
+    number.of.skips <- anfang
+    number.of.rows  <- ende - number.of.skips -1
+    return(read.table(file.name,sep="\t",nrows=number.of.rows,skip=number.of.skips,header=TRUE))}
+
+## hier wird bei drei Punkten das Verhältnis längere Strecke/kürzere Strecke berechnet
+
+the.difference <- function(x)
+{ a <- sum.na(x)
+  if (a %in%  1:3) y <- NA
+  else {d <- sort(x)
+        e <- d[2] - d[1]
+        f <- d[3] - d[2]
+       # y <- abs(e,f)
+        y <- ifelse(e < f, f, e)}
+  return(y)
+}
+
+
+# zaehlt die Anzahl der NA in einem Vektor
+
+sum.na <- function(x) {sum(is.na(x))}
+
+
+# convert transformiert eine m x n Matrix in eine (m*n) x 3 Matrix
+
+
+convert <- function(mat)
+{  rnames <- rownames(mat)
+  cnames <- colnames(mat)
+  grid <- expand.grid(rnames,cnames)
+result <- c()
+for ( i in 1:ncol(mat))
+   result <- c(result,mat[,i])
+  return(cbind(grid,result))
+   }
+
+
+#####################################################################################################################################
+# Vorgehensweise: 1) von Triplet wird der Median berechnet => Ct Wert
+#                 2) vom jedem Ct Wert  wird der Ct Wert des Referenzgenes abgezogen => dCt Wert 
+#                 3) von jedem dCt Wert wird der dCt Wert des Referenzsamples abgezogen (oder der
+#                    Mittelwert der dCt Werte aller Referenzsample) => ddCt
+#                 4) Transformation x ->  2^(-x) für alle Werte => Level
+#
+#
+#
+# zusätliche Kenngrößen : - der MAD (bei drei Punkten ist das der Abstand zwischen den beiden benachbartesten Punkten)
+#                         - das Verhältnis von längerem zu kürzerem Abstand
+#                         - Anzahl der Punkte im Triplet die keinen Wert haben (also jetzt kein Ergebnis ;-) )
+#####################################################################################################################################
+
+
+
+
+ddCt <- function(raw.table,name.referenz.sample,name.referenz.gene){
+
+ the.warning <- c()
+ if (! all(c("Ct","Sample","Detector")%in% colnames(raw.table))) stop ("Your .txt file must include columns with the following names : 'Ct','Sample','Detector'")
+  
+ aaa <- as.numeric(as.character(raw.table$Ct))
+ reduced.set <- raw.table[,c("Sample","Detector")]
+
+ if (! name.referenz.gene %in% reduced.set[,2])        stop(paste("Your reference gene",name.referenz.gene,"is not part of your your .txt file."))
+ if (! all(name.referenz.sample %in% reduced.set[,1])) stop("At least one of your reference samples is not part of your .txt file.")
+
+
+ for (sample in name.referenz.sample)
+  for( Detector in levels(reduced.set[,2])){
+   if (! (sample %in% reduced.set[reduced.set[,2]==Detector,1])) the.warning <- c(the.warning,paste(sample,"is a reference sample but is not present for gene",Detector))
+  }
+
+ number.of.na          <- tapply(aaa,reduced.set,sum.na)               # Nr. der nicht ausgewerteten Punkte
+ the.Ct.values         <- tapply(aaa,reduced.set,median,na.rm=TRUE)    # der Median der Triplets
+ the.mad.values        <- tapply(aaa,reduced.set,mad,na.rm=TRUE,con=1) # der MAD in einem Triplet
+ the.difference.values <- tapply(aaa,reduced.set,the.difference)       # Verhältnis lange zu kurze Strecke
+
+ values.of.reference.gene <- the.Ct.values[,name.referenz.gene]
+ if (any (is.na(values.of.reference.gene))){
+   b <- names(values.of.reference.gene)[is.na(values.of.reference.gene)]
+  the.warning <- c(the.warning,paste("There is/are no Ct values of the reference gene for the following sample/s:",paste(b,collapse=",")))}
+
+# der delta CT Wert: neuer Mittelwert - neuer Mittelwert von einem Referenzgen
+ dCt <- the.Ct.values - values.of.reference.gene
+
+# der Delta Delta CT Wert : Delta CT - gemitteltem Delta CT Wert von Referenzsamplen
+ ref2a  <- dCt[name.referenz.sample,,drop=FALSE]
+ ref2b <- apply(ref2a,2,mean,na.rm=TRUE)
+ ddCt <- t (t(dCt)-ref2b)
+
+# der Level
+ the.level <- apply(ddCt,c(1,2),function(x) 2^(-x))
+
+ the.result.of.all <- cbind(convert(the.Ct.values),
+                            convert(dCt)[,3],
+                            convert(ddCt)[,3],
+                            convert(the.level)[,3],
+                            convert(the.mad.values)[,3],
+                            convert(the.difference.values)[,3],
+                            convert(number.of.na)[,3])
+
+ colnames(the.result.of.all) <- c("Sample","Detector","Ct","dCt","ddCt","Level","Triplet_MAD","Long distance (for triplet)","Number_of_NA")
+
+ return(list(all.table=the.result.of.all,levelMatrix=the.level,dCtMatrix=dCt,warn=the.warning))
+}
+
+  
+
+if (sdm.file) raw.table <- sdm.table.read(file.name) else raw.table <- read.delim(file.name)
+
+result <- ddCt(raw.table,name.referenz.sample,name.referenz.gene)
+
+write.table(result$all.table, file = "ddCt_table.csv", sep = ",", col.names = NA)
+write.table(result$levelMatrix,file="ddCt_level_matrix.csv", sep = ",", col.names = NA)
+write.table(result$dCtMatrix,file="ddCt_dCt_matrix.csv", sep = ",", col.names = NA)
+if (length(result$warn)!= 0) write(result$warn,file="warnings.txt")

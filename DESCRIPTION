@@ -1,8 +1,8 @@
 Package: prada
-Version: 1.0.1
-Date: 3 June 2004
+Version: 1.0.2
+Date: 5 July 2004
 Title: Proliferation assay data analysis
-Author: Wolfgang Huber <w.huber@dkfz.de>
+Author: Wolfgang Huber <w.huber@dkfz.de>,Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>
 Maintainer: Wolfgang Huber <w.huber@dkfz.de>
 Depends: R (>= 1.8.1), XML
 Description: Tools for analysing and navigating data from high-throughput phenotyping experiments based on cellular assays and fluorescent detection (flow cytometry (FACS), high-content screening microscopy).
