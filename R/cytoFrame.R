@@ -128,8 +128,8 @@ setClass("cytoSet",
     is(object@colnames, "character") &&
     is(object@frames, "environment") &&
     "name" %in% colnames(pData(object@phenoData)) &&
-    setequal(ls(object@frames), object@phenoData$name) &&
-    all(sapply(ls(object@frames), function(x)
+    setequal(ls(object@frames, all.names=TRUE), object@phenoData$name) &&
+    all(sapply(ls(object@frames, all.names=TRUE), function(x)
       { fr <- get(x, envir=object@frames, inherits=FALSE)
         is(fr, "cytoFrame") && is.null(colnames(fr))  &&
         ncol(exprs(fr))==nc } ))
