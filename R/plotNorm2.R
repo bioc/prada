@@ -1,40 +1,40 @@
 plotNorm2 <- function(fn, colrange=c("gray82", "blue"), center=TRUE,
                       selection=FALSE, ellipse=FALSE, pch=20, cex=1, ...) {
   
- if(!is.list(fn) || names(fn)!=c("mu", "S", "p", "sel", "scalefac", "data"))
-   stop("invalid oject")
- stopifnot(is.logical(center), is.logical(selection), is.logical(ellipse),
-           is.character(colrange))
-    
+  if(!is.list(fn) || any(names(fn)!=c("mu", "S", "p", "sel", "scalefac", "data")))
+    stop("Parameter 'fn' must be a list with elements mu, S, p, sel, scalefac, data")
+  for(i in c("center", "selection", "ellipse"))
+    if(!is.logical(get(i)))
+      stop(paste("Parameter ', i, ' must be logical.", sep=""))
+  if(!is.character(colrange))
+    stop("Parameter 'colrange' must be a character vector")
 
- nrcolors <- 256
- palette  <- colorRampPalette(colrange)(nrcolors)
- xrange   <- range(fn$p, na.rm=TRUE)
- z2icol   <- function(z) {
+  nrcolors <- 256
+  palette  <- colorRampPalette(colrange)(nrcolors)
+  xrange   <- range(fn$p, na.rm=TRUE)
+  z2icol   <- function(z) {
     res = round((z-xrange[1])/diff(xrange)*(nrcolors-1))+1
     res[res > nrcolors] <- nrcolors
     res[res < 1       ] <- 1
     return(res)
   }
- 
- cols <- palette[z2icol(fn$p)]
+  
+  cols <- palette[z2icol(fn$p)]
 
-# produce plot
-
- if(ellipse){
+  ## produce plot
+  if(ellipse){
     plot(fn$data, type="n", pch=pch, cex=cex, ...)
     ell <- .addEllipse(S=fn$S, mu=fn$mu, rad=fn$scalefac)
     points(fn$data, col=cols, pch=pch, cex=cex)
     lines(ell)
- }
- else plot(fn$data, col=cols, pch=pch, cex=cex, ...)
+  }
+  else plot(fn$data, col=cols, pch=pch, cex=cex, ...)
 
- if(center)
+  if(center)
     points(fn$mu[1], fn$mu[2], pch=4, col="red", cex=2)
 
- if(selection)
+  if(selection)
     points(fn$data[!fn$sel,], pch=".", col="red")
-
 }
 
 .addEllipse <- function (S, mu, rad, ...){
