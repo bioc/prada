@@ -1,27 +1,20 @@
-## apply a statistic to the data from each well in a given (expId, expRepeat)
-analysePlate <-  function(eid, er, stat, outdir=".", nrwell=96, ...) {
-  stopifnot(is.character(eid) && is.numeric(er))
-  stopifnot(length(eid)==1 && length(er)==1)
-  
-  ## to prevent as.data.frame.character being called and converting to factor:
-  platename <- paste(eid, er, sep="_")
-  if(getPradaPar("debug"))
-    cat("analysePlate ", platename, ":", sep="")
-  
-  datwh <- dat[(dat$expId==eid) & (dat$expRepeat==er), ]
+## apply a statistic to the data from each well in a plate
+analysePlate <-  function(x, wellcol="well", statfun, platename, plotdir=".", ...) {
 
-  crosstalk <- estimateCrosstalkPlate(datwh,  
-        plotfileprefix = file.path(outdir, paste(platename, "_ct", sep="")))
+  jw <- which(colnames(dat)==wellcol)
+  if(length(jw)!=1)
+    stop(paste("'x' must contain exactly one column with name '", wellcol,
+    "'", sep=""))
 
-  if(getPradaPar("debug"))
-    cat(" crosstalk:", paste(names(crosstalk), signif(crosstalk, 2), sep=":", collapse="\t"), "\n")
-  
+  stopifnot(is.character(statfun), is.character(plotdir), is.character(platename))
+  stopifnot(length(statfun)==1, length(plotdir)==1, length(platename)==1)
+
   y  <- NULL
-  for (w in 1:nrwell) {
-    rv <- do.call(stat, list(x = datwh[datwh$well==w, ],
-                  plotdir  = outdir, crosstalk = crosstalk, ...))
-    crv <- sapply(rv, class)
+  for (w in sort(unique(x[, jw]))) {
+    rv <- do.call(statfun, list(x = x[x[, jw]==w, ],
+                  plotdir  = outdir, ...))
     stopifnot(all(sapply(rv, length) == 1))
+    crv <- sapply(rv, class)
     stopifnot(all(crv %in% c("numeric", "integer", "logical", "character")))
     
     if(getPradaPar("debug"))
@@ -30,16 +23,16 @@ analysePlate <-  function(eid, er, stat, outdir=".", nrwell=96, ...) {
     ## to prevent as.data.frame.character being called and converting to factor:
     for (i in which(crv=="character"))
       class(rv[[i]]) <- "vector"
-    y  <- rbind(y, data.frame(I(eid), er, w, rv))
+    y  <- rbind(y, data.frame(platename, w, rv))
   }
   
   if(getPradaPar("debug"))
     cat("\n")
   if(is.null(names(rv)) && length(rv)==1)
-    names(rv) <- stat
+    names(rv) <- statfun
   stopifnot(!is.null(names(rv)))
   
-  colnames(y) <- c("expId", "expRepeat", "well", names(rv))
+  colnames(y) <- c("platename", wellcol, names(rv))
   return(y)
 }
 

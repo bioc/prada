@@ -1,4 +1,4 @@
-statWellLocfit = function(x, crosstalk, span,
+statWellLocfit = function(x, span,
   plotwhat="nothing", plotdir=".", plotfile, ...) {
   
   stopifnot(all(c("brdu", "trsf", "dapi", "Field", "cloneId") %in% colnames(x)),
@@ -18,19 +18,13 @@ statWellLocfit = function(x, crosstalk, span,
   expId     <- as.character(unique(x$expId))
   expRepeat <- as.character(unique(x$expRepeat))
   expWell   <- unique(x$well)
-  dye       <- as.character(unique(getDye(as.character(x$cloneId))))
+  dye       <- unique(getDye(as.character(x$cloneId)))
   rgtau     <- getPradaPar("minRgTau")[dye]
 
-  if(length(crosstalk)>1)
-    crosstalk <- crosstalk[dye]
-  stopifnot(is.numeric(crosstalk), !is.na(crosstalk))
-  
   stopifnot(length(cloneId)==1, length(expId)==1, length(expRepeat)==1,
             length(expWell)==1, length(dye)==1,   !is.na(rgtau))
 
-  ## Note: Before 10 Apr 2004, this was:
-  ## tau     <- x$trsf - crosstalk * x$brdu
-  tau     <- x$trsf - crosstalk * x$dapi
+  tau     <- x$trsf
   tauzero <- shorth(tau)
   ffield  <- factor(x$Field)
 
@@ -87,7 +81,7 @@ statWellLocfit = function(x, crosstalk, span,
     delta    <- slp$fit*rgtau     ## point estimate
     se.delta <- slp$se.fit*rgtau  ## estimated local standard deviation
     zscore   <- delta/se.delta
-    stopifnot(almostEqual(tauzero, slp$xev$xev)) ## evaluation point
+    stopifnot(all(abs(tauzero-slp$xev$xev)< 1e-6)) ## at evaluation point
     
   } ## if (enough transfections efficiency, nrcells, etc.)
   

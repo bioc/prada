@@ -1,4 +1,4 @@
-estimateCrosstalkWell <- function(x, do.plot=TRUE) {
+estimateCrosstalkWell <- function(x, doPlot=TRUE) {
   slope  <- as.numeric(NA)
   ffield <- factor(x$Field)
   nlev   <- nlevels(ffield)
@@ -9,7 +9,7 @@ estimateCrosstalkWell <- function(x, do.plot=TRUE) {
          c("(Intercept)", "x$dapi", paste("ffield", levels(ffield)[2:nlev], sep=""))))
     dkappa <- coef(a)[2]
 
-    if(do.plot) {
+    if(doPlot) {
       bg    <- coef(a)[1] + c(0, coef(a)[-(1:2)])
       names(bg) <- levels(ffield)
       bg    <- bg[as.character(ffield)]  ## a value for each cell
@@ -44,7 +44,7 @@ estimateCrosstalkPlate <- function(x, plotfileprefix=NULL)
       
       y <- x[sel, ]
       kappas[[d]] <- by(y, factor(y$well), estimateCrosstalkWell,
-                        do.plot=!is.null(plotfileprefix))
+                        doPlot=!is.null(plotfileprefix))
       
       if(!is.null(plotfileprefix))
         dev.off()

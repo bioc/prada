@@ -1,5 +1,4 @@
-## call as.XXX, but do not allow the introduction of additional NAs
-as.all = function(x, what="integer") {
+as.all = function(x, what) {
   na = is.na(x)
   x  = do.call(paste("as.", what, sep=""), list(x))
   if(any(is.na(x)!=na))
