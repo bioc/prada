@@ -47,12 +47,13 @@ readFCSheader <- function(con) {
   return(offsets)
 }
 
-readFCStext <- function(con, offsets, delimiter="\\") {
+readFCStext <- function(con, offsets) {
   seek(con, offsets["textstart"])
   txt <- readChar(con, offsets["textend"]-offsets["textstart"]+1)
-  sp  <- strsplit(txt, split=delimiter, fixed=TRUE)[[1]]
-  if(sp[1]=="") sp<-sp[-1]
-  stopifnot(length(sp)%%2==0)
+  delimiter <- substr(txt, 1, 1)
+  sp  <- strsplit(substr(txt, 2, nchar(txt)), split=delimiter, fixed=TRUE)[[1]]
+  ##if(length(sp)%%2!=0)
+  ##  stop("In readFCStext: unexpected format of the text segment")
   rv <- sp[seq(2, length(sp), by=2)]
   names(rv) <- sp[seq(1, length(sp)-1, by=2)]
   return(rv)
@@ -71,13 +72,19 @@ readFCSdata <- function(con, offsets, x, endian="big") {
   nrpar    <- as.integer(readFCSgetPar(x, "$PAR"))
   range    <- as.integer(readFCSgetPar(x, paste("$P", 1:nrpar, "R", sep="")))
   bitwidth <- as.integer(readFCSgetPar(x, paste("$P", 1:nrpar, "B", sep="")))
-
-  if (!all(bitwidth==16))
-    stop(paste("Don't know how to deal with the bit widths"))
+  bitwidth <- unique(bitwidth)
+  if(length(bitwidth)!=1)
+    stop("Sorry, I am expecting the bitwidth to be the same for all parameters")
 
   seek(con, offsets["datastart"])
-  dat <- readBin(con, "integer", n=offsets["dataend"]-offsets["datastart"]+1,
-                 size=2, signed=FALSE, endian=endian)
+
+  size <- bitwidth/8
+  if (!size %in% c(2, 4, 8))
+    stop(paste("Don't know how to deal with bitwidth", bitwidth))
+
+  dat <- readBin(con, "integer", n = (offsets["dataend"]-offsets["datastart"]+1)/size,
+                 size=size, signed=FALSE, endian=endian)
+
   stopifnot(length(dat)%%nrpar==0)
   dat <- matrix(dat, ncol=nrpar, byrow=TRUE)
   colnames(dat) <- readFCSgetPar(x, paste("$P", 1:nrpar, "N", sep=""))
