@@ -14,25 +14,23 @@
 \url{http://www.isac-net.org} and the file
 \url{../doc/fcs3.html} in the \code{doc} directory of the package.
 
-The FCS 3.0 has many options that are not yet implemented in this
-function. It works for the data produced by the FACS machine Calibur
-from BD Bioscience together with the software Cellquest Pro at the
-Division of Molecular Genome Analysis at the German Cancer Research
-Center. If you need extensions, please let me know.
+The function works with the output of the FACS machine software from a
+number of vendors. However, the FCS 3.0 standard includes some options
+that are not yet implemented in this function. If you need extensions,
+please let me know.
 }
 
-\value{A matrix with column names (one row per cell, one column per
-measured parameter), and attribute \code{text}, a named
-character vector with keyword-value pairs.}
+\value{An object of class \code{link[cytoFrame-class]{cytoFrame}}.}
 
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 \seealso{\code{\link{readFCSdata}}}
 
 \examples{
-sampdat <- readFCS(system.file("extdata", "fas Bcl2 plate323-04-04.A01", package="prada"))
-sampdat[1:5,]
-dim(sampdat)
-attr(sampdat, "text")[3:6]
+sampdat <- readFCS(system.file("extdata", "fas Bcl2 plate323-04-04.A01",
+                               package="prada"))
+sampdat
+exprs(sampdat[1:3,])
+description(sampdat)[3:6]
 }
 \keyword{IO}
 

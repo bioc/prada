@@ -9,15 +9,14 @@ readFCS <- function(filename)
   
   offsets <- readFCSheader(con)
   txt     <- readFCStext(con, offsets)
-  dat     <- readFCSdata(con, offsets, txt)
+  mat     <- readFCSdata(con, offsets, txt)
 
   close(con)
   
-  if(as.integer(readFCSgetPar(txt, "$TOT"))!=nrow(dat))
+  if(as.integer(readFCSgetPar(txt, "$TOT"))!=nrow(mat))
     stop(paste("file", filename, "seems to corrupted."))
   
-  attr(dat, "text") <- txt
-  return(dat)
+  return(new("cytoFrame", exprs=mat, description=txt))
 }
 
 readFCSgetPar <- function(x, pnam) {
@@ -31,7 +30,8 @@ readFCSgetPar <- function(x, pnam) {
 readFCSheader <- function(con) {
   seek(con, 0)
   version <- readChar(con, 6)
-  stopifnot(version %in% c("FCS2.0", "FCS3.0"))
+  if(!version %in% c("FCS2.0", "FCS3.0"))
+    stop("This does not seem to be a valid FCS2.0 or FCS3.0 file")
   
   tmp <- readChar(con, 4)
   stopifnot(tmp=="    ")

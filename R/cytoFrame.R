@@ -9,6 +9,15 @@ setClass("cytoFrame",
    is.matrix(object@exprs)&&is.character(object@description)
  })
 
+## Generic functions
+if(!isGeneric("colnames<-"))
+  setGeneric("colnames<-", function(x, value)
+    standardGeneric("colnames<-"))
+
+if(!isGeneric("colnames"))
+  setGeneric("colnames", function(x, do.NULL=TRUE, prefix="col")
+    standardGeneric("colnames"))
+
 ##These are already defined as generic functions in Biobase:
 ##if(!isGeneric("exprs<-"))
 ##  setGeneric("exprs<-", function(object, value)
@@ -42,6 +51,17 @@ setReplaceMethod("description", c("cytoFrame", "character"),
      return(object)
    })
 
+## convenience method 'colnames'
+setMethod("colnames", "cytoFrame",
+  function(x, do.NULL="missing", prefix="missing") colnames(exprs(x)))
+
+## This does not seem to work (calling it has no effect):
+## setReplaceMethod("colnames", c("cytoFrame", "character"),
+##  function(x, value) {
+##    colnames(exprs(x)) <- value
+##    return(x)
+##  })
+
 "$.cytoFrame" <- function(x, val)
     (description(x))[val]
 
@@ -61,11 +81,12 @@ setMethod("[", "cytoFrame", function(x, i, j, ..., drop=FALSE) {
   x
 })
 
-setReplaceMethod("[", "cytoFrame", function(x, i, j, ..., value) {
-  exprs(x)[i, j, ...] <- value
-  x
-  })
-
+## FIXME: do we need this or is it odd?
+##
+## setReplaceMethod("[", "cytoFrame", function(x, i, j, ..., value) {
+##   exprs(x)[i, j, ...] <- value
+##  x
+##  })
 
 setClass("cytoSet",
   representation(frames="environment",
@@ -77,32 +98,30 @@ setClass("cytoSet",
                    varLabels=list(framename="Name in frame")),
                  colnames=character(0)),
   validity=function(object){
+    nc <- length(colnames(object))
+    TRUE  ||
     is(object@phenoData, "phenoData") &&
     is(object@colnames, "character") &&
-    is(object@frame, "environment") &&
+    is(object@frames, "environment") &&
     "framename" %in% colnames(pData(object@phenoData)) &&
-    setequal(ls(object@frame), object@phenoData$wellname) &&
-    all(sapply(ls(object@frame), function(x)
-      { is(get(x, inherits=FALSE), "cytoFrame") &&
-        colnames(exprs(get(x, inherits=FALSE)))==NULL })) &&
-    all(sapply(ls(object@frame), ncol)==length(object@colnames))
+    setequal(ls(object@frames), object@phenoData$framename) &&
+    all(sapply(ls(object@frames), function(x)
+      { fr <- get(x, envir=object@frames, inherits=FALSE)
+        is(fr, "cytoFrame") && is.null(colnames(fr))  &&
+        ncol(exprs(fr))==nc } ))
   })
 
-setMethod("[", "cytoSet", function(x, i, j, ..., drop=FALSE) {
-  if(!missing(j))
-    stop("incorrect number of dimensions")
+setMethod("[", "cytoSet", function(x, i, j="missing", drop="missing") {
   fr <-new.env(hash=TRUE)
-  nm <- object@phenoData$framename[i]
-  multiassign(nm, mget(nm, object@frames), envir=fr, inherits=FALSE) 
+  nm <- x@phenoData$framename[i]
+  multiassign(nm, mget(nm, x@frames), envir=fr, inherits=FALSE) 
   new("cytoSet",
       frames=fr,
       phenoData=x@phenoData[i, ],
       colnames=x@phenoData)
 }, valueClass="cytoSet")
 
-setMethod("[[", "cytoSet", function(x, i, j, ...) {
-  if(!missing(j))
-    stop("incorrect number of dimensions")
+setMethod("[[", "cytoSet", function(x, i, j="missing") {
   if(length(i)!=1)
     stop("subscript out of bounds (index must have length 1 in '[[')")
   rv <- get(x@phenoData$framename[i], x@frames, inherits=FALSE)
@@ -112,25 +131,18 @@ setMethod("[[", "cytoSet", function(x, i, j, ...) {
 
 ## show method for cytoSet
 setMethod("show", "cytoSet", function(object) {
-  cat("cytoSet object which contains", nrow(object@phenoData), "cytoFrames ",
-      "with colnames\n", colnames(object), "\n")
+  cat("\tcytoSet object. Its colnames are:\n\t",
+      colnames(object), "\n", sep="")
   show(phenoData(object))
 })
 
-## get and set colnames slot of cytoSet
-if(!isGeneric("setColnames<-"))
-  setGeneric("setColnames<-", function(object, value)
-    standardGeneric("setColnames<-"))
+setMethod("colnames", "cytoSet",
+  function(x, do.NULL="missing", prefix="missing") x@colnames)
 
-if(!isGeneric("getColnames"))
-  setGeneric("getColnames", function(object)
-    standardGeneric("getColnames"))
-
-setMethod("getColnames", "cytoSet", function(object) object@colnames)
-setReplaceMethod("setColnames", c("cytoSet", "character"),
-  function(object, value) {
-    object@colnames <- value
-    return(object)
+setReplaceMethod("colnames", c("cytoSet", "character"),
+  function(x, value) {
+    x@colnames <- value
+    return(x)
   })      
 
 ## get and set phenoData slot of cytoSet
