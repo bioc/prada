@@ -1,5 +1,5 @@
 ## apply a statistic to the data from each well in a given (expId, expRepeat)
-analysePlate <-  function(eid, er, stat, outdir, nrwell=96) {
+analysePlate <-  function(eid, er, stat, outdir, nrwell=96, ...) {
   stopifnot(is.character(eid) && is.numeric(er))
   stopifnot(length(eid)==1 && length(er)==1)
   
@@ -14,21 +14,21 @@ analysePlate <-  function(eid, er, stat, outdir, nrwell=96) {
         plotfileprefix = file.path(outdir, paste(platename, "_ct", sep="")))
 
   if(getPradaPar("debug"))
-    cat(" ct:", paste(names(ct), signif(ct, 2), sep=":", collapse="\t"), "\n")
+    cat(" crosstalk:", paste(names(crosstalk), signif(crosstalk, 2), sep=":", collapse="\t"), "\n")
   
   y  <- NULL
   for (w in 1:nrwell) {
     rv <- do.call(stat,
-      list(    x     = datwh[datwh$well==w, ],
-           crosstalk = crosstalk,
-            plotfile = file.path(outdir, paste(platename, "--", w, ".png", sep=""))))
+                  list(x = datwh[datwh$well==w, ],
+                       plotwhat = "mkpp",
+                       plotdir  = outdir,
+                       crosstalk = crosstalk, ...))
     crv <- sapply(rv, class)
-
-    if(getPradaPar("debug")) {
+    stopifnot(all(sapply(rv, length) == 1))
+    stopifnot(all(crv %in% c("numeric", "integer", "logical", "character")))
+    
+    if(getPradaPar("debug"))
       cat(".") 
-      stopifnot(all(sapply(rv, length) == 1))
-      stopifnot(all(crv %in% c("numeric", "integer", "logical", "character")))
-    }
     
     ## to prevent as.data.frame.character being called and converting to factor:
     for (i in which(crv=="character"))
