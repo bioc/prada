@@ -88,20 +88,22 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span,
     
   } ## if (enough transfections efficiency, nrcells, etc.)
   
-  myplot <- function(qxmin=0, qxmax=1, qymin=0, qymax=1, ...) {
+  myplot <- function(qxmin=0, qxmax=1, qymin=0, qymax=1, 
+                     xlab="Signal intensity (expression)", ylab="BrdU intensity", lxmax, ...) {
     colpal <- c("#4db8a4", "#377db8", "#e31a1c")
     cols <- colorramp(colpal)(nrcells)[rank(tau)]
     px   <- tau
     py   <- ybg
     xlim <- quantile(px, c(qxmin, qxmax))
     ylim <- quantile(py, c(qymin, qymax))
-    plot(px, py, pch=16, col=cols,
-         xlim=xlim, ylim=ylim,
-         xlab="Signal intensity (transfection)", ylab="BrdU intensity",
+    plot(px, py, pch=20, col=cols,
+         xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab,
          cex.lab=1.4, cex.main=1.4, ...)
     abline(v=tauzero, lwd=3, col="#808080")
     if(!is.null(lcft)) {
-      px <- seq(xlim[1], xlim[2], len=50)
+      if(missing(lxmax))
+        lxmax <- xlim[2]
+      px <- seq(xlim[1], lxmax, len=50)
       lines(px, predict(lcft, newdata=px), lwd=3)
     }
   }
@@ -112,13 +114,13 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span,
   switch(plotwhat,
      nothing = {},
      screen  = {
-       myplot(main=cloneId)
+       myplot(...) ## main=cloneId
        plotfile <- as.character(NA)
      },
      figscp  = {
        plotfile <- paste(plotfile, ".pdf", sep="")
        pdf(file=file.path(plotdir, plotfile), width=7, height=7)
-       myplot(main=cloneId, ...)
+       myplot(...)
        dev.off()
        cat(cloneId, paste(c("delta", "se.delta", "zscore", "niter", "sc.dbg"),
                           signif(c(delta, se.delta, zscore, niter, sc.dbg), 2),

@@ -5,7 +5,7 @@
 \usage{mapSub2Plate(sub, well)}
 \arguments{
   \item{sub}{Character. Subplate identifier, see details.}
-  \item{well}{Character. Well identifier, see details.}
+  \item{well}{Integer. Well identifier, see details.}
 }
 \details{\code{sub} and \code{well} must have the same length.
 
@@ -13,7 +13,7 @@
   "a", "b", "c12", or "c34". Alternatively, \code{sub} can have the values
   "1-48", "49-96".
 
-  \code{as.numeric(well)} must be an integer number in the appropriate range.
+  \code{well} must be an integer number in the appropriate range.
 }
 
 \value{An numeric vector of the same length as \code{well} with the
