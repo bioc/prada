@@ -14,7 +14,7 @@
   estimator of the mode of the distribution that generated \code{x}.}
 
 \value{The midpoint of the short of \code{x}.}
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 
 \examples{
   x <- c(rnorm(100), runif(100) * 10)

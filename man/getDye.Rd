@@ -14,7 +14,7 @@
 See also the source code.}
 
 \value{Character vector of the same length as \code{x}.}
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \examples{getDye("dorit10_3c_1-2--01-pDhfbr2_78k24_1E3Y1")}
 \keyword{manip}
 

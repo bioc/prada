@@ -22,7 +22,7 @@ please let me know.
 
 \value{An object of class \code{link[cytoFrame-class]{cytoFrame}}.}
 
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \seealso{\code{\link{readFCSdata}}}
 
 \examples{

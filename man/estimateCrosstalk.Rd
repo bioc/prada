@@ -19,6 +19,6 @@ particular data sets and ought not be useful for any other purpose.}
 \value{A numeric vector.}
 
 \seealso{}
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \keyword{manip}
 \examples{##see vignette}

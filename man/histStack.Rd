@@ -22,7 +22,7 @@
   on the active graphics device. It returns the result of the call to
   \code{\link[graphics:barplot]{barplot}}.}
 
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 
 \examples{
   x    <- list(rnorm(42), rnorm(42)+2)

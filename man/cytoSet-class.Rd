@@ -107,7 +107,7 @@ of a \code{cytoSet} \code{x}, use
 \preformatted{y <- x[seq(along=x)]}
 }
 
-\author{Wolfgang Huber}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 
 \seealso{\code{\link{readCytoSet}}, \code{\link{cytoFrame-class}}}
 \examples{

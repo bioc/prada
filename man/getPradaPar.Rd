@@ -19,7 +19,7 @@ The function \code{setPradaPars} is invoked for its side effect,
 which is assigning a value to the global parameters list.
 It returns the value invisible(NULL).
 }
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \examples{
  setPradaPars(list(tomato=1, apple="two", pear=as.integer(3)))
  getPradaPar("pear")

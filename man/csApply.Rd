@@ -27,7 +27,7 @@ csApply(X, FUN, ..., simplify = TRUE)
 
 \seealso{\code{\link{sapply}}}
 
-\author{Wolfgang Huber \url{http://www.dkfz.de/mga/whuber}}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \keyword{manip} 
 \examples{
 cset=readCytoSet(path=system.file("extdata", package="prada"),

@@ -49,7 +49,7 @@ well. It is intended to be use as an argument to a subsequent call to
 
 \seealso{\code{\link[prada::imageMap]{imageMap}}}
 
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \keyword{hplot}
 \examples{
   plotPlate(runif(96), main="example 1", col=c("#0000e0", "#e00000"), width=7)

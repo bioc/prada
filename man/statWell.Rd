@@ -32,6 +32,6 @@ statWellLocfit(x, span,
 \value{A list with elements \code{cloneId}, \code{nrcells}, \code{trsfeff},
   \code{delta}, \code{se.delta}, \code{zscore}, \code{plotfile}.}
 
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \keyword{manip}
 \examples{##see vignette}
