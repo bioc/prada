@@ -33,11 +33,14 @@ readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t",
   ## now we have everything in place: files, and phenoData
   
   env <- new.env(hash=TRUE)
-  cn  <- NULL
+  cn <- empty <- NULL
   for(f in files) {
     x <- readFCS(file.path(path, f))
+    if(nrow(exprs(x))==0){
+      empty <- c(empty, f)
+      next}
     if(is.null(cn)) {
-      cn <-colnames(x)
+      cn <- colnames(x)
     } else {
       if(!identical(cn, colnames(x)))
         stop(paste(f, "has different 'colnames' than previously read files."))
@@ -46,6 +49,18 @@ readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t",
     assign(f, x, envir=env, inherits=FALSE)
   }
 
+  ## correct phenoData for case of empty FCS files
+  
+  if(!is.null(empty)){
+    pDat <- as.data.frame(pData(phenoData)[!pData(phenoData)[,"name"]
+                                           %in% empty,])
+    colnames(pDat) <- colnames(pData(phenoData))                  
+    phenoData <- new("phenoData",
+       pData     = pDat, varLabels = varLabels(phenoData))
+    warning(length(empty), " FCS files containing no data were omitted!",
+            call.=FALSE)
+  }
+ 
   return(new("cytoSet",
     frames    = env,
     phenoData = phenoData,

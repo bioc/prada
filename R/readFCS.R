@@ -70,7 +70,7 @@ readFCSdata <- function(con, offsets, x) {
 
   dattype <- switch(readFCSgetPar(x, "$DATATYPE"),
 	"I" = "integer",
-	"F" = "double",
+	"F" = "numeric",
     	stop(paste("Don't know how to deal with $DATATYPE", readFCSgetPar(x, "$DATATYPE")))) 
   
   if (readFCSgetPar(x, "$MODE") != "L")

@@ -31,6 +31,11 @@ sampdat <- readFCS(system.file("extdata", "fas Bcl2 plate323-04-04.A01",
 sampdat
 exprs(sampdat[1:3,])
 description(sampdat)[3:6]
+
+## single precision floating point data file
+sampdat2 <- readFCS(system.file("extdata", "Unstained.fcs",
+                               package="prada"))
+sampdat2
 }
 \keyword{IO}
 
