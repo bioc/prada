@@ -6,10 +6,11 @@
 readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, ...) {
   if(!missing(phenoData)) {
     if(is.character(phenoData))
-      phenoData = read.phenoData(file.path(path, phenoData), ...)
+      phenoData = read.phenoData(file.path(path, phenoData), header = TRUE,
+        as.is = TRUE, ...)
     if(!is(phenoData, "phenoData"))
       stop("Argument 'phenoData' must be of type 'phenoData'.")
-    if("name" %in% colnames(pData(phenoData)))
+    if(!("name" %in% colnames(pData(phenoData))))
       stop("'phenoData' must contain a column 'name'")
     if(!is.null(files))
       warning("Argument 'files' is ignored.")

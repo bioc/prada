@@ -5,6 +5,7 @@
 
 \alias{[,cytoSet-method}
 \alias{[[,cytoSet-method}
+\alias{[[<-,cytoSet-method}
 
 \alias{show,cytoSet-method}
 \alias{length,cytoSet-method}
@@ -76,7 +77,7 @@ operators for lists.}
 
 \seealso{\code{\link{readCytoSet}}, \code{\link{cytoFrame-class}}}
 \examples{
-cset=readCytoSet(path=system.file("extdata", package="prada"),
+cset<-readCytoSet(path=system.file("extdata", package="prada"),
   pattern="[A-Z][0-9][0-9]$")
 cset
 pData(cset)
@@ -84,6 +85,9 @@ cset[[1]]
 cset[["fas Bcl2 plate323-04-04.A02"]]
 cset["fas Bcl2 plate323-04-04.A02"]
 cset[1:3]
+
+cset[[1]] <- exprs(cset[[1]])[1:100, ]
+
 }
 \keyword{classes}
 

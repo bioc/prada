@@ -31,6 +31,7 @@ barploterrbar(y, yl, yh, barcol="orange", errcol="black", horiz=FALSE, w=0.2, ..
   y <- matrix(runif(80), ncol=5)
   ym <- apply(y, 2, mean)
   dy <- apply(y, 2, sd)*2/sqrt(nrow(y))
-  barploterrbar(ym, ym-dy, ym+dy, barcol="#0000c0", errcol="orange")
+  barploterrbar(ym, ym-dy, ym+dy, barcol="#0000c0", errcol="orange",
+    ylim=c(0, max(ym+dy)))
 }
 
