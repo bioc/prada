@@ -49,7 +49,8 @@ estimateCrosstalkPlate <- function(x, plotfileprefix=NULL)
         dev.off()
     }
   }
-  rv <- sapply(slopes, shorth, na.rm=TRUE)
+  shorths <- sapply(slopes, shorth, na.rm=TRUE)
+  mads    <- sapply(slopes, mad,    na.rm=TRUE)
   
   if(!is.null(plotfileprefix)) {
     png(width=768, height=384, file=paste(plotfileprefix, "_hist.png", sep=""))
@@ -57,12 +58,13 @@ estimateCrosstalkPlate <- function(x, plotfileprefix=NULL)
     cols        <- c("#984ea3", "#4daf4a")
     names(cols) <- c("cfp",     "yfp")
     for(i in 1:length(slopes))
-      hist(slopes[[i]], xlab="slopes", main=paste(thedyes[i], signif(rv[i], 2)),
+      hist(slopes[[i]], xlab="slopes",
+           main=paste(thedyes[i], signif(shorths[i], 2), "+/-", signif(mads[i], 2)),
            col=cols[thedyes[i]])
     dev.off()
   }
   
-  return(rv)
+  return(shorths)
 }
      
 ##    scale <- a$s
