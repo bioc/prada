@@ -2,9 +2,9 @@ smoothScatter <- function(x, y=NA, nrpoints=100,
                            colrange=c("white", "#231d1d"),
                            nbin=200, bandwidth, ...){
   
-    # check correct input
     if (!is.matrix(x) || ncol(x)<2)
       x <- cbind(x, y)
+    # check correct input
     if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) > 1) )
            stop("'nrpoints' should be integer or inf")
     nrpoints <- floor(nrpoints)
@@ -21,7 +21,7 @@ smoothScatter <- function(x, y=NA, nrpoints=100,
       if(!is.numeric(bandwidth))
         stop("'nbin' and 'bandwidth' must be numeric")
      }
-                                        # create density map
+    # create density map
     map  <- bkde2D(x, gridsize=nbin, bandwidth=bandwidth)
     xm   <- map$x1
     ym   <- map$x2

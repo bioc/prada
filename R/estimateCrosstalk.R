@@ -39,7 +39,7 @@ estimateCrosstalkPlate <- function(x, plotfileprefix=NULL)
     if(length(sel) >= getPradaPar("minNrCells")) {
       if(!is.null(plotfileprefix)) {
         png(width=1024, height=768, file=paste(plotfileprefix, "_", d, ".png", sep=""))
-        par(mfrow=c(6, 8), mai=c(0.02,0.02,0.25,0.02))
+        par(mfrow=c(6, 8), mai=c(0.25,0.02,0.25,0.02))
       }
       
       y <- x[sel, ]
