@@ -65,16 +65,15 @@ if(capabilities()["png"]) {
   coord=cbind(c(100,360),c(400, 50),c(200,460),c(500,150))
   rect(coord[,1], height-coord[,2], coord[,3], height-coord[,4], col=c("#1f77b4", "#b2df8a"))
   dev.off()
+
+  con <- openHTMLpage(fhtml, "Hello world")
+  imageMap(con, fpng, coord=coord, 
+    url=paste("http://", c("link1", "link2"), sep=""),
+    tooltips=c("Blue box", "Green box"))
+  closeHTMLpage(con)
+
+  cat("Now have a look at file ", fhtml, ".html with your browser.\n", sep="")
 }
-
-con <- openHTMLpage(fhtml, "Hello world")
-imageMap(con, fpng, coord=coord, 
-   url=paste("http://", c("link1", "link2"), sep=""),
-   tooltips=c("Blue box", "Green box"))
-closeHTMLpage(con)
-
-cat("Now have a look at file ", fhtml, ".html with your browser.\n", sep="")
-
 }
 
 
