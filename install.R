@@ -1,6 +1,7 @@
 require(Biobase)
 require(XML)
 require(RColorBrewer)
+require(geneplotter)
 require(MASS)
 require(locfit)
 require(KernSmooth)
