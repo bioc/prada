@@ -1,7 +1,7 @@
-barploterrbar = function(y, yl, yh, barcol="orange", errcol="black", horiz=FALSE, w=0.2, ...) {
- barplot(y, space=0.2, width=1, ylim=c(0,max(yh)), col=barcol, horiz=horiz, ...)
- x = 1.2*seq(along=y) - 0.5
- lwd = 3
+barploterrbar <- function(y, yl, yh, barcol="orange", errcol="black", horiz=FALSE, w=0.2, ...) {
+ barplot(y, space=0.2, width=1, col=barcol, horiz=horiz, ...)
+ x <- 1.2*seq(along=y) - 0.5
+ lwd <- 3
  if(!horiz) {
    segments(x,   yl, x,   yh, lwd=lwd, col=errcol)
    segments(x-w, yl, x+w, yl, lwd=lwd, col=errcol)
