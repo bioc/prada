@@ -67,8 +67,11 @@ readFCSdata <- function(con, offsets, x) {
     "1,2,3,4" = "little",
     stop(paste("Don't know how to deal with $BYTEORD", readFCSgetPar(x, "$BYTEORD"))))
   
-  if (readFCSgetPar(x, "$DATATYPE") != "I")
-    stop(paste("Don't know how to deal with $DATATYPE", readFCSgetPar(x, "$DATATYPE")))
+
+  dattype <- switch(readFCSgetPar(x, "$DATATYPE"),
+	"I" = "integer",
+	"F" = "double",
+    	stop(paste("Don't know how to deal with $DATATYPE", readFCSgetPar(x, "$DATATYPE")))) 
   
   if (readFCSgetPar(x, "$MODE") != "L")
     stop(paste("Don't know how to deal with $MODE", readFCSgetPar(x, "$MODE")))
@@ -86,7 +89,7 @@ readFCSdata <- function(con, offsets, x) {
   if (!size %in% c(2, 4, 8))
     stop(paste("Don't know how to deal with bitwidth", bitwidth))
 
-  dat <- readBin(con, "integer", n = (offsets["dataend"]-offsets["datastart"]+1)/size,
+  dat <- readBin(con, dattype, n = (offsets["dataend"]-offsets["datastart"]+1)/size,
                  size=size, signed=FALSE, endian=endian)
 
   stopifnot(length(dat)%%nrpar==0)
