@@ -28,7 +28,10 @@ analysePlate(x, wellcol="well", wellrange, statfun, platename, plotdir=".", ...)
 reporting is performed, and the return value is a data frame.}
 
 \value{A data frame with number of rows equal to
-  \code{length(wellrange)}.}
+  \code{length(wellrange)}. Rows (wells) for which there is no data
+  contains \code{NA}s. The columns comprise \code{platename},
+  \code{well-ID} (from \code{x[, wellcol]}), and the
+  results from statfun.}
 
 \seealso{\code{\link{statWellLocfit}}}
 
