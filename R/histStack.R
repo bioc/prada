@@ -4,7 +4,7 @@ histStack <- function(x, breaks, midsFun=paste, ...) {
   bars <- mids <- NULL
   for (i in 1:length(x)) {
     if(!is.numeric(x[[i]]))
-      stopifnot(paste("Element", i, "of 'x' is not numeric."))
+      paste("Element", i, "of 'x' is not numeric.")
     h <- hist(x[[i]], breaks=breaks, plot=FALSE)
     bars <- rbind(bars, h$counts)
     if(is.null(mids))
