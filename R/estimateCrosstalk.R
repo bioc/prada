@@ -22,12 +22,10 @@ estimateCrosstalkWell <- function(x, do.plot=TRUE) {
   return(slope)
 }
 
-estimateCrosstalkPlate <- function(x, pars, plotfileprefix=NULL)
+estimateCrosstalkPlate <- function(x, plotfileprefix=NULL)
 {
-  if(pars$debug)
-    stopifnot(is.data.frame(x),
-      "minNrCells" %in% names(pars), 
-      all(c("cloneId", "well", "Field", "trsf", "dapi") %in% colnames(x)))
+  stopifnot(is.data.frame(x),
+            all(c("cloneId", "well", "Field", "trsf", "dapi") %in% colnames(x)))
    
   dye       <- getDye(as.character(x$cloneId))
   thedyes   <- unique(dye)
@@ -37,7 +35,7 @@ estimateCrosstalkPlate <- function(x, pars, plotfileprefix=NULL)
   
   for (d in thedyes) {
     sel <- which(dye==d)
-    if(length(sel) >= pars$minNrCells) {
+    if(length(sel) >= getPradaPar("minNrCells")) {
       if(!is.null(plotfileprefix)) {
         png(width=1024, height=768, file=paste(plotfileprefix, "_", d, ".png", sep=""))
         par(mfrow=c(6, 8), mai=c(0.02,0.02,0.25,0.02))

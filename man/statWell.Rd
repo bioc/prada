@@ -1,16 +1,19 @@
 \name{statWell}
-\alias{statWell}
+\alias{statWellLoess}
+\alias{statWellParabola}
 \title{Calculate a statistic for the data from one well}
 \description{Calculate a statistic for the data from one well}
-\usage{statWell(x, pars, plotfile=as.character(NA))}
+\usage{
+statWellParabola(x, plotfile=as.character(NA), crosstalk)
+StatWellLoess(x, plotfile=as.character(NA), crosstalk, xmax, span) {
+}
 \arguments{
   \item{x}{data.frame with columns \code{brdu}, \code{trsf},
     \code{dapi}, \code{Field}, \code{cloneId}}
-  \item{pars}{list containing parameters for the calculation of the
-    statistic. It must contain the following elements: \code{minRgTau},
-    \code{minNrCells}, \code{ct}}
   \item{plotfile}{character. If not NA, a suitable plot is
     generated and saved as a PNG file under that name}
+  \item{crosstalk}{named numeric vector.
+    Crosstalk factors between DAPI and CFP/YFP}
 }
 
 \details{}
