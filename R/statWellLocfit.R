@@ -1,5 +1,6 @@
-statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span,
-  plotfile, ...) {
+statWellLocfit = function(x, crosstalk, span,
+  plotwhat="nothing", plotdir=".", plotfile, ...) {
+  
   stopifnot(all(c("brdu", "trsf", "dapi", "Field", "cloneId") %in% colnames(x)),
             is.numeric(span),      length(span)==1,      !is.na(span),
             is.character(plotwhat), length(plotwhat)==1,
@@ -27,7 +28,9 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span,
   stopifnot(length(cloneId)==1, length(expId)==1, length(expRepeat)==1,
             length(expWell)==1, length(dye)==1,   !is.na(rgtau))
 
-  tau     <- x$trsf - crosstalk * x$brdu
+  ## Note: Before 10 Apr 2004, this was:
+  ## tau     <- x$trsf - crosstalk * x$brdu
+  tau     <- x$trsf - crosstalk * x$dapi
   tauzero <- shorth(tau)
   ffield  <- factor(x$Field)
 
