@@ -1,0 +1,21 @@
+export("barploterrbar",  "histStack",
+       "openHTMLpage", "closeHTMLpage",
+       "readCytoSet", "readFCS", "readSDM",
+       "ddCt", "eListWrite",
+       "colorramp",
+       "fitNorm2", "plotNorm2",
+       "plotPlate",
+       "readWellXML", "getElement", "getVector",
+       "getPradaPar", "setPradaPars",
+       "imageMap",
+       "saveeps", "savepdf", "savepng", "savetiff",
+       "shorth", "smoothScatter",
+       "collectdat", "as.all", "estimateCrosstalkPlate", "estimateCrosstalkWell",
+       "analysePlate", "mapSub2Plate", "splitWellName", "statWellLocfit", "getDye")
+
+importFrom("Biobase", "eSet")
+importFrom("Biobase","phenoData")
+
+exportClasses("cytoFrame-class", "cytoSet-class")
+exportMethods("colnames", "colnames<-", "$.cytoFrame")
+
