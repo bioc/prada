@@ -17,7 +17,7 @@
 \author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
 
 \examples{
-  x <- c(rnorm(130), rnorm(100)+6)
+  x <- c(rnorm(100), runif(100) * 10)
   mean(x)
   median(x)
   shorth(x)
