@@ -168,7 +168,7 @@ setMethod("[[",
 
 setReplaceMethod("[[",
   signature=c("cytoSet"),
-  definition=function(x, i, j="missing", value) {
+  definition=function(x, i, j, ..., value) {
     if(!is.matrix(value))
       stop("'value' must be a matrix.")
     if(ncol(value)!=length(x@colnames))
