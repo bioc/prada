@@ -1,4 +1,5 @@
-statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span) {
+statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span,
+  plotfile, ...) {
   stopifnot(all(c("brdu", "trsf", "dapi", "Field", "cloneId") %in% colnames(x)),
             is.numeric(span),      length(span)==1,      !is.na(span),
             is.character(plotwhat), length(plotwhat)==1,
@@ -87,55 +88,51 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span) {
     
   } ## if (enough transfections efficiency, nrcells, etc.)
   
-  myplot <- function(xmin=NULL, xmax=NULL, ymin=NULL, ymax=NULL,...) {
+  myplot <- function(qxmin=0, qxmax=1, qymin=0, qymax=1, ...) {
     colpal <- c("#4db8a4", "#377db8", "#e31a1c")
     cols <- colorramp(colpal)(nrcells)[rank(tau)]
     px   <- tau
     py   <- ybg
-    if(is.null(xmin)) xmin <- quantile(px, 0.01)
-    if(is.null(xmax)) xmax <- quantile(px, 0.99)
-    if(is.null(ymin)) ymin <- quantile(py, 0.01)
-    if(is.null(ymax)) ymax <- quantile(py, 0.99)
-    plot(px, py, pch=16, col=cols, xlim=c(xmin,xmax), ylim=c(ymin,ymax), 
+    xlim <- quantile(px, c(qxmin, qxmax))
+    ylim <- quantile(py, c(qymin, qymax))
+    plot(px, py, pch=16, col=cols,
+         xlim=xlim, ylim=ylim,
          xlab="Signal intensity (transfection)", ylab="BrdU intensity",
          cex.lab=1.4, cex.main=1.4, ...)
     abline(v=tauzero, lwd=3, col="#808080")
-
     if(!is.null(lcft)) {
-      px <- seq(xmin, xmax, len=50)
+      px <- seq(xlim[1], xlim[2], len=50)
       lines(px, predict(lcft, newdata=px), lwd=3)
     }
   }
 
-  pfn <- paste(expId, expRepeat, expWell, sep="_")
-  
-  plotfile <- as.character(NA)
-  names(plotfile) <- "plotfile"
+  if (missing(plotfile))
+    plotfile <- paste(expId, expRepeat, expWell, sep="_")
+
   switch(plotwhat,
      nothing = {},
      screen  = {
        myplot(main=cloneId)
+       plotfile <- as.character(NA)
      },
      figscp  = {
-       par(mfrow=c(1,1))
-       myplot(main=cloneId)
-       f1 <- savetiff(paste(pfn, "full", sep="_"), density=150, dir=plotdir)
-       myplot(main=cloneId, xmax=tauzero+rgtau*2)
-       f2 <- savetiff(paste(pfn, "zoom", sep="_"), density=150, dir=plotdir)
-       plotfile <- c(f1, f2)
-       names(plotfile) <- c("plotfull", "plotzoom")
+       plotfile <- paste(plotfile, ".pdf", sep="")
+       pdf(file=file.path(plotdir, plotfile), width=7, height=7)
+       myplot(main=cloneId, ...)
+       dev.off()
        cat(cloneId, paste(c("delta", "se.delta", "zscore", "niter", "sc.dbg"),
                           signif(c(delta, se.delta, zscore, niter, sc.dbg), 2),
                           sep="=", collapse="\t"), "\n")
      },
      mkpp    = {
-       plotfile <- paste(pfn, ".png", sep="")
-       names(plotfile) <- "plotfile"
+       main1 <- paste(plotfile, cloneId)
+       main2 <- paste("delta=", signif(delta, 2), "+/-", signif(2*se.delta, 2),
+                      " z=", signif(zscore, 2), sep="")
+       plotfile <- paste(plotfile, ".png", sep="")
        png(file=file.path(plotdir, plotfile), width=1024, height=768)
        layout(matrix(c(1,3,2,4), nrow=2, ncol=2), widths=c(1,1), heights=c(2,1))
-       myplot(main=paste(pfn, cloneId))
-       myplot(main=paste("delta=", signif(delta, 2), "+/-", signif(2*se.delta, 2),
-                " z=", signif(zscore, 2), sep=""), xmax=tauzero+rgtau*2)
+       myplot(main=main1, ...)
+       myplot(main=main2, qxmax=0.95, ...)
        if(!is.null(resi)) {
          plot(rank(tau), resi, pch=16, xlab="rank(x)", ylab="residuals")
          abline(h=0, col="red")
@@ -145,7 +142,7 @@ statWellLocfit = function(x, plotwhat="nothing", plotdir=".", crosstalk, span) {
      },
      stop(paste("Unknown value of 'plotwhat':", plotwhat))
   )
-  
+  names(plotfile) <- "plotfile"
   rv <- append(list(
     cloneId=cloneId, nrcells=nrcells, trsfeff=trsfeff,
     delta=delta, se.delta=se.delta, zscore=zscore),

@@ -1,6 +1,7 @@
 ## plot a statistic
 ## x must be a dataframe with columns "well" and "stat"
-plotPlate  = function(x, stat, main, zlim=NULL, col, device, plotfile=NULL, width) {
+plotPlate  = function(x, stat, main, zlim=NULL, col, device, plotfile=NULL, width,
+                      na.action="zero") {
   nrwell = 96 
   sizex  = 12
   sizey  = 8
@@ -38,7 +39,8 @@ plotPlate  = function(x, stat, main, zlim=NULL, col, device, plotfile=NULL, widt
   plot(x=0, y=0, type="n", bty="n", xaxt="n", yaxt="n", xaxs="i", yaxs="i", xlim=xlim, ylim=ylim)
   text((1:sizex), 0, paste(1:sizex), adj=c(0.5,0), cex=cex)
   text(0, (sizey:1), c("A","B","C","D","E","F","G","H"), adj=c(0, 0.5), cex=cex)
-  text((sizex+1)/2, sizey+1, main, adj=c(0.5, 1), cex=cex)
+  if(!missing(main))
+    text((sizex+1)/2, sizey+1, main, adj=c(0.5, 1), cex=cex)
   
   nrcolors   = 256
   thepalette = colorramp(col)(nrcolors)
@@ -63,7 +65,17 @@ plotPlate  = function(x, stat, main, zlim=NULL, col, device, plotfile=NULL, widt
   x0 = 1     + ((x[,jw]-1)  %% sizex)
   y0 = sizey - ((x[,jw]-1) %/% sizex)
 
-  wh <- which(!is.na(circcol))
+  switch(na.action,
+         zero = {
+           circcol[is.na(circcol)] <- thepalette[z2icol(0)]
+           wh <- 1:nrow(x)
+         }, 
+         omit = {
+         wh <- !is.na(circcol)
+         },
+         stop(paste("Invalid value of 'na.action':", na.action))
+  )
+  
   for (i in wh) {
     polygon(x = x0[i]+xc,
             y = y0[i]+yc,
@@ -83,8 +95,8 @@ plotPlate  = function(x, stat, main, zlim=NULL, col, device, plotfile=NULL, widt
   if(device %in% c("pdf", "png", "jpeg"))
     dev.off()
 
-  x0 = 1 + ((wh-1) %%  sizex)
-  y0 = 1 + ((wh-1) %/% sizex)
+  x0 = 1 + (wh-1) %%  sizex
+  y0 = 1 + (wh-1) %/% sizex
   dx = dy = 0.4
   x1 = u2px(x0-dx)
   x2 = u2px(x0+dx)

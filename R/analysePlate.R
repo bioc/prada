@@ -1,5 +1,5 @@
 ## apply a statistic to the data from each well in a given (expId, expRepeat)
-analysePlate <-  function(eid, er, stat, outdir, nrwell=96, ...) {
+analysePlate <-  function(eid, er, stat, outdir=".", nrwell=96, ...) {
   stopifnot(is.character(eid) && is.numeric(er))
   stopifnot(length(eid)==1 && length(er)==1)
   
@@ -20,7 +20,6 @@ analysePlate <-  function(eid, er, stat, outdir, nrwell=96, ...) {
   for (w in 1:nrwell) {
     rv <- do.call(stat,
                   list(x = datwh[datwh$well==w, ],
-                       plotwhat = "mkpp",
                        plotdir  = outdir,
                        crosstalk = crosstalk, ...))
     crv <- sapply(rv, class)
