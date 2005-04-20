@@ -1,6 +1,6 @@
 Package: prada
-Version: 1.2.0
-Date: 22 March 2005
+Version: 1.2.1
+Date: 20 Apr 2005
 Title: Data analysis for cell-based assays
 Author: Wolfgang Huber <w.huber@dkfz.de>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, Florian Hahne <f.hahne@dkfz.de>
 Maintainer: Florian Hahne <f.hahne@dkfz.de>

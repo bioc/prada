@@ -9,7 +9,7 @@ export("barploterrbar",  "histStack",
        "getPradaPar", "setPradaPars",
        "imageMap",
        "saveeps", "savepdf", "savepng", "savetiff",
-       "shorth", "smoothScatter",
+       "smoothScatter",
        "collectdat", "as.all", "estimateCrosstalkPlate", "estimateCrosstalkWell",
        "analysePlate", "mapSub2Plate", "splitWellName", "statWellLocfit", "getDye")
 
