@@ -1,8 +1,8 @@
-ddCt <- function(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation=NULL,filename="warning.output.txt"){
+ddCt <- function(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation=NULL,toZero=FALSE,filename="warning.output.txt"){
  withCallingHandlers({
- if (! all(c("Ct","Sample","Detector","Platename")%in% colnames(raw.table))) stop ("Your table must include columns with the following names : 'Ct','Sample','Detector','Platename'.")
-
  require(Biobase) 
+ if (! all(c("Ct","Sample","Detector","Platename")%in% colnames(raw.table))) stop ("Your table must include columns with the following names : 'Ct','Sample','Detector','Platename'.")
+ 
  aaa <- raw.table$Ct
  bbb <- raw.table$Platename
  reduced.set <- raw.table[,c("Sample","Detector")]
@@ -11,8 +11,7 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGenes,type="mean",sampl
  if (! all(calibrationSample %in% reduced.set[,1]))  stop("At least one of your reference samples is not in your table.")
  if (! type %in% c("median","mean"))                 stop("Type must be median or mean!")
 
-
- the.difference <- function(x) return (ifelse (any(is.na(x)), NA, max(diff(sort(x)))))
+ the.difference <- function(x) {if (any(is.na(x))|length(x) < 2 ) y <- NA else y <- max(diff(sort(x))); return (y)}
  sum.na         <- function(x) {sum(is.na(x))}
  unique.plate   <- function(x) {
                    if (length(unique(x))!=1) warning(paste("g-s comb. on more than one plate:",paste(unique(x),collapse=",")))
@@ -26,7 +25,8 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGenes,type="mean",sampl
   error.Ct              <- error.Ct.mad/sqrt(number.of.all - number.of.na )
  } else{
   the.Ct.values         <- tapply(aaa,reduced.set,mean,na.rm=TRUE)         # Mean
-  error.Ct.sd           <- tapply(aaa,reduced.set,sd,na.rm=TRUE)           # SD 
+  error.Ct.sd           <- tapply(aaa,reduced.set,sd,na.rm=TRUE)
+  if(toZero) error.Ct.sd[number.of.all - number.of.na==1] <- 0             # SD 
   error.Ct              <- error.Ct.sd/sqrt(number.of.all - number.of.na ) # SEM 
  }
  the.difference.values  <- tapply(aaa,reduced.set,the.difference)          # ratio long distance short distance
@@ -62,48 +62,45 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGenes,type="mean",sampl
 
  Ct.of.reference.gene       <- rowMeans(the.Ct.values[,housekeepingGenes,drop=FALSE])
  all.housekeeping.error     <- error.Ct[,housekeepingGenes,drop=FALSE]  
- not.na.per.row             <- length(housekeepingGenes) - apply(all.housekeeping.error,1,sum.na)
- error.Ct.of.reference.gene <- 1/not.na.per.row * sqrt(rowSums((all.housekeeping.error)^2))
+ HKG                        <- length(housekeepingGenes)
+ error.Ct.of.reference.gene <- 1/HKG * sqrt(rowSums((all.housekeeping.error)^2))
 
 
 #################################
 # the delta CT value and errors #
 #################################
  
- dCt         <- the.Ct.values - Ct.of.reference.gene
+   dCt         <- the.Ct.values - Ct.of.reference.gene
+   the.hkg.c   <- matrix(1, ncol=ncol(the.Ct.values),nrow=nrow(the.Ct.values))
+   the.hkg.c[,colnames(the.Ct.values) %in% housekeepingGenes] <- 1 - 2/HKG
+   red.error   <- error.Ct^2 *the.hkg.c
+   dummy       <- red.error + (error.Ct.of.reference.gene)^2
+   dummy[the.hkg.c==-1] <- 0
+   error.dCt   <- sqrt(dummy)
  
- if(length(housekeepingGenes)==1){
-   error.dCt <- sqrt((error.Ct)^2 + (error.Ct.of.reference.gene)^2)
-   error.dCt[ ,colnames(the.Ct.values) == housekeepingGenes] <- 0
- }else{
-   the.hkg.c   <- 1 - (colnames(the.Ct.values) %in% housekeepingGenes) * 2/not.na.per.row
-   red.error   <- t( t((error.Ct)^2) *the.hkg.c)
-   error.dCt   <- sqrt(red.error + (error.Ct.of.reference.gene)^2)
-}
 #########################################################
 # dCt and error calculation for the ref samples         #
 #########################################################
-
-
- dCt.calibration.sample        <- colMeans(dCt[calibrationSample,,drop=FALSE])
- all.ref.sample.error          <- error.dCt[calibrationSample,,drop=FALSE]  
- not.na.per.col                <- length(calibrationSample) - apply(all.ref.sample.error,2,sum.na)
- error.dCt.calibration.sample  <- 1/not.na.per.col * sqrt(colSums((all.ref.sample.error)^2))
+ 
+ dCt.calibration.sample               <- colMeans(dCt[calibrationSample,,drop=FALSE],na.rm=TRUE)
+ makingNAgoaway                       <- which((is.na(dCt[calibrationSample,,drop=FALSE])))
+ all.ref.sample.error                 <- error.dCt[calibrationSample,,drop=FALSE]
+ all.ref.sample.error[makingNAgoaway] <- 0
+ CS                                   <- length(calibrationSample) -apply(dCt[calibrationSample,,drop=FALSE],2, function(x) sum(is.na(x)))
+ error.dCt.calibration.sample         <- 1/CS * sqrt(colSums((all.ref.sample.error)^2,na.rm=TRUE))
 
 #######################################
 # the delta delta CT value and errors #
 #######################################
  
- ddCt          <- t (t(dCt)-dCt.calibration.sample)
-
- if(length(calibrationSample)==1){
-   error.ddCt <- t( sqrt((t(error.dCt))^2 + (error.dCt.calibration.sample)^2))
-   error.ddCt[rownames(the.Ct.values) == calibrationSample,] <- 0
- }else{  
-   the.ref.c     <- 1 - (rownames(the.Ct.values) %in% calibrationSample) * 2/not.na.per.col
-   red.error2    <- (error.dCt)^2 *the.ref.c
-   error.ddCt    <- t(sqrt(t(red.error2) + (error.dCt.calibration.sample)^2))
- }
+ ddCt                 <- t (t(dCt)-dCt.calibration.sample)
+ the.cs.c             <- matrix(1, ncol=ncol(the.Ct.values),nrow=nrow(the.Ct.values))
+ the.cs.c[rownames(the.Ct.values) %in% calibrationSample,] <- 1 - 2/CS
+ red.error2           <- error.dCt^2 * the.cs.c
+ dummy2               <- t(red.error2) + error.dCt.calibration.sample^2
+ dummy2[t(the.cs.c==-1)] <- 0
+ error.ddCt           <- t(sqrt(dummy2))
+                  
 
 ##########################
 # level values and error #
@@ -119,10 +116,14 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGenes,type="mean",sampl
 ##############################
 
  cali <- rownames(ddCt) %in% calibrationSample
- names(cali) <-rownames(ddCt) 
+ Samplenames <- rownames(ddCt) 
+ names(cali) <-Samplenames 
 
-     a  <- new("phenoData", pData=data.frame(Calibrator=cali), varLabels=list(Calibrator="given by user"))
- result <- new("eSet",      eList=list(exprs = t(the.level),
+ a  <- new("phenoData", pData=data.frame(Name=Samplenames,Calibrator=cali), varLabels=list(Name="given by user",Calibrator="given by user"))
+
+ md <- data.frame(name = c("exprs","level.err","Ct","Ct.error","dCt","dCt.error","ddCt","ddCt.error","Difference","numberNA","number","Plate"))
+ 
+ theList <- new("exprList", .Data=list(exprs = t(the.level),
                                   level.err  = t(the.level.error),
                                   Ct         = t(the.Ct.values),
                                   Ct.error   = t(error.Ct),
@@ -133,14 +134,18 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGenes,type="mean",sampl
                                   Difference = t(the.difference.values),
                                   numberNA   = t(number.of.na),
                                   number     = t(number.of.all),
-                                  Plate      = t(the.plate)),
-                             phenoData  = a)
+                                  Plate      = t(the.plate)),eMetadata = md)
+
+                             
+ result <- new("eSet",eList=theList,phenoData  = a)
  
  if (! is.null(sampleInformation)) {
    if( !("Sample" %in% colnames(pData(sampleInformation)))) stop("Your phenoData must contain a column named 'Sample'.")
    the.match <- match(rownames(pData(result)),as.character(pData(sampleInformation)$Sample))
+   
    pData(result) <- cbind(pData(result),pData(sampleInformation)[the.match,colnames(pData(sampleInformation))!="Sample"])
    phenoData(result)@varLabels<- c(varLabels(phenoData(result)),varLabels(sampleInformation)[names(varLabels(sampleInformation))!="Sample"])
+   colnames(pData(result)) <- names(phenoData(result)@varLabels)
  }
 
 

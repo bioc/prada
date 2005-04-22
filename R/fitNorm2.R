@@ -1,7 +1,7 @@
 fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise) {
 
   require(rrcov)
-  require(MASS)
+  #require(MASS)
 
   if (!(is.matrix(x) && ncol(x)==2)){
     if (!length(x)==length(y) || !is.numeric(x) || !is.numeric(y))

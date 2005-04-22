@@ -1,3 +1,4 @@
+## Class definitions
 setClass("cytoFrame",
   representation(exprs="matrix",
                  description="character"),
@@ -7,6 +8,29 @@ setClass("cytoFrame",
    is.matrix(object@exprs)&&is.character(object@description)
  })
 
+setClass("cytoSet",
+  representation(frames="environment",
+                 phenoData="phenoData",
+                 colnames="character"),
+  prototype=list(frames=new.env(),
+                 phenoData=new("phenoData",
+                   pData=data.frame(name=I(character(0))),
+                   varLabels=list(name="Name in frame")),
+                 colnames=character(0)),
+  validity=function(object){
+    nc <- length(colnames(object))
+    is(object@phenoData, "phenoData") &&
+    is(object@colnames, "character") &&
+    is(object@frames, "environment") &&
+    "name" %in% colnames(pData(object@phenoData)) &&
+    setequal(ls(object@frames, all.names=TRUE), object@phenoData$name) &&
+    all(sapply(ls(object@frames, all.names=TRUE), function(x)
+      { fr <- get(x, envir=object@frames, inherits=FALSE)
+        is(fr, "cytoFrame") && is.null(colnames(fr))  &&
+        ncol(exprs(fr))==nc } ))
+  })
+
+############################################################################
 ## Generic functions
 if(!isGeneric("colnames<-"))
   setGeneric("colnames<-", function(x, value)
@@ -35,7 +59,10 @@ if(!isGeneric("colnames"))
 ##
 ##if(!isGeneric("length"))
 ##  setGeneric("length", function(x)
-##    standardGeneric("colnames"))
+##   standardGeneric("colnames"))
+
+######################################################################
+## formal methods
 
 ## accessor methods for slots exprs and description
 setMethod("exprs",
@@ -113,27 +140,6 @@ setMethod("[",
 ##  x
 ##  })
 
-setClass("cytoSet",
-  representation(frames="environment",
-                 phenoData="phenoData",
-                 colnames="character"),
-  prototype=list(frames=new.env(),
-                 phenoData=new("phenoData",
-                   pData=data.frame(name=I(character(0))),
-                   varLabels=list(name="Name in frame")),
-                 colnames=character(0)),
-  validity=function(object){
-    nc <- length(colnames(object))
-    is(object@phenoData, "phenoData") &&
-    is(object@colnames, "character") &&
-    is(object@frames, "environment") &&
-    "name" %in% colnames(pData(object@phenoData)) &&
-    setequal(ls(object@frames, all.names=TRUE), object@phenoData$name) &&
-    all(sapply(ls(object@frames, all.names=TRUE), function(x)
-      { fr <- get(x, envir=object@frames, inherits=FALSE)
-        is(fr, "cytoFrame") && is.null(colnames(fr))  &&
-        ncol(exprs(fr))==nc } ))
-  })
 
 setMethod("[",
   signature="cytoSet",
