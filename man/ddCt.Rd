@@ -1,9 +1,9 @@
 \name{ddCt}
 \alias{ddCt}
-\title{Apply the ddCt method for a given data set (with or without efficiencies}
+\title{Apply the ddCt method for a given data set}
 \description{Apply the ddCt method for a given data set}
 \usage{
-ddCt(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation=NULL,filename="warning.output.txt")
+ddCt(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation=NULL,toZero=FALSE,filename="warning.output.txt")
 }
 
 \arguments{
@@ -18,6 +18,8 @@ ddCt(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation
     warnings should be stored in.}
   \item{type}{character of length 1. `mean` or `median`- which method should be used for the
     aggregation of the repicates}
+   \item{toZero}{boolean - if there is only one replication should the error be
+    treated as zero ? (only if 'type' is mean)}
 }
 
 \details{Please see vignette 'How to apply the ddCt method' in the ddCt
