@@ -13,7 +13,7 @@ export("analysePlate", "as.all",
 importFrom("KernSmooth", "bkde2D")
 importFrom("RColorBrewer", "brewer.pal")
 importFrom("utils", "getFromNamespace", "assignInNamespace")
-importFrom("MASS", "cov.rob")
+importFrom("MASS", "cov.rob") 
 S3method("$", "cytoFrame")
 exportClasses("cytoFrame", "cytoSet")
 exportMethods("colnames", "colnames<-",

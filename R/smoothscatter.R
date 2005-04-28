@@ -34,7 +34,7 @@ smoothScatter <- function(x, y,
                           transformation=function(x) x^.25,
                           xlab, ylab, ...) {
   
-  require(geneplotter)
+  #require(geneplotter)
   #require(RColorBrewer)
   if (!is.numeric(nrpoints) | (nrpoints < 0) | (length(nrpoints) > 1) )
     stop("'nrpoints' should be integer or inf")
@@ -82,7 +82,7 @@ densCols <- function(x, y,
                      bandwidth,
                      colramp=colorRampPalette(brewer.pal(9, "YlGnBu")[-(1:3)])) {
 
-  require(geneplotter)
+  #require(geneplotter)
   #require(RColorBrewer)
   ## create density map 
   x    <- .pradaMakeX(x, y)

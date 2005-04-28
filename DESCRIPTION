@@ -1,13 +1,14 @@
 Package: prada
-Version: 1.2-2
-Date: 2005-04-21
+Version: 1.2-3
+Date: 2005-04-28
 Title: Data analysis for cell-based functional assays
 Author: Wolfgang Huber <w.huber@dkfz.de>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, 
  Florian Hahne <f.hahne@dkfz.de>
 Maintainer: Florian Hahne <f.hahne@dkfz.de>
-Depends: R (>= 1.9.1), Biobase
-Suggests: rrcov, geneplotter
+Depends: R (>= 2.1.0), Biobase, RColorBrewer
+Suggests: rrcov
 Imports: MASS, KernSmooth, RColorBrewer
+LazyLoad: true
 Description: Tools for analysing and navigating data from high-throughput phenotyping experiments 
  based on cellular assays and fluorescent detection (flow cytometry (FACS), high-content screening 
  microscopy).
