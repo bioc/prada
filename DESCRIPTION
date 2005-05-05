@@ -1,9 +1,8 @@
 Package: prada
-Version: 1.2-3
-Date: 2005-04-28
+Version: 1.3.0
+Date: 2005-05-04
 Title: Data analysis for cell-based functional assays
-Author: Wolfgang Huber <w.huber@dkfz.de>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, 
- Florian Hahne <f.hahne@dkfz.de>
+Author:  Florian Hahne <f.hahne@dkfz.de>, Wolfgang Huber <w.huber@dkfz.de>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de> 
 Maintainer: Florian Hahne <f.hahne@dkfz.de>
 Depends: R (>= 2.1.0), Biobase, RColorBrewer
 Suggests: rrcov
