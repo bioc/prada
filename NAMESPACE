@@ -1,17 +1,14 @@
 export("analysePlate", "as.all",
        "barploterrbar", "combineFrames",
        "csApply", "ddCt",
-       "densCols", "eListWrite",
+       "eListWrite",
        "fitNorm2", "getPradaPar",
        "histStack", "plotNorm2",
        "plotPlate", "readCytoSet",
        "readFCS", "readSDM",
        "removeCensored", "setPradaPars",
-       "smoothScatter", "thresholds")
+       "thresholds")
 
-
-importFrom("KernSmooth", "bkde2D")
-importFrom("RColorBrewer", "brewer.pal")
 importFrom("utils", "getFromNamespace", "assignInNamespace")
 importFrom("MASS", "cov.rob") 
 S3method("$", "cytoFrame")
