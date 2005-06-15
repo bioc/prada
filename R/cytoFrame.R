@@ -1,5 +1,7 @@
-## Class definitions
-setClass("cytoFrame",
+
+#################### Class definitions ####################################
+#cytoFrame
+setClass("cytoFrame",                
   representation(exprs="matrix",
                  description="character"),
   prototype=list(exprs=matrix(numeric(0), nrow=0, ncol=0),
@@ -8,7 +10,9 @@ setClass("cytoFrame",
    is.matrix(object@exprs)&&is.character(object@description)
  })
 
-setClass("cytoSet",
+
+#cytoSet
+setClass("cytoSet",                   
   representation(frames="environment",
                  phenoData="phenoData",
                  colnames="character"),
@@ -26,16 +30,21 @@ setClass("cytoSet",
     setequal(ls(object@frames, all.names=TRUE), object@phenoData$name) &&
     all(sapply(ls(object@frames, all.names=TRUE), function(x)
       { fr <- get(x, envir=object@frames, inherits=FALSE)
-        is(fr, "cytoFrame") && is.null(colnames(fr))  &&
+       is(fr, "cytoFrame") && is.null(colnames(fr))  &&
         ncol(exprs(fr))==nc } ))
   })
-
 ############################################################################
-## Generic functions
+
+
+
+
+############################### Generic functions ##########################
+## replace colnames
 if(!isGeneric("colnames<-"))
   setGeneric("colnames<-", function(x, value)
     standardGeneric("colnames<-"))
 
+## set colnames
 if(!isGeneric("colnames"))
   setGeneric("colnames", function(x, do.NULL=TRUE, prefix="col")
     standardGeneric("colnames"))
@@ -62,26 +71,48 @@ if(!isGeneric("colnames"))
 ##   standardGeneric("colnames"))
 
 ######################################################################
-## formal methods
 
-## accessor methods for slots exprs and description
+
+
+####################### formal methods ###############################
+## accessor method for slot exprs
 setMethod("exprs",
   signature="cytoFrame",
   definition=function(object) object@exprs,
   valueClass="matrix")
 
+## accessor method for slot description
 setMethod("description",
   signature="cytoFrame",
   definition=function(object) object@description,
   valueClass="character")
 
+## accessor method for slot colnames cytoFrame
 setMethod("colnames",
   signature="cytoFrame",
   definition=function(x, do.NULL="missing", prefix="missing")
           colnames(exprs(x)),
   valueClass="character")
 
-## replace methods
+## accessor method for slot colnames cytoSet
+setMethod("colnames",
+  signature="cytoSet",
+  definition=function(x, do.NULL="missing", prefix="missing") x@colnames,
+  valueClass="character")
+
+## accessor method for slot phenoData
+setMethod("phenoData",
+  signature="cytoSet",
+  definition=function(object) object@phenoData,
+  valueClass="phenoData")
+
+##  accessor method for slot phenoData@pData
+setMethod("pData",
+  signature="cytoSet",
+  definition=function(object) object@phenoData@pData,
+  valueClass="data.frame")
+
+## replace method for slot exprs
 setReplaceMethod("exprs",
    signature=c("cytoFrame", "matrix"),
    definition=function(object, value) {
@@ -89,6 +120,7 @@ setReplaceMethod("exprs",
      return(object)
    })
 
+## replace method for slot description
 setReplaceMethod("description",
    signature=c("cytoFrame", "character"),
    definition=function(object, value) {
@@ -96,6 +128,7 @@ setReplaceMethod("description",
      return(object)
    })
 
+## replace method for slot colnames cytoFrame
 setReplaceMethod("colnames",
   signature=c("cytoFrame", "ANY"),
   definition=function(x, value) {
@@ -103,11 +136,27 @@ setReplaceMethod("colnames",
     return(x)
   })
 
+## replace method for slot colnames cytoSet
+setReplaceMethod("colnames",
+  signature=c("cytoSet", "ANY"),
+  definition=function(x, value) {
+    x@colnames <- value
+    return(x)
+  })
+
+## replace method for slot phenoData
+setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
+  function(object, value) {
+    object@phenoData <- value
+    return(object)
+  })      
+
+
 ## the $-operator
 "$.cytoFrame" <- function(x, val)
     (description(x))[val]
 
-## show method
+## show method for cytoFrame
 setMethod("show",
   signature="cytoFrame",
   definition=function(object) {
@@ -121,6 +170,19 @@ setMethod("show",
   },
   valueClass="character")
 
+## show method for cytoSet
+setMethod("show",
+  signature="cytoSet",
+  definition=function(object) {
+  cat("cytoSet object with", length(object), "cytoFrames and",
+      "colnames\n", paste(colnames(object)), "\n")
+})
+
+## length method for cytoSet
+setMethod("length",signature(x="cytoSet"),
+          function(x) nrow(x@phenoData@pData))
+
+## subsetting method for cytoFrame
 setMethod("[",
   signature="cytoFrame",
   definition=function(x, i, j, ..., drop=FALSE) {
@@ -133,14 +195,8 @@ setMethod("[",
   },
   valueClass="cytoFrame")
 
-## FIXME: do we need this or is it odd?
-##
-## setReplaceMethod("[", "cytoFrame", function(x, i, j, ..., value) {
-##   exprs(x)[i, j, ...] <- value
-##  x
-##  })
 
-
+## subsetting method for cytoSet 2 cytoSet
 setMethod("[",
   signature="cytoSet",
   definition=function(x, i, j="missing", drop="missing") {
@@ -159,6 +215,7 @@ setMethod("[",
    },
    valueClass="cytoSet")
 
+## subsetting method for cytoSet 2 cytoFrame
 setMethod("[[",
   signature="cytoSet",
   definition=function(x, i, j="missing") {
@@ -172,8 +229,8 @@ setMethod("[[",
   },
   valueClass="cytoFrame")
 
-setReplaceMethod("[[",
-  signature=c("cytoSet"),
+## replace method for cytoSet
+setReplaceMethod("[[", signature="cytoSet",
   definition=function(x, i, j, ..., value) {
     if(!is.matrix(value))
       stop("'value' must be a matrix.")
@@ -189,48 +246,15 @@ setReplaceMethod("[[",
       i <- x@phenoData$name[i]
     theFrame <- get(i, envir=x@frames)
     exprs(theFrame) <- value
+    colnames(theFrame) <- NULL
     assign(i, theFrame, envir=x@frames, inherits=FALSE)
     return(x)
   },
-  valueClass="cytoSet")
+  valueClass="cytoFrame")
+################################################################################
 
-## show method for cytoSet
-setMethod("show",
-  signature="cytoSet",
-  definition=function(object) {
-  cat("cytoSet object with", length(object), "cytoFrames and",
-      "colnames\n", paste(colnames(object)), "\n")
-})
 
-setMethod("colnames",
-  signature="cytoSet",
-  definition=function(x, do.NULL="missing", prefix="missing") x@colnames,
-  valueClass="character")
 
-setReplaceMethod("colnames",
-  signature=c("cytoSet", "ANY"),
-  definition=function(x, value) {
-    x@colnames <- value
-    return(x)
-  })      
 
-## get and set phenoData slot of cytoSet
-setMethod("phenoData",
-  signature="cytoSet",
-  definition=function(object) object@phenoData,
-  valueClass="phenoData")
 
-setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
-  function(object, value) {
-    object@phenoData <- value
-    return(object)
-  })      
 
-## get phenoData@pData slot of cytoSet
-setMethod("pData",
-  signature="cytoSet",
-  definition=function(object) object@phenoData@pData,
-  valueClass="data.frame")
-
-setMethod("length",signature(x="cytoSet"),
-          function(x) nrow(x@phenoData@pData))
