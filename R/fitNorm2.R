@@ -21,8 +21,10 @@ fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise) {
   }
   xorig <- x
   if (!missing(noise)){
+    if(is.logical(noise))
+      noise <- which(noise)
     if (!is.numeric(noise) || length(noise) > nrow(x) || length(noise)==0)
-      stop("'noise' should be an index vector not longer than x") 
+      stop("'noise' should be an index or logical vector not longer than x") 
     x <- x[-noise,]
   }
   if (nrow(x)<50)

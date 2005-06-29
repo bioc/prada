@@ -9,7 +9,7 @@
 }
 \arguments{
   \item{x}{Numeric vector containing x-value or n by 2 matrix containing x and
-    y values.}
+    y values or object of class \code{cytoFrame}.}
   \item{y}{Numeric vector containing y-value (optional). The length of \code{x}
     must be the same as that of \code{y}.}
   \item{scalefac}{Numeric vector giving factor of standard deviations
@@ -17,8 +17,9 @@
     deviations are selected).}
   \item{method}{One of \code{covMcd} or \code{cov.rob} defining method
     used for computation of covariance matrix.}
-  \item{noise}{Numeric index vector defining value pairs in x that are
-    not used for fitting of distributions. Can be used to deal with noisy data.} 
+  \item{noise}{Numeric or logical index vector defining value pairs in x
+that are not used for fitting of distributions. Can be used to deal with
+noisy data.}
 }
 
 \details{Computes the densities of a bivariate normal distribution from

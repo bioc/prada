@@ -49,6 +49,10 @@ if(!isGeneric("colnames"))
   setGeneric("colnames", function(x, do.NULL=TRUE, prefix="col")
     standardGeneric("colnames"))
 
+## plot
+if(!isGeneric("plot"))
+  setGeneric("plot", useAsDefault=plot)
+
 ##These are already defined as generic functions in Biobase:
 ##if(!isGeneric("exprs<-"))
 ##  setGeneric("exprs<-", function(object, value)
@@ -151,6 +155,13 @@ setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
     return(object)
   })      
 
+## plot method for cytoFrames
+setMethod("plot",
+  signature(x="cytoFrame", y="missing"),
+  definition=function(x, col=densCols(exprs(x)[,1:2]), pch=20, ...){
+    values=exprs(x)
+    plot(values, col=col, pch=pch, ...)
+  })
 
 ## the $-operator
 "$.cytoFrame" <- function(x, val)

@@ -10,7 +10,10 @@ export("analysePlate", "as.all",
        "thresholds")
 
 importFrom("utils", "getFromNamespace", "assignInNamespace")
-importFrom("MASS", "cov.rob") 
+importFrom("MASS", "cov.rob")
+importFrom("geneplotter", "densCols")
+importFrom("geneplotter", "smoothScatter")
+
 S3method("$", "cytoFrame")
 exportClasses("cytoFrame", "cytoSet")
 exportMethods("colnames", "colnames<-",
@@ -18,4 +21,4 @@ exportMethods("colnames", "colnames<-",
               "exprs", "exprs<-",
               "length", "[", "[[", "[[<-",
               "pData", "phenoData", "phenoData<-",
-              "show")
+              "show", "plot")

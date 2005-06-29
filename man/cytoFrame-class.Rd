@@ -17,7 +17,10 @@
 
 \alias{show,cytoFrame-method}
 
+\alias{plot,cytoFrame,missing-method}
+
 \alias{$.cytoFrame}
+
 
 \title{'cytoFrame': a class for storing observed quantitative
   properties from a population of cells, for example from a FACS run or
@@ -35,6 +38,8 @@
 \S4method{colnames<-}{cytoFrame,ANY}(object,value)
 \S4method{show}{cytoFrame}(object)
 \S4method{[}{cytoFrame,ANY}(x, i, j, ..., drop=FALSE)
+\S4method{plot}{cytoFrame,missing}(x, ...)
+
 % \S4method{[<-}{cytoFrame,ANY,ANY,...,matrix}(x, i, j, ..., value)
 $.cytoFrame(x, val)
 }
@@ -73,6 +78,7 @@ or the function \code{\link{readFCS}}.}
 \item{exprs, exprs<-}{extract or replace the intensities.}
 \item{description, description<-}{extract or replace the description.}
 \item{show}{display summary.}
+\item{plot}{scatterplot for \code{cytoFrame} objects.}
 }}
 
 \details{
@@ -95,6 +101,8 @@ description(a)
 dim(exprs(a))           
 
 a[1:3, -4]
+
+plot(a)
 
 }
 \keyword{classes}

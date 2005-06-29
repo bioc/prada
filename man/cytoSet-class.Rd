@@ -122,6 +122,8 @@ cset[1:3]
 
 cset[[1]] <- exprs(cset[[1]])[1:100, ]
 
+plot(cset[[2]])
+
 }
 \keyword{classes}
 
