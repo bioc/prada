@@ -12,8 +12,9 @@ fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise) {
 
   if(!require(rrcov))
     stop("Required package rrcov could not be found.")
-  #require(MASS)
-
+  if(is(x, "cytoFrame"))
+    x <- exprs(x)[,1:2]
+    
   if (!(is.matrix(x) && ncol(x)==2)){
     if (!length(x)==length(y) || !is.numeric(x) || !is.numeric(y))
       stop("'x' and 'y' must be numeric vectors of equal length")
