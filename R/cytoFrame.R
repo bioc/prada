@@ -3,11 +3,13 @@
 #cytoFrame
 setClass("cytoFrame",                
   representation(exprs="matrix",
-                 description="character"),
+                 description="character",
+                 well="integer"),
   prototype=list(exprs=matrix(numeric(0), nrow=0, ncol=0),
-                 description=c(note="empty")),
+                 description=c(note="empty"), well=as.integer(1)),
  validity=function(object){
-   is.matrix(object@exprs)&&is.character(object@description)
+   is.matrix(object@exprs)&&is.character(object@description)&&
+   is.integer(object@well)&&length(object@well)==1
  })
 
 
