@@ -46,7 +46,10 @@ readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t",
         stop(paste(files[f], "has different 'colnames' than previously read files."))
     }
     colnames(x) <- NULL
-    x@well <- as.integer(f)
+    if("well.number" %in% colnames(pData(phenoData)))
+      x@well <- as.integer(pData(phenoData)[f,"well.number"])
+    else
+      x@well <- as.integer(f)
     assign(files[f], x, envir=env, inherits=FALSE)
   }
 
