@@ -50,8 +50,8 @@ plotPlate <- function (x, nrow = 8, ncol = 12, ind = 1: (ncol*nrow), main,
   ## units 2 pixel 
   xlim = c(0, ncol + 1)
   ylim = c(0, nrow + 1)
-  fw = diff(xlim)+(0.1*diff(xlim))
-  fh = diff(ylim)+(0.1*diff(ylim))
+  fw = diff(xlim)/0.9
+  fh = diff(ylim)/0.9
   u2px = function(x) (x - xlim[1])/fw * width
   u2py = function(y) (y - ylim[1])/fh * height
 
@@ -88,7 +88,7 @@ plotPlate <- function (x, nrow = 8, ncol = 12, ind = 1: (ncol*nrow), main,
   
   ## create grid graphic
   vp1 <- viewport(width=0.9, x=0, just="left") 
-  vp2 <- viewport(width=0.15, x=0.9, just="left")
+  vp2 <- viewport(width=0.1, x=0.9, just="left")
   pushViewport(vp2)
   vp3 <- viewport(height=0.85, width=0.8)
   pushViewport(vp3)
@@ -114,8 +114,8 @@ plotPlate <- function (x, nrow = 8, ncol = 12, ind = 1: (ncol*nrow), main,
   vp5 <- viewport(height=0.9, y=0, just="bottom", xscale=c(0, ncol+1),
                   yscale=c(0, nrow+1))
   pushViewport(vp5)
-  grid.rect(width=unit(1-(1/(ncol+1)), "npc"), height=unit(1-(1/(nrow+1)), "npc"),
-            x=unit(1/(ncol+1), "npc"), y=unit(1/(nrow+1), "npc"),
+  grid.rect(width=unit(1-(1/(ncol+1)), "npc"), height=unit(1-(1/(nrow+1)),
+            "npc"), x=unit(1/(ncol+1), "npc"), y=unit(1/(nrow+1), "npc"),
             just=c("left","bottom"))
   radius = 0.5  
   x0 = (1 + (0:(nrwell - 1))%%ncol) + radius
@@ -150,7 +150,7 @@ plotPlate <- function (x, nrow = 8, ncol = 12, ind = 1: (ncol*nrow), main,
   if (device %in% c("pdf", "png", "jpeg"))
     dev.off()
   x0 = 1.5 + (wh - 1)%%ncol
-  y0 = 1.5 + (wh - 1)%/%ncol
+  y0 = 0.1 * diff(ylim) + 0.6 + (wh - 1)%/%ncol
   dx = dy = 0.4
   x1 = u2px(x0 - dx)
   x2 = u2px(x0 + dx)
