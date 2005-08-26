@@ -1,5 +1,6 @@
 plotNorm2 <- function(fn, colrange=c("gray82", "blue"), center=TRUE,
-                      selection=FALSE, ellipse=FALSE, pch=20, cex=1, ...) {
+                      selection=FALSE, ellipse=FALSE, pch=20, cex=1,
+                      col="dens", ...) {
 
   #require(geneplotter)
   
@@ -20,23 +21,30 @@ plotNorm2 <- function(fn, colrange=c("gray82", "blue"), center=TRUE,
     res[res < 1       ] <- 1
     return(res)
   }
-  
-  cols <- palette[z2icol(fn$p)]
+
+  if(is.character(col))
+  col <- switch(col,
+                dens = densCols(fn$data),
+                prob = palette[z2icol(fn$p)],
+                col)
+         
+    
+  #cols <- palette[z2icol(fn$p)]
 
   ## produce plot
   if(ellipse){
     plot(fn$data, type="n", pch=pch, cex=cex, ...)
     ell <- .addEllipse(S=fn$S, mu=fn$mu, rad=fn$scalefac)
-    points(fn$data, col=cols, pch=pch, cex=cex)
+    points(fn$data, col=col, pch=pch, cex=cex)
     lines(ell)
   }
-  else plot(fn$data, col=cols, pch=pch, cex=cex, ...)
+  else plot(fn$data, col=col, pch=pch, cex=cex, ...)
 
   if(center)
     points(fn$mu[1], fn$mu[2], pch=4, col="red", cex=2)
 
   if(selection)
-    points(fn$data[!fn$sel,], pch=".", col="red")
+    points(fn$data[!fn$sel,], pch=".", cex=2, col="red")
 }
 
 .addEllipse <- function (S, mu, rad, ...){

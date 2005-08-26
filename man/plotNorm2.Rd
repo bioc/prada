@@ -6,7 +6,7 @@
 }
 \usage{
 plotNorm2(fn, colrange=c("gray82", "blue"), center=TRUE, selection=FALSE,
-                      ellipse=FALSE, pch=20, cex=1, ...)
+                      ellipse=FALSE, pch=20, cex=1, col="dens", ...)
 }
 \arguments{
   \item{fn}{List. Object derived from  function
@@ -19,6 +19,9 @@ plotNorm2(fn, colrange=c("gray82", "blue"), center=TRUE, selection=FALSE,
   \item{ellipse}{Logical. Plot area and borders of selection as ellipse.}
   \item{pch}{see \code{par}}
   \item{cex}{see \code{par}}
+  \item{col}{see \code{par} or special cases \code{dens} for coloring
+    according to density and \code{prob} for coloring according to
+    probability.}
   \item{...}{further arguments that are passed on to \code{plot}.}
 }
 

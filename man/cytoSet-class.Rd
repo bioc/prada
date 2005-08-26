@@ -1,19 +1,14 @@
 \name{cytoSet-class}
 \docType{class}
-
 \alias{cytoSet-class}
-
 \alias{[,cytoSet-method}
 \alias{[[,cytoSet-method}
 \alias{[[<-,cytoSet-method}
-
 \alias{show,cytoSet-method}
 \alias{length,cytoSet-method}
 \alias{pData,cytoSet-method}
-
 \alias{colnames,cytoSet-method}
 \alias{colnames<-,cytoSet-method}
-
 \alias{phenoData,cytoSet-method}
 \alias{phenoData<-,cytoSet,phenoData-method}
 
@@ -23,22 +18,22 @@ a quantitative cell-based assay}
 \description{This class is a container for a set of
   \code{\link[cytoFrame-class]{cytoFrame}} objects}
 
-\usage{
-\S4method{phenoData}{cytoSet}(object)
-\S4method{phenoData<-}{cytoSet,ANY}(object,value)
-\S4method{pData}{cytoSet}(object)
-\S4method{colnames}{cytoSet}(object)
-\S4method{colnames<-}{cytoSet,ANY}(object,value)
-\S4method{show}{cytoSet}(object)
-\S4method{[}{cytoSet,ANY}(x, i)
-\S4method{[[}{cytoSet,ANY}(x, i)
-}
+%\usage{
+%\S4method{phenoData}{cytoSet}(object)
+%\S4method{phenoData<-}{cytoSet,ANY}(object,value)
+%\S4method{pData}{cytoSet}(object)
+%\S4method{colnames}{cytoSet}(object)
+%\S4method{colnames<-}{cytoSet,ANY}(object,value)
+%\S4method{show}{cytoSet}(object)
+%\S4method{[}{cytoSet,ANY}(x, i)
+%\S4method{[[}{cytoSet,ANY}(x, i)
+%}
 
-\arguments{
-\item{object,x}{Objects of class \code{cytoSet}.}
-\item{value}{Replacement value.}
-\item{i}{Index.}
-}
+%\arguments{
+%\item{object,x}{Objects of class \code{cytoSet}.}
+%\item{value}{Replacement value.}
+%\item{i}{Index.}
+%}
 
 \section{Creating Objects}{
 Objects can be created using the function

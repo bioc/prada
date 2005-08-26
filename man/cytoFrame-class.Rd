@@ -1,24 +1,15 @@
 \name{cytoFrame-class}
 \docType{class}
-
 \alias{cytoFrame-class}
-
 \alias{[,cytoFrame-method}
-% \alias{[<-,cytoFrame-method}
-
 \alias{description,cytoFrame-method}
 \alias{description<-,cytoFrame,character-method}
-
 \alias{exprs,cytoFrame-method}
 \alias{exprs<-,cytoFrame,matrix-method}
-
 \alias{colnames,cytoFrame-method}
 \alias{colnames<-,cytoFrame-method}
-
 \alias{show,cytoFrame-method}
-
 \alias{plot,cytoFrame,missing-method}
-
 \alias{$.cytoFrame}
 
 
@@ -29,28 +20,26 @@
 \description{This class represents the data contained in a
   FCS 3.0 file or similar data structures.}
 
-\usage{
-\S4method{exprs}{cytoFrame}(object)
-\S4method{exprs<-}{cytoFrame,matrix}(object,value)
-\S4method{description}{cytoFrame}(object)
-\S4method{description<-}{cytoFrame,character}(object,value)
-\S4method{colnames}{cytoFrame}(object)
-\S4method{colnames<-}{cytoFrame,ANY}(object,value)
-\S4method{show}{cytoFrame}(object)
-\S4method{[}{cytoFrame,ANY}(x, i, j, ..., drop=FALSE)
-\S4method{plot}{cytoFrame,missing}(x, ...)
-
+%\usage{
+%\S4method{exprs}{cytoFrame}(object)
+%\S4method{exprs<-}{cytoFrame,matrix}(object,value)
+%\S4method{description}{cytoFrame}(object)
+%\S4method{description<-}{cytoFrame,character}(object,value)
+%\S4method{colnames}{cytoFrame}(object)
+%\S4method{colnames<-}{cytoFrame,ANY}(object,value)
+%\S4method{show}{cytoFrame}(object)
+%\S4method{[}{cytoFrame,ANY}(x, i, j, ..., drop=FALSE)
+%\S4method{plot}{cytoFrame,missing}(x, ...)
 % \S4method{[<-}{cytoFrame,ANY,ANY,...,matrix}(x, i, j, ..., value)
-$.cytoFrame(x, val)
-}
+%$.cytoFrame(x, val)
+%}
 
-\arguments{
-\item{object,x}{Objects of class \code{cytoFrame}.}
-\item{value}{Replacement value.}
-\item{i,j}{Indices.}
-\item{...}{Further arguments that get passed on.}
-}
-
+%\arguments{
+%\item{object,x}{Objects of class \code{cytoFrame}.}
+%\item{value}{Replacement value.}
+%\item{i,j}{Indices.}
+%\item{...}{Further arguments that get passed on.}
+%}
 
 \section{Creating Objects}{
 Objects can be created using\cr
