@@ -123,21 +123,37 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGenes,type="mean",sampl
 
  md <- data.frame(name = c("exprs","level.err","Ct","Ct.error","dCt","dCt.error","ddCt","ddCt.error","Difference","numberNA","number","Plate"))
  
- theList <- new("exprList", .Data=list(exprs = t(the.level),
-                                  level.err  = t(the.level.error),
-                                  Ct         = t(the.Ct.values),
-                                  Ct.error   = t(error.Ct),
-                                  dCt        = t(dCt),
-                                  dCt.error  = t(error.dCt),
-                                  ddCt       = t(ddCt),
-                                  ddCt.error = t(error.ddCt),
-                                  Difference = t(the.difference.values),
-                                  numberNA   = t(number.of.na),
-                                  number     = t(number.of.all),
-                                  Plate      = t(the.plate)),eMetadata = md)
+ #theList <- new("exprList", .Data=list(exprs = t(the.level),
+ #                                 level.err  = t(the.level.error),
+ #                                 Ct         = t(the.Ct.values),
+ #                                 Ct.error   = t(error.Ct),
+ #                                 dCt        = t(dCt),
+ #                                 dCt.error  = t(error.dCt),
+ #                                 ddCt       = t(ddCt),
+#                                  ddCt.error = t(error.ddCt),
+  #                                Difference = t(the.difference.values),
+  #                                numberNA   = t(number.of.na),
+  #                                number     = t(number.of.all),
+  #                                Plate      = t(the.plate)),eMetadata = md)
+#
 
-                             
- result <- new("eSet",eList=theList,phenoData  = a)
+theList <- list(exprs = t(the.level),
+                level.err  = t(the.level.error),
+                Ct         = t(the.Ct.values),
+                Ct.error   = t(error.Ct),
+                dCt        = t(dCt),
+                dCt.error  = t(error.dCt),
+                ddCt       = t(ddCt),
+                ddCt.error = t(error.ddCt),
+                Difference = t(the.difference.values),
+                numberNA   = t(number.of.na),
+                number     = t(number.of.all),
+                Plate      = t(the.plate))
+
+ result <- new("eSet",assayData=theList,
+                      phenoData  = a,
+                      sampleNames= rownames(pData(a)),
+                      reporterNames =colnames(the.level))
  
  if (! is.null(sampleInformation)) {
    if( !("Sample" %in% colnames(pData(sampleInformation)))) stop("Your phenoData must contain a column named 'Sample'.")

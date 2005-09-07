@@ -26,8 +26,8 @@ ddCt(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation
   package for details.}
 
 \value{A an object of class
-  \code{\link[Bioconductor:eSet-class]{eSet}}. Its eList
-  has the following names: exprs(the level), level.err,
+  \code{\link[Bioconductor:eSet-class]{eSet}}. The assayData
+  has the following components: exprs(the level), level.err,
   Ct, Ct.error, dCt, dCt.error, ddCt, ddCt.error, Difference,
   number\_NA, number, Plate.}
 

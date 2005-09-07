@@ -1,8 +1,8 @@
 Package: prada
-Version: 1.4.8
-Date: 03. September 2005
+Version: 1.4.9
+Date: 07. September 2005
 Title: Data analysis for cell-based functional assays
-Author:  Florian Hahne <f.hahne@dkfz.de>, Wolfgang Huber <w.huber@dkfz.de>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de> 
+Author:  Florian Hahne <f.hahne@dkfz.de>, Wolfgang Huber <w.huber@dkfz.de>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, Joern Toedling <toedling@ebi.ac.uk>
 Maintainer: Florian Hahne <f.hahne@dkfz.de>
 Depends: R (>= 2.1.0), Biobase, RColorBrewer, grid
 Suggests: rrcov
@@ -13,4 +13,4 @@ Description: Tools for analysing and navigating data from high-throughput phenot
  microscopy).
 License: LPGL
 URL: http://www.dkfz.de/mga/whuber, http://www.dkfz.de/LIFEdb
-biocViews: CellBasedAssays
+biocViews: CellBasedAssays, Visualization

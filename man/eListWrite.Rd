@@ -1,7 +1,7 @@
 \name{eListWrite}
 \alias{eListWrite}
 \title{Write the eList}
-\description{Writes the values of the eList of an eSet to a file}
+\description{Writes the values of the assayData list of an eSet to a file}
 \usage{
 eListWrite(x,...)
 }
@@ -10,8 +10,8 @@ eListWrite(x,...)
   \item{...}{additional arguments passed to write.table.}
 }
 
-\details{The values of the eList of \code{x} are extracted and written
-  to a file with write.table.}
+\details{The values of the assayData list of \code{x} are extracted and written
+  to a file with write.table. assayData of x must be a list.}
 
 \value{A an object of class}
 
