@@ -7,7 +7,11 @@ export("analysePlate", "as.all",
        "plotPlate", "readCytoSet",
        "readFCS", "readSDM",
        "removeCensored", "setPradaPars",
-       "thresholds")
+       "thresholds", "gatePoints",
+       "threePanelPlot", "gate.matrix",
+       "gate.cytoFrame",
+       "gate.cytoSet", "plot.matrixGate",
+       "plot.cytoFrameGate", "plot.cytoSetGate")
 
 importFrom("utils", "getFromNamespace", "assignInNamespace")
 importFrom("MASS", "cov.rob")
