@@ -76,10 +76,14 @@ well. It is intended to be use as an argument to a subsequent call to
 \keyword{hplot}
 
 \examples{
+if(capabilities("X11") || options("device")=="windows"){
+
 plotPlate(runif(96), main="example 1", col=c("#0000e0", "#e00000"), width=7, desc=c("act", "inh"))
 plotPlate(runif(384), nrow=16, ncol=24, main="example 2", col=c("#0000e0", "white", "#e00000"), width=7)
 plotPlate(runif(48), main="example 3", col=c("#0000e0", "#e00000"), width=7, ind=c(1:24, 73:96))
 x <- runif(96)
 x[sample(96, 10)] <- NA
-plotPlate(x, main="example 4", col=c("#0000e0", "#e00000"), width=7, char=c(rep(NA, 72), LETTERS[1:24]), na.action="xout")
+plotPlate(x, main="example 4", col=c("#0000e0", "#e00000"), width=7,
+char=c(rep(NA, 72), LETTERS[1:24]), na.action="xout")
+}
 }
