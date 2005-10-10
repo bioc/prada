@@ -33,7 +33,7 @@ threePanelPlot(data, x.panels = c(1, 4, 5), y.panels = c(2, 3, 6),
     theoretical \code{limits}) to be removed before plotting}
   \item{plotTitle}{title for the plot}
   \item{use.smoothScatter}{logical, should the function
-    \code{\link{smoothScatter}} be employed for plotting the data
+    \code{\link[geneplotter]{smoothScatter}} be employed for plotting the data
     (plots data densities rather than individual points)}
   \item{palette}{if \code{smoothScatter} is used, which colour palette
     is it to use}

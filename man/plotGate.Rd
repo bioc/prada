@@ -29,7 +29,7 @@ plot.cytoFrameGate(x, y, x.panels = c(1, 4, 5), y.panels = c(2, 3, 6),
   \item{y.panels}{which variables (columns) are to be plotted at the
     y-axis of the three variables}
   \item{use.smoothScatter}{logical, should the function
-    \code{\link{smoothScatter}} be employed for plotting the data
+    \code{\link[geneplotter]{smoothScatter}} be employed for plotting the data
     (plots data densities rather than individual points)}
   \item{limits}{minimum and maximum value (theoretically) observed in
     the data; e.g., with 10-channel digitized data it is c(0,1023)}

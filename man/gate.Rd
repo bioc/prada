@@ -23,7 +23,7 @@ my.gate <- gate.cytoFrame(object, gate.colour = "red",
     data, from which observations are to be selected by gating}
   \item{gate.colour}{colour of the drawn polygons}
   \item{use.smoothScatter}{logical, should the function
-    \code{\link{smoothScatter}} be employed for plotting the data
+    \code{\link[geneplotter]{smoothScatter}} be employed for plotting the data
     (plots data densities rather than individual points)}
   \item{data.min}{minimum value to (theoretically occur in the data;
     e.g. with 10-channel-digitized data, it is 0}
