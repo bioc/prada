@@ -1,5 +1,5 @@
 Package: prada
-Version: 1.4.10
+Version: 1.4.11
 Date: 30. September 2005
 Title: Data analysis for cell-based functional assays
 Author:  Florian Hahne <f.hahne@dkfz.de>, Wolfgang Huber <w.huber@dkfz.de>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, Joern Toedling <toedling@ebi.ac.uk>
@@ -14,3 +14,4 @@ Description: Tools for analysing and navigating data from high-throughput phenot
 License: LPGL
 URL: http://www.dkfz.de/mga/whuber, http://www.dkfz.de/LIFEdb
 biocViews: CellBasedAssays, Visualization
+SaveImage: yes
