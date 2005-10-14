@@ -43,7 +43,7 @@ plotNorm2(fn, colrange=c("gray82", "blue"), center=TRUE, selection=FALSE,
 \keyword{}
 \examples{
  sampdat <- readFCS(system.file("extdata",
-   "fas Bcl2 plate323-04-04.A01", package="prada"))
+   "fas-Bcl2-plate323-04-04.A01", package="prada"))
  nfit   <- fitNorm2(exprs(sampdat[,1:2]), scalefac=2)
  plotNorm2(nfit, selection=TRUE, ellipse=TRUE)
 }

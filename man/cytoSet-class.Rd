@@ -111,8 +111,8 @@ cset<-readCytoSet(path=system.file("extdata", package="prada"),
 cset
 pData(cset)
 cset[[1]]
-cset[["fas Bcl2 plate323-04-04.A02"]]
-cset["fas Bcl2 plate323-04-04.A02"]
+cset[["fas-Bcl2-plate323-04-04.A02"]]
+cset["fas-Bcl2-plate323-04-04.A02"]
 cset[1:3]
 
 cset[[1]] <- exprs(cset[[1]])[1:100, ]

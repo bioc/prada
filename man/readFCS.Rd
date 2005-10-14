@@ -26,7 +26,7 @@ please let me know.
 \seealso{\code{\link{readFCSdata}}}
 
 \examples{
-sampdat <- readFCS(system.file("extdata", "fas Bcl2 plate323-04-04.A01",
+sampdat <- readFCS(system.file("extdata", "fas-Bcl2-plate323-04-04.A01",
                                package="prada"))
 sampdat
 exprs(sampdat[1:3,])
