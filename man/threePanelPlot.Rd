@@ -55,7 +55,7 @@ threePanelPlot(data, x.panels = c(1, 4, 5), y.panels = c(2, 3, 6),
 %\references{ ~put references to the literature/web site here ~ }
 \author{Joern Toedling \email{toedling@ebi.ac.uk}}
 %\note{ ~~further notes~~ }
-\seealso{\code{\link{plot.default}}}
+\seealso{\code{\link[base]{plot.default}}}
 \examples{
    # generate some data:
    toyData <- cbind(matrix(pmax(0,pmin(runif(3000)+rnorm(3000),4)),ncol=3),

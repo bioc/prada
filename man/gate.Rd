@@ -61,8 +61,8 @@ my.gate <- gate.cytoFrame(object, gate.colour = "red",
 }
 %\references{ ~put references to the literature/web site here ~ }
 \author{Joern Toedling \email{toedling@ebi.ac.uk}}
-\seealso{Classes \code{\link{cytoFrame-class}},
-  \code{\link{cytoSet-class}}, \code{\link{plot.cytoFrameGate}} for
+\seealso{Classes \code{\link[prada]{cytoFrame-class}},
+  \code{\link[prada]{cytoSet-class}}, \code{\link[prada]{plot.cytoFrameGate}} for
   plotting}
 \examples{
   \dontrun{

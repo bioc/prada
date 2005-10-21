@@ -8,7 +8,7 @@
 \arguments{
   \item{files}{Optional character vector with filenames}
   \item{path}{Directory where to look for the files}
-  \item{pattern}{This argument is passed on to \code{\link{dir}} (see
+  \item{pattern}{This argument is passed on to \code{\link[base]{dir}} (see
     details). }
   \item{phenoData}{Either an object of class \code{phenoData} or 
     \code{character}.}
@@ -43,7 +43,7 @@
 \value{An object of class \code{\link[cytoSet-class]{cytoSet}}.}
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
-\seealso{\code{\link{readFCSdata}}}
+\seealso{\code{\link[prada]{readFCSdata}}}
 
 \examples{
 ## Please see man page for cytoSet-class

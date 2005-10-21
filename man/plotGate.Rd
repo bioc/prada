@@ -9,7 +9,7 @@
   This functions visualize which observations are included in gates
   defined by the functions \code{gate.cytoFrame}, \code{gate.cytoSet},
   and \code{gate.matrix}. The make use of the visualization function
-  \code{\link{threePanelPlot}} .
+  \code{\link[prada]{threePanelPlot}} .
 }
 \usage{
 plot.cytoFrameGate(x, y, x.panels = c(1, 4, 5), y.panels = c(2, 3, 6),
@@ -20,7 +20,7 @@ plot.cytoFrameGate(x, y, x.panels = c(1, 4, 5), y.panels = c(2, 3, 6),
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{gate resulting, e.g.,  from function
-    \code{\link{gate.cytoFrame}}; thus \code{x} is of class
+    \code{\link[prada]{gate.cytoFrame}}; thus \code{x} is of class
       \code{cytoFrameGate} or similar}
   \item{y}{the original data used to derive gate \code{x}, thus either a
     \code{cytoFrame}, \code{cytoSet} or \code{matrix}}
@@ -50,7 +50,7 @@ plot.cytoFrameGate(x, y, x.panels = c(1, 4, 5), y.panels = c(2, 3, 6),
 %\references{ ~put references to the literature/web site here ~ }
 \author{Joern Toedling \email{toedling@ebi.ac.uk}}
 %\note{ ~~further notes~~ }
-\seealso{\code{\link{gate.cytoFrame}},\code{\link{threePanelPlot}}}
+\seealso{\code{\link[prada]{gate.cytoFrame}},\code{\link[prada]{threePanelPlot}}}
 \examples{
    # see the example in function 'gate.cytoFrame'
 }

@@ -20,13 +20,13 @@ that are not yet implemented in this function. If you need extensions,
 please let me know.
 }
 
-\value{An object of class \code{link[cytoFrame-class]{cytoFrame}}.}
+\value{An object of class \code{link[prada]{cytoFrame}}.}
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
-\seealso{\code{\link{readFCSdata}}}
+\seealso{\code{\link[prada]{readFCSdata}}}
 
 \examples{
-sampdat <- readFCS(system.file("extdata", "fas Bcl2 plate323-04-04.A01",
+sampdat <- readFCS(system.file("extdata", "fas-Bcl2-plate323-04-04.A01",
                                package="prada"))
 sampdat
 exprs(sampdat[1:3,])

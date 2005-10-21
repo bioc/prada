@@ -48,7 +48,7 @@ par(mfrow=c(1,1))
 @ 
 <<importData,results=hide>>=
 library(prada)
-sampdat <- readFCS(system.file("extdata", "fas Bcl2 plate323-04-04.A01", 
+sampdat <- readFCS(system.file("extdata", "fas-Bcl2-plate323-04-04.A01", 
                                package="prada"))
 fdat    <- exprs(sampdat)
 @ 
