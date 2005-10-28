@@ -31,7 +31,7 @@ ddCt(raw.table,calibrationSample,housekeepingGenes,type="mean",sampleInformation
   Ct, Ct.error, dCt, dCt.error, ddCt, ddCt.error, Difference,
   number\_NA, number, Plate.}
 
-\seealso{\code{\link{readSDM}},\code{\link{eListWrite}}}
+\seealso{\code{\link[prada]{readSDM}},\code{\link[prada]{eListWrite}}}
 
 \author{Markus Ruschhaupt \url{mailto:m.ruschhaupt@dkfz.de}}
 \keyword{}

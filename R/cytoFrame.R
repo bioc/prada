@@ -1,4 +1,6 @@
 
+require("Biobase")
+
 #################### Class definitions ####################################
 #cytoFrame
 setClass("cytoFrame",                
@@ -39,48 +41,26 @@ setClass("cytoSet",
 
 
 
-
 ############################### Generic functions ##########################
-## replace colnames
+##These are already defined as generic functions:
+
 if(!isGeneric("colnames<-"))
-  setGeneric("colnames<-", function(x, value)
-    standardGeneric("colnames<-"))
+  setGeneric("colnames<-",    function(x, value) standardGeneric("colnames<-"))
 
-## set colnames
 if(!isGeneric("colnames"))
-  setGeneric("colnames", function(x, do.NULL=TRUE, prefix="col")
-    standardGeneric("colnames"))
+  setGeneric("colnames",      function(x, do.NULL=TRUE, prefix="col") standardGeneric("colnames"))
 
-## plot
 if(!isGeneric("plot"))
-  setGeneric("plot", useAsDefault=plot)
+  setGeneric("plot",          useAsDefault=plot)
 
-##These are already defined as generic functions in Biobase:
-##if(!isGeneric("exprs<-"))
-##  setGeneric("exprs<-", function(object, value)
-##    standardGeneric("exprs<-"))
-##
-##if(!isGeneric("exprs"))
-##  setGeneric("exprs", function(object)
-##    standardGeneric("exprs"))
-##
-##if(!isGeneric("description<-"))
-##  setGeneric("description<-", function(object, value)
-##    standardGeneric("description<-"))
-##
-##if(!isGeneric("description"))
-##  setGeneric("description", function(object)
-##    standardGeneric("description"))
-##
-##if(!isGeneric("length"))
-##  setGeneric("length", function(x)
-##   standardGeneric("colnames"))
 
 ######################################################################
 
 
 
 ####################### formal methods ###############################
+
+
 ## accessor method for slot exprs
 setMethod("exprs",
   signature="cytoFrame",
@@ -91,19 +71,6 @@ setMethod("exprs",
 setMethod("description",
   signature="cytoFrame",
   definition=function(object) object@description,
-  valueClass="character")
-
-## accessor method for slot colnames cytoFrame
-setMethod("colnames",
-  signature="cytoFrame",
-  definition=function(x, do.NULL="missing", prefix="missing")
-          colnames(exprs(x)),
-  valueClass="character")
-
-## accessor method for slot colnames cytoSet
-setMethod("colnames",
-  signature="cytoSet",
-  definition=function(x, do.NULL="missing", prefix="missing") x@colnames,
   valueClass="character")
 
 ## accessor method for slot phenoData
@@ -133,6 +100,31 @@ setReplaceMethod("description",
      object@description <- value
      return(object)
    })
+  
+## replace method for slot phenoData
+setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
+  function(object, value) {
+    object@phenoData <- value
+    return(object)
+  })      
+
+
+
+
+
+
+## accessor method for slot colnames cytoFrame
+setMethod("colnames",
+  signature="cytoFrame",
+  definition=function(x, do.NULL="missing", prefix="missing")
+          colnames(exprs(x)),
+  valueClass="character")
+
+## accessor method for slot colnames cytoSet
+setMethod("colnames",
+  signature="cytoSet",
+  definition=function(x, do.NULL="missing", prefix="missing") x@colnames,
+  valueClass="character")
 
 ## replace method for slot colnames cytoFrame
 setReplaceMethod("colnames",
@@ -150,12 +142,6 @@ setReplaceMethod("colnames",
     return(x)
   })
 
-## replace method for slot phenoData
-setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
-  function(object, value) {
-    object@phenoData <- value
-    return(object)
-  })      
 
 ## plot method for cytoFrames
 setMethod("plot",

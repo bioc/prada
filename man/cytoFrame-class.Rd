@@ -47,7 +47,7 @@ Objects can be created using\cr
 \code{    exprs       = ...., # Object of class matrix}\cr
 \code{    description = ....  # Object of class character}\cr
 \code{  )}\cr
-or the function \code{\link{readFCS}}.}
+or the function \code{\link[prada]{readFCS}}.}
 
 \section{Slots}{\describe{
 \item{\code{exprs}:}{Object of class \code{matrix} containing
@@ -76,7 +76,7 @@ FCS 3.0 is the Data File Standard for Flow Cytometry, Version FCS3.0.
 			
 \author{Wolfgang Huber}
 
-\seealso{\code{\link{readFCS}}, \code{\link{cytoSet-class}}}
+\seealso{\code{\link[prada]{readFCS}}, \code{\link[prada]{cytoSet-class}}}
 \examples{
 
 intens <- matrix(runif(100), ncol=4)

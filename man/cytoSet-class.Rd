@@ -16,7 +16,7 @@
 a quantitative cell-based assay}
 
 \description{This class is a container for a set of
-  \code{\link[cytoFrame-class]{cytoFrame}} objects}
+  \code{\link[prada]{cytoFrame}} objects}
 
 %\usage{
 %\S4method{phenoData}{cytoSet}(object)
@@ -37,7 +37,7 @@ a quantitative cell-based assay}
 
 \section{Creating Objects}{
 Objects can be created using the function
-\code{\link{readCytoSet}} or via\cr
+\code{\link[prada]{readCytoSet}} or via\cr
 \code{  new('cytoSet,}\cr
 \code{    frames = ....,   # environment with cytoFrames}\cr
 \code{    phenoData = .... # object of class phenoData}\cr
@@ -104,7 +104,7 @@ of a \code{cytoSet} \code{x}, use
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 
-\seealso{\code{\link{readCytoSet}}, \code{\link{cytoFrame-class}}}
+\seealso{\code{\link[prada]{readCytoSet}}, \code{\link[prada]{cytoFrame-class}}}
 \examples{
 cset<-readCytoSet(path=system.file("extdata", package="prada"),
   pattern="[A-Z][0-9][0-9]$")

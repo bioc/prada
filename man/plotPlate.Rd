@@ -76,7 +76,7 @@ well. It is intended to be use as an argument to a subsequent call to
 \keyword{hplot}
 
 \examples{
-if(capabilities("X11") || options("device")=="windows"){
+if((capabilities("X11") || options("device")=="windows") & interactive()){
 
 plotPlate(runif(96), main="example 1", col=c("#0000e0", "#e00000"), width=7, desc=c("act", "inh"))
 plotPlate(runif(384), nrow=16, ncol=24, main="example 2", col=c("#0000e0", "white", "#e00000"), width=7)
