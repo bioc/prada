@@ -3,7 +3,7 @@ export("analysePlate", "as.all",
        "csApply", "ddCt",
        "eListWrite",
        "fitNorm2", "getPradaPar",
-       "plotNorm2",
+       "plotNorm2", "plotPlateGrid",
        "plotPlate", "readCytoSet",
        "readFCS", "readSDM",
        "removeCensored", "setPradaPars",
@@ -11,7 +11,8 @@ export("analysePlate", "as.all",
        "threePanelPlot", "gate.matrix",
        "gate.cytoFrame",
        "gate.cytoSet", "plot.matrixGate",
-       "plot.cytoFrameGate", "plot.cytoSetGate")
+       "plot.cytoFrameGate", "plot.cytoSetGate",
+       ".drawCircle", ".drawPie")
 
 importFrom("utils", "getFromNamespace", "assignInNamespace")
 importFrom("MASS", "cov.rob")
