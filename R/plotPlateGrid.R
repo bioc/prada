@@ -1,5 +1,5 @@
 plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol = 12,
-                            ind = 1: (ncol*nrow), main, xrange, col, device="x11",
+                            ind = 1: (ncol*nrow), main, xrange, col, device,
                             file, width, na.action = "zero",
                             desc = as.character(c(NA, NA)), char, legend=TRUE){
 
@@ -13,21 +13,22 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
     grid.circle(x=0.5, y=0.5, r=0.45, gp=gpar(fill=col))
   }
   default <- ifelse(gridCall=="circle", TRUE, FALSE)
-
-
   
   ## validate parameters ##
-  ##ncol
+  ## ncol
   if (!is.numeric(ncol) || length(ncol) != 1)   
     stop("'ncol' must be a numeric vector of length 1")
-  ##nrow
+  ## nrow
   if (!is.numeric(nrow) || length(nrow) != 1)
     stop("'nrow' must be a numeric vector of length 1")
   nrwell <- ncol * nrow
-  ##device
-  if (!is.character(device) || ! length(device)==1)
-    stop("'device' must be a character vector of length 1")
-  ##char
+  
+  ## device
+  if(!missing(device))
+    if (!is.character(device) || length(device)!=1)
+      stop("'device' must be a character vector of length 1")
+  
+  ## char
   info <- character(nrwell)
   if(!missing(char)){
     if (!is.vector(char) || length(char) != length(ind) ||
@@ -38,64 +39,77 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
                  "missing wells."))
     info[ind] <- char
   }
-  ##xrange
+  ## xrange
   if(missing(xrange))
     xrange = range(x, na.rm = TRUE)
   if (!is.numeric(xrange) || length(xrange) != 2 || any(is.na(xrange)))
     stop("'xrange' must be a numeric vector of length 2 with no NA.")
-  ##legend and desc
+  ## legend and desc
   if(!is.logical(legend) || length(legend)!=1)
     stop("'legend' must be logical vector of length 1")
   if(legend)
     if(!is.character(desc) || length(desc) != 2)
       stop("'desc' must be a character vector of length 2")
-  ##x 
-  if((!is.matrix(x) || nrow(x) != length(ind)) & (!is.numeric(x) || length(x) != length(ind)))
-      stop(paste("'x' must be a numeric vector or a matrix of length 'ncol*nrow' or of",
-                 "equal length as 'ind'.",
-                 "\nYou might want to include indices for missing wells."))
-  x <- as.matrix(x)
+  ## x
+  if(!is.numeric(x))
+    stop("'x' must be numeric.")
+  if(is.matrix(x)){
+    if(nrow(x) != length(ind))
+      stop("'nrow(x)' must be equal to 'length(ind)'. If you have missing wells, please use the argument 'ind'")
+  } else {
+    if(length(x) != length(ind))
+      stop("'length(x)' must be equal to 'length(ind)'. If you have missing wells, please use the argument 'ind'")
+    x = matrix(x, ncol=1)
+  }
+  
   data <- matrix(NA, ncol=ncol(x), nrow=nrwell)
-  ##ind
-  if (length(ind) != nrow(x) | max(ind, na.rm = TRUE) > nrwell)
+  ## ind
+  if (any(duplicated(ind)) || (max(ind, na.rm = TRUE) > nrwell))
     stop("'ind' must be vector of unique indices for vector 'x'")
   data[ind, ] <- x
   wh <- (1:nrwell)[ind]
   whIn <- seq(along=x)
-  ##callArgs
+  ## callArgs
   if(!is.null(callArgs)){
     if(default)
       stop("'callArgs' are not allowed for default plotting function")
     if(!is.data.frame(callArgs) || nrow(callArgs)!=nrow(x))
       stop("'callArgs' must be data frame with same number of rows as 'x'")
   }
-
-
     
-  ## device & font size ## 
-  height=((width-0.01*width)/(ncol+1))*(nrow+1)
-  args <- list(width = width, height = height)
-  if (!missing(file))
-    args <- append(args, file)
-  if(device %in% c("X11", "x11", "windows", "quartz", "gnome", "GTK"))
-    if(names(dev.cur())!="null device")
-      dev.off()
-  do.call(device, args = args)
-  font <- ceiling(12 * width/9)
-  if (device %in% c("png", "jpeg"))
-    font <- ceiling(12 * width/900)
+  ## device & font size ##
+  if(!missing(device)) {
+    height=((width-0.01*width)/(ncol+1))*(nrow+1)
+    args <- list(width = width, height = height)
+    if (!missing(file))
+      args <- append(args, file)
+    if(device %in% c("X11", "x11", "windows", "quartz", "gnome", "GTK"))
+      if(names(dev.cur())!="null device")
+        dev.off()
+    do.call(device, args = args)
 
+    ## units to pixel ##
+    xlim = c(0, ncol + 1)
+    ylim = c(0, nrow + 1)
+    fw = diff(xlim)/0.9
+    fh = diff(ylim)/0.9
+    u2px = function(x) (x - xlim[1])/fw * width
+    u2py = function(y) (y - ylim[1])/fh * height
 
- 
-  ## units 2 pixel ##
-  xlim = c(0, ncol + 1)
-  ylim = c(0, nrow + 1)
-  fw = diff(xlim)/0.9
-  fh = diff(ylim)/0.9
-  u2px = function(x) (x - xlim[1])/fw * width
-  u2py = function(y) (y - ylim[1])/fh * height
+    ## fontsize
+    fontsize = ifelse(device %in% c("png", "jpeg"),
+      ceiling(12 * width/900),
+      ceiling(12 * width/9))
+  
+  } else {
+    
+    ## fontsize = convertHeight(grobHeight(current.viewport()), "points")/height
+    ## Something like this should be possible but doesn't seem to work right now:,
+    ## I get error message:
+    ## "Error in function (name)  : Grob 'viewport[GRID.VP.1]' not found"
 
-
+    fontsize = 6
+  }
   
   ## create false colors ##
   if(default){
@@ -138,7 +152,7 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
     pushViewport(vp3)
     if (any(!is.na(desc)))
       grid.text(y=c(0.95, 0.05), x=0.1, just="left", desc,
-                gp=gpar(fontsize=font, cex=1.4, fontface="bold",
+                gp=gpar(fontsize=fontsize, cex=1.4, fontface="bold",
                 col=thepalette[c(length(thepalette), 1)]))
     vp4 <- viewport(height=0.8, width=0.1, yscale=c(xrange), xscale=c(0,1),
                     x=0.1, just="left") #legend bar vp
@@ -151,9 +165,9 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
                 gp=gpar(fill=cols[i], col=cols[i]), just="top")
     grid.rect()
     at <- signif(seq(xrange[1], xrange[2], length=6)[2:5],2)
-    grid.yaxis(at=at, gp=gpar(fontsize=font, cex=1), main=FALSE, label=FALSE)
+    grid.yaxis(at=at, gp=gpar(fontsize=fontsize, cex=1), main=FALSE, label=FALSE)
     grid.text(x=unit(3.5, "native"), y=unit(at, "native"), at, rot=90,
-              gp=gpar(fontsize=font, cex=1))
+              gp=gpar(fontsize=fontsize, cex=1))
     popViewport(3)
   }#end if
   ##plot wells
@@ -184,7 +198,7 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
     pushViewport(vptemp)
     thisArgs <- c(list(data=xdat[i,]), as.list(callArgs[i, ]))
     do.call(gridCall, thisArgs) #call plotting function
-    grid.text(x=0.5, y=0.5, info[i], gp=gpar(fontsize=font, cex=1.8))
+    grid.text(x=0.5, y=0.5, info[i], gp=gpar(fontsize=fontsize, cex=1.8))
     popViewport(1)
   }  
   popViewport(1)
@@ -194,7 +208,7 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
             just=c("left","top"), xscale=c(0, ncol), yscale=c(0, 1)) #well horiz. text vp
   pushViewport(vp7)
   grid.text(x=unit(unique(x0)+0.5, "native"), y=unit(0.9, "native"),
-            1:ncol, just="top", gp=gpar(fontsize=font, cex=1.6,
+            1:ncol, just="top", gp=gpar(fontsize=fontsize, cex=1.6,
                                   fontface="bold"))
   popViewport(1)
   vp8 <- viewport(width=unit(1/(ncol+1), "npc"), height=unit(1-(1/(nrow+1)),
@@ -202,33 +216,35 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
             just=c("right","bottom"), xscale=c(0, 1), yscale=c(0, nrow)) #well vert. text vp
   pushViewport(vp8)
   grid.text(x=unit(0.9, "native"), y=unit(unique(y0)+0.5, "native"),
-            LETTERS[1:nrow], gp=gpar(fontsize=font, cex=1.6, fontface="bold"),
+            LETTERS[1:nrow], gp=gpar(fontsize=fontsize, cex=1.6, fontface="bold"),
             just="right")
   popViewport(3)
   if (!missing(main)){
     vp9 <- viewport(height=0.1, y=0.9, just="bottom") #well header vp
     pushViewport(vp9)
-    grid.text(main, gp=gpar(fontsize=font, cex=1.8, fontface="bold"))
+    grid.text(main, gp=gpar(fontsize=fontsize, cex=1.8, fontface="bold"))
     popViewport()
   }
-
-
   
-  ## imageMap coordinates ##   
-  if (device %in% c("pdf", "png", "jpeg"))
-    dev.off()
-  x0 = 1.5 + (wh - 1)%%ncol
-  y0 = 0.1 * diff(ylim) + 0.6 + (wh - 1)%/%ncol
-  dx = dy = 0.4
-  x1 = u2px(x0 - dx)
-  x2 = u2px(x0 + dx)
-  y1 = u2py(y0 - dy)
-  y2 = u2py(y0 + dy)
-
-
   ## return value ##
-  res <- list(which = wh, coord = floor(cbind(x1, y1, x2, y2) +
-                                0.5), height = args$height, width = args$width)
+  res <- list(which=wh)
+
+  ## imageMap coordinates ##   
+  if(!missing(device)) {
+    if (device %in% c("pdf", "png", "jpeg"))
+      dev.off()
+    
+    x0 = 1.5 + (wh - 1)%%ncol
+    y0 = 0.1 * diff(ylim) + 0.6 + (wh - 1)%/%ncol
+    dx = dy = 0.4
+    x1 = u2px(x0 - dx)
+    x2 = u2px(x0 + dx)
+    y1 = u2py(y0 - dy)
+    y2 = u2py(y0 + dy)
+    coord = floor(cbind(x1, y1, x2, y2) + 0.5)
+    res = append(res, coord=coord, height = args$height, width = args$width)
+  }
+
   return(invisible(res))
 }
 

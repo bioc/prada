@@ -7,7 +7,7 @@
 
 \usage{
 plotPlateGrid(x, gridCall="circle", callArgs=NULL, nrow = 8, ncol = 12, ind = 1:(ncol*nrow), main, xrange,
-          col, device="x11", file, width, na.action = "zero",
+          col, device, file, width, na.action = "zero",
           desc = as.character(c(NA, NA)), char, legend = TRUE)
 }
 
@@ -34,7 +34,8 @@ plotPlateGrid(x, gridCall="circle", callArgs=NULL, nrow = 8, ncol = 12, ind = 1:
     between which the color map is interpolated, using the function
     \code{\link[geneplotter::colorRampPalette]{colorRampPalette}}.}
   \item{device}{Character. Name of a valid graphics device,
-    e.g. \code{x11}, \code{png}, \code{pdf}.}
+    e.g. \code{x11}, \code{png}, \code{pdf}. If omit, plot will be
+    produced in the current viewport in the current device.}
   \item{file}{The \code{file} argument of the call to
     \code{device}, i.e. the name of the graphics output file.}
   \item{width}{The \code{width} argument of the call to 
