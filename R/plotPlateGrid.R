@@ -6,7 +6,6 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
   require(geneplotter)
   require(grid)
 
-
   
   ## default plotting function ##
   circle <- function(data, col){
@@ -102,13 +101,16 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
       ceiling(12 * width/9))
   
   } else {
-    
-    ## fontsize = convertHeight(grobHeight(current.viewport()), "points")/height
-    ## Something like this should be possible but doesn't seem to work right now:,
-    ## I get error message:
-    ## "Error in function (name)  : Grob 'viewport[GRID.VP.1]' not found"
-
-    fontsize = 6
+    usr <- par("usr") # need this to reinitialize plot
+    plot.new() 
+    par(usr=usr, plt=usr)
+    rg <- rectGrob()  # this is a helper grob to determine vp/device width
+    width <- as.numeric(convertHeight(grobWidth(rg), "points"))
+    height <- as.numeric(convertHeight(grobHeight(rg), "points"))
+    height=min(height, (width-0.01*width)/(ncol+1)*(nrow+1))
+    vpFrame <- viewport(width=unit(width-2, "points"), height=unit(height-2, "points"))
+    pushViewport(vpFrame)  # this vp makes sure we are plotting the correct aspect ratio
+    fontsize = ceiling(12 * width/900)
   }
   
   ## create false colors ##
@@ -223,8 +225,8 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
     vp9 <- viewport(height=0.1, y=0.9, just="bottom") #well header vp
     pushViewport(vp9)
     grid.text(main, gp=gpar(fontsize=fontsize, cex=1.8, fontface="bold"))
-    popViewport()
   }
+  popViewport(0)
   
   ## return value ##
   res <- list(which=wh)
