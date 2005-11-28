@@ -240,18 +240,19 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
 
   ## imageMap coordinates ##   
   if(!missing(device)) {
-    if (device %in% c("pdf", "png", "jpeg"))
+    if (device %in% c("png", "jpeg")){
       dev.off()
     
-    x0 = 1.5 + (wh - 1)%%ncol
-    y0 = 0.1 * diff(ylim) + 0.6 + (wh - 1)%/%ncol
-    dx = dy = 0.4
-    x1 = u2px(x0 - dx)
-    x2 = u2px(x0 + dx)
-    y1 = u2py(y0 - dy)
-    y2 = u2py(y0 + dy)
-    coord = floor(cbind(x1, y1, x2, y2) + 0.5)
-    res = append(res, coord=coord, height = args$height, width = args$width)
+      x0 = 1.5 + (wh - 1)%%ncol
+      y0 = 0.1 * diff(ylim) + 0.6 + (wh - 1)%/%ncol
+      dx = dy = 0.4
+      x1 = u2px(x0 - dx)
+      x2 = u2px(x0 + dx)
+      y1 = u2py(y0 - dy)
+      y2 = u2py(y0 + dy)
+      coord = floor(cbind(x1, y1, x2, y2) + 0.5)
+      res = append(res, coord=coord, height = args$height, width = args$width)
+    }
   }
 
   return(invisible(res))
