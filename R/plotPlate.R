@@ -47,7 +47,7 @@ plotPlate <- function (x, nrow = 8, ncol = 12, ind = 1: (ncol*nrow), main,
         dev.off()
     do.call(device, args = args)
   font <- ceiling(12 * width/9)
-  if (device %in% c("pdf", "png", "jpeg"))
+  if (device %in% c("png", "jpeg"))
     font <- ceiling(12 * width/900)
   
   ## units 2 pixel 
