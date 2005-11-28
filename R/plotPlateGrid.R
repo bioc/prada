@@ -36,6 +36,7 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
                  "\nor of length equal to inf with vector items nchar==1",
                  "or 'NA'.\nYou might want to include indices for ",
                  "missing wells."))
+    char[is.na(char)] <- ""
     info[ind] <- char
   }
   ## xrange
@@ -201,6 +202,12 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
     thisArgs <- c(list(data=xdat[i,]), as.list(callArgs[i, ]))
     do.call(gridCall, thisArgs) #call plotting function
     grid.text(x=0.5, y=0.5, info[i], gp=gpar(fontsize=fontsize, cex=1.8))
+    if(na.action=="xout" & all(is.na(xdat[i,]))){
+      grid.lines(unit(c(0.1, 0.9), "native"), unit(c(0.1,
+                 0.9), "native"), gp=gpar(lwd=2, col="darkgray")) 
+      grid.lines(unit(c(0.9, 0.1), "native"), unit(c(0.1,
+                 0.9), "native"), gp=gpar(lwd=2, col="darkgray"))
+    }
     popViewport(1)
   }  
   popViewport(1)
