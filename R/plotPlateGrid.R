@@ -103,7 +103,7 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
   
   } else {
     usr <- par("usr") # need this to reinitialize plot
-    plot.new() 
+    #plot.new() 
     par(usr=usr, plt=usr)
     rg <- rectGrob()  # this is a helper grob to determine vp/device width
     width <- as.numeric(convertHeight(grobWidth(rg), "points"))
