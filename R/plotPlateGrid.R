@@ -232,8 +232,9 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
     vp9 <- viewport(height=0.1, y=0.9, just="bottom") #well header vp
     pushViewport(vp9)
     grid.text(main, gp=gpar(fontsize=fontsize, cex=1.8, fontface="bold"))
+    popViewport(1)
   }
-  popViewport(2)
+ 
   
   ## return value ##
   res <- list(which=wh)
@@ -252,6 +253,8 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
       coord = floor(cbind(x1, y1, x2, y2) + 0.5)
       res = append(res, coord=coord, height = args$height, width = args$width)
     }
+  }else{
+    popViewport(1)
   }
 
   return(invisible(res))
