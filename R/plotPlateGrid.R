@@ -233,7 +233,7 @@ plotPlateGrid <- function (x, gridCall="circle", callArgs=NULL, nrow = 8, ncol =
     pushViewport(vp9)
     grid.text(main, gp=gpar(fontsize=fontsize, cex=1.8, fontface="bold"))
   }
-  popViewport(1)
+  popViewport(2)
   
   ## return value ##
   res <- list(which=wh)
