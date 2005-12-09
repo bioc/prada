@@ -24,9 +24,12 @@ devDims(width, height, ncol=12, nrow=8, default=TRUE, res=72)
   computed.
 }
 
-\value{A list with items \code{width, height, pwidth} and \code{pheight}}
+\value{A list with items \code{width, height, pwidth} and
+  \code{pheight}. These are the width and height values in inches and
+  pixels respectively.}
 
-\seealso{\code{\link[prada:plotPlate]}}
+\seealso{\code{\link[prada::plotPlate]{plotPlate}}}
+
 
 \author{Florian Hahne}
 \keyword{}

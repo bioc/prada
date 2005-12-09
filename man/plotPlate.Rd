@@ -8,9 +8,10 @@
 
 \usage{
 plotPlate(x,nrow = 8, ncol = 12, col=c("red", "blue"),
-ind = 1:(ncol*nrow), xrange=range(x, na.rm=TRUE),na.action = "zero",
+ind = 1:(ncol*nrow), xrange=range(x, na.rm=TRUE), na.action = "zero",
 main, char, desc = character(2), res=72, gridFun="default",
 funArgs=NULL,...)
+}
 
 \arguments{
   \item{x}{Numeric vector of length \code{ncol*nrow} or matrix with
@@ -65,7 +66,19 @@ funArgs=NULL,...)
 
   \item{funArgs}{Dataframe with argument values to be passed to
     gridCall. For each argument specified in gridCall you need a column
-    with the argument name as colname and the argument values for every well.}
+    with the argument name as colname and the argument values for every
+    well.}
+
+  \item{...}{Further graphical parameters that can be used to control
+    the output of plotPlate.
+    \describe{
+    \item{cex.main:}{expansion factor for title font.}
+    \item{cex.lab:}{expansion factor for label font.}
+    \item{cex.char:}{expansion factor for well annotation font.}
+    \item{cex.legend:}{expansion factor for well legend labels font.}
+    \item{cex.desc:}{expansion factor for well legend description font.}
+  }
+  }
 }
 
 \details{
@@ -106,7 +119,7 @@ to pixel formats using ghostscript.}
 
 \seealso{\code{\link[geneplotter::imageMap]{imageMap}}}
 
-\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
+\author{Florian Hahne, Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \keyword{hplot}
 
 \examples{
@@ -119,5 +132,11 @@ x <- runif(96)
 x[sample(96, 10)] <- NA
 plotPlate(x, main="example 4", col=c("#0000e0", "#e00000"), width=7,
 char=c(rep(NA, 72), LETTERS[1:24]), na.action="xout")
+
+plotPlate(runif(96, min=0.1, max=0.5), gridFun=".drawCircle")
+
+plotPlate(matrix(runif(288), ncol=3), gridFun=".drawPie",
+funArgs=as.data.frame(matrix(2:4, ncol=3, nrow=96, byrow=TRUE)))
+ 
 }
 }
