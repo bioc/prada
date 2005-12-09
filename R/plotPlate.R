@@ -2,10 +2,10 @@
 #################################### plotPlate #######################################
 ######################################################################################
 
-plotPlate <- function (x, gridFun="default", funArgs=NULL, nrow = 8, ncol = 12,
-                           ind = 1: (ncol*nrow), main, xrange=range(x, na.rm=TRUE),
-                           col=c("red", "blue"), na.action = "zero",
-                           desc = character(2), char, res=72, ...){
+plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
+                      ind = 1:(ncol*nrow), xrange=range(x, na.rm=TRUE),
+                      na.action = "zero", main, char,  desc = character(2),
+                      res=72, gridFun="default", funArgs=NULL, ...){
 
   ## this is the interface to plotPlate. It checks for parameter validity and 
   ## performs some preparation of the data. Subsequent calls to .gridPlot
@@ -198,17 +198,16 @@ plotPlate <- function (x, gridFun="default", funArgs=NULL, nrow = 8, ncol = 12,
   pushViewport(vp3)
   grid.text(y=c(0.95, 0.05), x=0.1, just="left", desc,
             gp=gpar(fontsize=fontsize, cex=defArgs$cex.desc,
-            fontface="bold", col=thepalette[c(length(thepalette), 1)]))
+            fontface="bold", col=rev(col)))
   vp4 <- viewport(height=0.8, width=0.1, yscale=c(xrange), xscale=c(0,1),
                   x=0.1, just="left") #legend bar vp
   pushViewport(vp4)
-  cr <- colorRampPalette(col)
-  nb <- 30
-  cols <- thepalette[floor(seq(1, nrcolors, length=nb))]
-  for(i in 1:nb)
-    grid.rect(y=unit(0+i/nb, "npc"), height=unit(1/nb, "npc"),
-              gp=gpar(fill=cols[i], col=cols[i]), just="top")
-  grid.rect()
+  nb <- 100
+  cols <- colorRampPalette(col)(nb)
+  i <- 1:nb
+  grid.rect(y=unit(0+i/nb, "npc"), height=unit(1/nb, "npc"),
+            gp=gpar(fill=cols, col=cols), just="top")
+  grid.rect(gp=gpar(fill=NA))
   at <- signif(seq(xrange[1], xrange[2], length=6)[2:5],2)
   grid.yaxis(at=at, gp=gpar(fontsize=fontsize, cex=1), main=FALSE, label=FALSE)
   grid.text(x=unit(3.5, "native"), y=unit(at, "native"), at, rot=90,
@@ -378,18 +377,18 @@ plotPlate <- function (x, gridFun="default", funArgs=NULL, nrow = 8, ncol = 12,
 
 
 ######################################################################################
-##################################### devDim #########################################
+##################################### devDims ########################################
 ######################################################################################
 
-devDims <- function(width, height, ncol=12, nrow=8, default=TRUE){
+devDims <- function(width, height, ncol=12, nrow=8, default=TRUE, res=72){
  f <- ifelse(default, (((ncol+1)*0.1+ncol+1)/((nrow+1)*0.1+nrow+1)),
                       ((ncol+1)/((nrow+1)*0.1+nrow+1)))
  if((missing(width) & missing(height) || !missing(width) & !missing(height)))
    stop("Need either argument 'width' or argument 'height'")
  if(missing(height))
-   return(list(width=width, height=width/f))
+   return(list(width=width, height=width/f, pwidth=width*res, pheight=width/f*res))
  else
-   return(list(width=height*f, height))
+   return(list(width=height*f, height, pwidth=height*f*res, pheight=height*res))
 }
 
 
@@ -447,20 +446,17 @@ devDims <- function(width, height, ncol=12, nrow=8, default=TRUE){
 
 
 .drawLegend <- function(col=c("red", "blue"), xrange, legend=c("act", "inh")){
-  nrcolors = 256
-  thepalette = colorRampPalette(col)(nrcolors)
   vp3 <- viewport(height=0.85, width=0.8) #legend desc vp
   pushViewport(vp3)
   grid.text(y=c(0.95, 0.05), x=0.1, just="left", legend,
             gp=gpar(fontsize=7, cex=1.4,
-            fontface="bold", col=thepalette[c(length(thepalette), 1)]))
+            fontface="bold", col=rev(col)))
   vp4 <- viewport(height=0.8, width=0.1, yscale=c(xrange), xscale=c(0,1),
                   x=0.1, just="left") #legend bar vp
   pushViewport(vp4)
-  #cr <- colorRampPalette(col)
-  nb <- 30
-  cols <- thepalette[floor(seq(1, nrcolors, length=nb))]
-  for(i in 1:nb)
+  nb <- 100
+  cols <- colorRampPalette(col)(nb)
+  i <- 1:nb
     grid.rect(y=unit(0+i/nb, "npc"), height=unit(1/nb, "npc"),
               gp=gpar(fill=cols[i], col=cols[i]), just="top")
   grid.rect()
@@ -468,5 +464,5 @@ devDims <- function(width, height, ncol=12, nrow=8, default=TRUE){
   grid.yaxis(at=at, gp=gpar(fontsize=7, cex=1), main=FALSE, label=FALSE)
   grid.text(x=unit(3.5, "native"), y=unit(at, "native"), at, rot=90,
             gp=gpar(fontsize=7, cex=1))
-  popViewport(3)
+  popViewport(2)
 }
