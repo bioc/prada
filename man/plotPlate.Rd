@@ -9,7 +9,7 @@
 \usage{
 plotPlate(x,nrow = 8, ncol = 12, col=c("red", "blue"),
 ind = 1:(ncol*nrow), xrange=range(x, na.rm=TRUE), na.action = "zero",
-main, char, desc = character(2), gridFun="default",
+main, char, desc = character(2), add=FALSE, gridFun="default",
 funArgs=NULL,...)
 }
 
@@ -54,7 +54,10 @@ funArgs=NULL,...)
  
   \item{desc}{Character of length 2. Legend for the two extremes of the
     colorbar, e.g. 'act' and 'inh'. }
-
+ 
+  \item{add}{Logical. If \code{TRUE} add plate plot to current plot. May
+    be used when using grid layout panels.} 
+    
   \item{gridFun}{Character. The name of the plotting function to create
     individual graphs for each well. See functions \code{.drawCircle}
     and \code{.drawPie}} for examples.

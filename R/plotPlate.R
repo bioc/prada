@@ -4,7 +4,8 @@
 
 plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
                       ind = 1:(ncol*nrow), xrange=range(x, na.rm=TRUE),
-                      na.action = "zero", main, char,  desc = character(2),
+                      na.action = "zero", main, char,
+                      desc = character(2), add=FALSE,
                       gridFun="default", funArgs=NULL, ...){
 
   ## this is the interface to plotPlate. It checks for parameter validity and 
@@ -51,7 +52,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   if (!is.numeric(xrange) || length(xrange) != 2 || any(is.na(xrange)))
     stop("'xrange' must be a numeric vector of length 2 with no NA.")
   
-  ## legend and desc
+  ## desc
   if(default)
     if(!is.character(desc) || length(desc) != 2)
       stop("'desc' must be a character vector of length 2")
@@ -83,24 +84,6 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
     if(!is.data.frame(funArgs) || nrow(funArgs)!=nrow(x))
       stop("'funArgs' must be data frame with same number of rows as 'x'")
   }#end if
- 
-  ## device & font size ##
-  res <- devRes()
-  devWidth <- par("fin")[1]*res[1]
-  devHeight <- par("fin")[2]*res[2]
-  outerFrame <- vpLocation(res[1], res[2])
-  outerFrame$size[2] <- ifelse(default, min(outerFrame$size[2], outerFrame$size[1]/
-                               (((ncol+1)*0.1+ncol+1)/((nrow+1)*0.1+nrow+1))),
-                               min(outerFrame$size[2], outerFrame$size[1]/
-                               ((ncol+1)/((nrow+1)*0.1+nrow+1))))      
-  outerVp <- viewport(width=unit(outerFrame$size[1], "bigpts"),
-                      height=unit(outerFrame$size[2], "bigpts"))
-  pushViewport(outerVp)  # this vp makes sure we plot in the correct aspect ratio
-  innerVp <- viewport(width=0.95, height=0.95)
-  pushViewport(innerVp)
-  innerFrame <- vpLocation(res[1], res[2])
-  device <- names(dev.cur())
-  fontsize <- ceiling(12*outerFrame$size[1]/800)
 
   ## default plotting arguments
   defArgs <- list(cex.main=1.8, cex.lab=1.6, cex.char=1.8, cex.legend=1,
@@ -113,6 +96,37 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
         defArgs[arg] <- usrArgs[i]
       }#end if
   }#end for
+
+  ## add
+  if(!is.logical(add) || length(add)!=1)
+    stop("'add' must be logical of length 1")
+  
+  ############################ getting device info  #################################
+  ## device size and resolution ##
+  res <- devRes()
+  
+  ## reinitialize plot
+  if(!add)
+    plot.new()
+
+  ## setting up aspect ratio
+  devWidth <- par("fin")[1]*res[1]
+  devHeight <- par("fin")[2]*res[2]
+  outerFrame <- vpLocation()
+  outerFrame$size[2] <- min(outerFrame$size[2], outerFrame$size[1]/
+                            (((ncol+1)*0.1+ncol+1)/((nrow+1)*0.1+nrow+1)))                        
+  outerVp <- viewport(width=unit(outerFrame$size[1]*72/res[1], "bigpts"),
+                      height=unit(outerFrame$size[2]*72/res[2], "bigpts"))
+  pushViewport(outerVp)  # this vp makes sure we plot in the correct aspect ratio
+  innerVp <- viewport(width=0.95, height=0.95)
+  pushViewport(innerVp)
+  innerFrame <- vpLocation()
+
+  ## fontsize
+  device <- names(dev.cur())
+  fontsize <- ceiling(12*outerFrame$size[1]/900)
+
+ 
 
   ########################### call plotting functions ################################
   if(default)
@@ -127,7 +141,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   dx = dy = 0.45
   xlim = c(0, ncol + 1)
   ylim = c(0, nrow + 1)
-  fw <- ifelse(default, diff(xlim)/0.9, diff(xlim))
+  fw <- diff(xlim)/0.9
   fh = diff(ylim)/0.9
   u2px = function(x) (x - xlim[1])/fw * innerFrame$size[1]
   u2py = function(y) (y - ylim[1])/fh * innerFrame$size[2]
@@ -302,6 +316,8 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
 
   ##plot wells
   wh <- (1:nrwell)[ind]
+  vp0 <- viewport(width=0.9, x=0, just="left") #main well vp
+  pushViewport(vp0)
   vp1 <- viewport(height=0.9, y=0, just="bottom", xscale=c(0, ncol+1),
                   yscale=c(0, nrow+1)) #outer well vp
   pushViewport(vp1)
@@ -316,9 +332,9 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
                   just=c("left","bottom"), xscale=c(0, ncol),
                   yscale=c(0, nrow)) #inner well vp
   pushViewport(vp2)
-  grid.rect()
+  
  
-  for(i in 1:length(xpos)){
+  for(i in c(1,1:length(xpos))){ #need to plot 1st well twice?!
     vptemp <- viewport(height=unit(1, "native"), width=unit(1, "native"),
                        x=unit(xpos[i], "native"), y=unit(ypos[i], "native"),
                        just=c("left", "bottom")) #individual well vp
@@ -336,6 +352,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
       }#end if
     }#end if
     popViewport(1)
+    grid.rect(gp=gpar(fill=NA))
   }#end for  
   popViewport(1)
   
@@ -363,6 +380,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
                       fontface="bold"))
     popViewport(1)
   }#end if
+  popViewport(1)
   return(list(x0=x0[wh], y0=y0[wh], wh=wh))
 }#end function
 
@@ -380,9 +398,8 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
 ################################ helper functions ####################################
 ######################################################################################
 
-devDims <- function(width, height, ncol=12, nrow=8, default=TRUE, res=72){
- f <- ifelse(default, (((ncol+1)*0.1+ncol+1)/((nrow+1)*0.1+nrow+1)),
-                      ((ncol+1)/((nrow+1)*0.1+nrow+1)))
+devDims <- function(width, height, ncol=12, nrow=8, res=72){
+ f <- (((ncol+1)*0.1+ncol+1)/((nrow+1)*0.1+nrow+1))
  if((missing(width) & missing(height) || !missing(width) & !missing(height)))
    stop("Need either argument 'width' or argument 'height'")
  if(missing(height))
@@ -411,21 +428,28 @@ devRes <- function(){
 }
 
 
-vpLocation <- function(xres, yres){
+vpLocation <- function(){
+  xres <- devRes()[1]
+  yres <- devRes()[2]
   ## find location and pixel-size of current viewport
   devloc1 <- c(convertX(unit(0, "npc"), "inches"),
               convertY(unit(0, "npc"), "inches"), 1)  %*% current.transform()
   devloc2 <- c(convertX(unit(1, "npc"), "inches"),
               convertY(unit(1, "npc"), "inches"), 1)  %*% current.transform()
   x1 <- (devloc1/devloc1[3])[1]*xres
-  y1 <- (devloc1/devloc1[3])[2]*xres
-  x2 <- (devloc2/devloc2[3])[1]*yres
+  y1 <- (devloc1/devloc1[3])[2]*yres
+  x2 <- (devloc2/devloc2[3])[1]*xres
   y2 <- (devloc2/devloc2[3])[2]*yres
   loc <- c(x1,y1,x2,y2)
   names(loc) <- c("x1", "y1", "x2", "y2")
   size <- c(x2-x1, y2-y1)
   names(size) <- c("width", "height")
-  return(list(location=loc, size=size))
+  iloc <- c(x1/xres, y1/yres, x2/yres, y2/yres)
+  names(iloc) <- c("x1", "y1", "x2", "y2")
+  isize <- size/c(xres,yres)
+  names(size) <- c("width", "height")
+  return(list(location=loc, size=size, ilocation=iloc,
+              isize=isize))
 }
  
 

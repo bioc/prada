@@ -9,10 +9,10 @@ export("analysePlate", "as.all",
        "removeCensored", "setPradaPars",
        "thresholds", "gatePoints",
        "threePanelPlot", "gate.matrix",
-       "gate.cytoFrame",
+       "gate.cytoFrame", "devRes",
        "gate.cytoSet", "plot.matrixGate",
        "plot.cytoFrameGate", "plot.cytoSetGate",
-       ".drawCircle", ".drawPie")
+       ".drawCircle", ".drawPie", "vpLocation")
 
 importFrom("utils", "getFromNamespace", "assignInNamespace")
 importFrom("MASS", "cov.rob")

@@ -3,16 +3,14 @@
 \title{Device Dimensions for plate plots}
 \description{Calculate device dimensions for plate plots}
 \usage{
-devDims(width, height, ncol=12, nrow=8, default=TRUE, res=72)
+devDims(width, height, ncol=12, nrow=8, res=72)
 }
 \arguments{
   \item{width}{Device width in inches.}
   \item{height}{Device width in inches.}
   \item{ncol}{Number of columns for plate plot.}
   \item{nrow}{Number of rows for plate plot.}
-  \item{default}{Logical. Are dimensions calculated for a default
-    plate plot or for a plot using a self-defined plotting function?}
-  \item{res}{The resolution of the used graphic device.}
+  \item{res}{The resolution of the graphic device used for plotting.}
 }
 
 \details{
