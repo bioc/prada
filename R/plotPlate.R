@@ -5,7 +5,7 @@
 plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
                       ind = 1:(ncol*nrow), xrange=range(x, na.rm=TRUE),
                       na.action = "zero", main, char,  desc = character(2),
-                      res=72, gridFun="default", funArgs=NULL, ...){
+                      gridFun="default", funArgs=NULL, ...){
 
   ## this is the interface to plotPlate. It checks for parameter validity and 
   ## performs some preparation of the data. Subsequent calls to .gridPlot
@@ -85,18 +85,22 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   }#end if
  
   ## device & font size ##
-  usr <- par("usr") # need this to reinitialize plot
-  par(plt=usr)
-  rg <- rectGrob()  # this is a helper grob to determine vp/device width
-  width <- as.numeric(convertHeight(grobWidth(rg), "bigpts"))
-  height <- as.numeric(convertHeight(grobHeight(rg), "bigpts"))
-  height <- ifelse(gridFun == "default",
-                   min(height, width/(((ncol+1)*0.1+ncol+1)/((nrow+1)*0.1+nrow+1))),
-                   min(height, width/((ncol+1)/((nrow+1)*0.1+nrow+1))))
-  vpFrame <- viewport(width=unit(width-1, "bigpts"), height=unit(height-1, "bigpts"))
-  pushViewport(vpFrame)  # this vp makes sure we plot in the correct aspect ratio
+  res <- devRes()
+  devWidth <- par("fin")[1]*res[1]
+  devHeight <- par("fin")[2]*res[2]
+  outerFrame <- vpLocation(res[1], res[2])
+  outerFrame$size[2] <- ifelse(default, min(outerFrame$size[2], outerFrame$size[1]/
+                               (((ncol+1)*0.1+ncol+1)/((nrow+1)*0.1+nrow+1))),
+                               min(outerFrame$size[2], outerFrame$size[1]/
+                               ((ncol+1)/((nrow+1)*0.1+nrow+1))))      
+  outerVp <- viewport(width=unit(outerFrame$size[1], "bigpts"),
+                      height=unit(outerFrame$size[2], "bigpts"))
+  pushViewport(outerVp)  # this vp makes sure we plot in the correct aspect ratio
+  innerVp <- viewport(width=0.95, height=0.95)
+  pushViewport(innerVp)
+  innerFrame <- vpLocation(res[1], res[2])
   device <- names(dev.cur())
-  fontsize <- ceiling(12*width/900)
+  fontsize <- ceiling(12*outerFrame$size[1]/800)
 
   ## default plotting arguments
   defArgs <- list(cex.main=1.8, cex.lab=1.6, cex.char=1.8, cex.legend=1,
@@ -110,10 +114,6 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
       }#end if
   }#end for
 
-  ## resolution
-  if(!is.numeric(res) || length(res)!=1)
-    stop("'res' must be numeric of length 1")
-  
   ########################### call plotting functions ################################
   if(default)
     tp <- .defaultPlot(data, col, xrange, fontsize, info, desc, main, na.action,
@@ -121,7 +121,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   else
     tp <- .arrayPlot(data, gridFun, funArgs, fontsize, info, main, na.action,
                ncol, nrow, nrwell, ind, defArgs)
-  popViewport()
+  popViewport(2)
   
   ############################# imageMap coordinates  ################################
   dx = dy = 0.45
@@ -129,18 +129,18 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   ylim = c(0, nrow + 1)
   fw <- ifelse(default, diff(xlim)/0.9, diff(xlim))
   fh = diff(ylim)/0.9
-  u2px = function(x) (x - xlim[1])/fw * width
-  u2py = function(y) (y - ylim[1])/fh * height
+  u2px = function(x) (x - xlim[1])/fw * innerFrame$size[1]
+  u2py = function(y) (y - ylim[1])/fh * innerFrame$size[2]
   x0 = 1.5 + (tp$wh - 1)%%ncol
   y0 = 0.1 * diff(ylim) + 0.6 + (tp$wh - 1)%/%ncol
-  x1 = u2px(x0 - dx)
-  x2 = u2px(x0 + dx)
-  y1 = u2py(y0 - dy)
-  y2 = u2py(y0 + dy)
+  x1 = u2px(x0 - dx) + innerFrame$location[1]
+  x2 = u2px(x0 + dx) + innerFrame$location[1]
+  y1 = u2py(y0 - dy) + devHeight - innerFrame$location[4]
+  y2 = u2py(y0 + dy) + devHeight - innerFrame$location[4]
 
   return(invisible(list(which = tp$wh,
-                        coord = floor((cbind(x1, y1, x2, y2)+0.5)*(res/72)),
-                        height = height, width = width)))
+                        coord = floor((cbind(x1, y1, x2, y2)+0.5)),
+                        width = outerFrame$size[1], height = outerFrame$size[2])))
 }#end function
 
 
@@ -377,7 +377,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
 
 
 ######################################################################################
-##################################### devDims ########################################
+################################ helper functions ####################################
 ######################################################################################
 
 devDims <- function(width, height, ncol=12, nrow=8, default=TRUE, res=72){
@@ -393,7 +393,41 @@ devDims <- function(width, height, ncol=12, nrow=8, default=TRUE, res=72){
 
 
 
+devRes <- function(){
+  ## find R's resolution for the current device
+  if(current.viewport()$name != "ROOT"){
+    vpt <- current.vpTree()
+    popViewport(0)
+    xres <- abs(as.numeric(convertWidth(unit(1, "inches"), "native")))
+    yres <- abs(as.numeric(convertHeight(unit(1, "inches"), "native")))
+    pushViewport(vpt)
+  }else{
+    xres <- abs(as.numeric(convertWidth(unit(1, "inches"), "native")))
+    yres <- abs(as.numeric(convertHeight(unit(1, "inches"), "native")))
+  }
+  retval <- c(xres, yres)
+  names(retval) <- c("xres", "yres")
+  return(retval)
+}
 
+
+vpLocation <- function(xres, yres){
+  ## find location and pixel-size of current viewport
+  devloc1 <- c(convertX(unit(0, "npc"), "inches"),
+              convertY(unit(0, "npc"), "inches"), 1)  %*% current.transform()
+  devloc2 <- c(convertX(unit(1, "npc"), "inches"),
+              convertY(unit(1, "npc"), "inches"), 1)  %*% current.transform()
+  x1 <- (devloc1/devloc1[3])[1]*xres
+  y1 <- (devloc1/devloc1[3])[2]*xres
+  x2 <- (devloc2/devloc2[3])[1]*yres
+  y2 <- (devloc2/devloc2[3])[2]*yres
+  loc <- c(x1,y1,x2,y2)
+  names(loc) <- c("x1", "y1", "x2", "y2")
+  size <- c(x2-x1, y2-y1)
+  names(size) <- c("width", "height")
+  return(list(location=loc, size=size))
+}
+ 
 
 
 

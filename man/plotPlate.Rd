@@ -9,7 +9,7 @@
 \usage{
 plotPlate(x,nrow = 8, ncol = 12, col=c("red", "blue"),
 ind = 1:(ncol*nrow), xrange=range(x, na.rm=TRUE), na.action = "zero",
-main, char, desc = character(2), res=72, gridFun="default",
+main, char, desc = character(2), gridFun="default",
 funArgs=NULL,...)
 }
 
@@ -54,11 +54,6 @@ funArgs=NULL,...)
  
   \item{desc}{Character of length 2. Legend for the two extremes of the
     colorbar, e.g. 'act' and 'inh'. }
-
-  \item{res}{Numeric of length one. This is needed when producing
-    interactive output using the
-    \code{\link[geneplotter::imageMap]{imageMap}} function to adjust
-    pixel coordinates to the resolution of the output device.}
 
   \item{gridFun}{Character. The name of the plotting function to create
     individual graphs for each well. See functions \code{.drawCircle}
@@ -112,10 +107,7 @@ the indices of those elements in \code{x} that were plotted (see argument
 \code{na.action}). The element \code{coord} is a \code{length(which)} by 4
 matrix in which each row specifies the corners of a rectangle that contains a
 well. It is intended to be use as an argument to a subsequent call to
-\code{\link[geneplotter::imageMap]{imageMap}}. Currently, the
-calculation of coordinates is wrong for device \code{jpeg}. Use
-\code{bitmap} instead, which produces a postscript device and transforms
-to pixel formats using ghostscript.}
+\code{\link[geneplotter::imageMap]{imageMap}}.}
 
 \seealso{\code{\link[geneplotter::imageMap]{imageMap}}}
 
@@ -123,20 +115,15 @@ to pixel formats using ghostscript.}
 \keyword{hplot}
 
 \examples{
-if((capabilities("X11") || options("device")=="windows") & interactive()){
-
-plotPlate(runif(96), main="example 1", col=c("#0000e0", "#e00000"), width=7, desc=c("act", "inh"))
-plotPlate(runif(384), nrow=16, ncol=24, main="example 2", col=c("#0000e0", "white", "#e00000"), width=7)
-plotPlate(runif(48), main="example 3", col=c("#0000e0", "#e00000"), width=7, ind=c(1:24, 73:96))
+plotPlate(runif(96), main="example 1", col=c("#0000e0", "#e00000"), desc=c("act", "inh"))
+plotPlate(runif(384), nrow=16, ncol=24, main="example 2", col=c("#0000e0", "white", "#e00000"))
+plotPlate(runif(48), main="example 3", col=c("#0000e0", "#e00000"), ind=c(1:24, 73:96))
 x <- runif(96)
 x[sample(96, 10)] <- NA
-plotPlate(x, main="example 4", col=c("#0000e0", "#e00000"), width=7,
+plotPlate(x, main="example 4", col=c("#0000e0", "#e00000"),
 char=c(rep(NA, 72), LETTERS[1:24]), na.action="xout")
-
 plotPlate(runif(96, min=0.1, max=0.5), gridFun=".drawCircle")
-
 plotPlate(matrix(runif(288), ncol=3), gridFun=".drawPie",
 funArgs=as.data.frame(matrix(2:4, ncol=3, nrow=96, byrow=TRUE)))
  
-}
 }
