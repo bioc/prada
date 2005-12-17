@@ -41,8 +41,8 @@ funArgs=NULL,...)
     For \code{"omit"}, they are omitted.
     For \code{"xout"}, they are crossed out.
     When \code{x} is a matrix, \code{na.action} is only applied to rows
-    containing nothing but NAs. Furhter special treatment of NA
-    values in matrices need to be implemented in \code{[gridFun}.}
+    containing nothing but NAs. Further special treatment of NA
+    values in matrices need to be implemented in \code{gridFun}.}
 
   \item{main}{Character of length 1. Plot title.}
 
@@ -56,61 +56,64 @@ funArgs=NULL,...)
     colorbar, e.g. 'act' and 'inh'. }
  
   \item{add}{Logical. If \code{TRUE} add plate plot to current plot. May
-    be used when using grid layout panels.} 
+    be used when plotting in grid layout panels.} 
     
   \item{gridFun}{Character. The name of the plotting function to create
     individual graphs for each well. See functions \code{.drawCircle}
     and \code{.drawPie}} for examples.
 
   \item{funArgs}{Dataframe with argument values to be passed to
-    gridCall. For each argument specified in gridCall you need a column
+    gridCall. For each argument specified in gridCall there must be one column
     with the argument name as colname and the argument values for every
     well.}
 
   \item{...}{Further graphical parameters that can be used to control
     the output of plotPlate.
     \describe{
-    \item{cex.main:}{expansion factor for title font.}
-    \item{cex.lab:}{expansion factor for label font.}
-    \item{cex.char:}{expansion factor for well annotation font.}
-    \item{cex.legend:}{expansion factor for well legend labels font.}
-    \item{cex.desc:}{expansion factor for well legend description font.}
+    \item{cex.main:}{expansion factor for title.}
+    \item{cex.lab:}{expansion factor for label.}
+    \item{cex.char:}{expansion factor for well annotation.}
+    \item{cex.legend:}{expansion factor for well legend labels.}
+    \item{cex.desc:}{expansion factor for well legend description.}
   }
   }
 }
 
-\details{
-You may use this function either to create plots showing a per
-well statistic for microtiter plates, or you can use a self-made
-plotting function using a combination of any valid grid commands to
-produce arbitrary plots in a plate array format. Self-defined plotting
-functions need to have \code{data} as first argument. Any further
+\details{ You may use this function either to create plots showing a
+single-value per well statistic for microtiter plates, or you can use a
+self-made plotting function using a combination of any valid grid
+commands to produce arbitrary plots in a plate array format. These plots
+may also show multifactorial data. Self-defined plotting functions need
+to have \code{data} as first argument. \code{plotPlate} passes all data
+values for the respective well to the plotting function. Any further
 arguments may be passed on using argument \code{funArgs}. See
 \code{.drawCircle} and \code{.drawPie} for examples of valid plotting
-functions.
-Note that using \code{funCall} overrides some of the default functionalities,
-e.g. plotting of legends and alters the treatment of NA values. 
+functions and the vignette for detailed information.  Note that
+using \code{funCall} overrides some of the default functionalities,
+e.g. plotting of legends and alters the treatment of NA values.
 
-Argument\code{ind} allows the user to indicate the position (well
+Argument \code{ind} allows the user to indicate the position (well
 number) for each element of vector \code{x} on the plate. This can be
 used either to change the order in which elements of \code{x} are to be
 plotted or to deal with the problem of missing data for some of the
 wells on a plate.
 
 To further increase the amount of information of the platePlot one may
-decorate wells with single characters using argument \code{char}. Each
+decorate wells with short annotations using argument \code{char}. Each
 element of \code{char} \code{!= NA} will be superimposed on the respective
 well (see examples). 
 }
 
 \value{The function produces a plot in the active graphics device.  
 
-It returns a list with two elements. The element \code{which} is a vector with
+It returns a list withfour elements. The element \code{which} is a vector with
 the indices of those elements in \code{x} that were plotted (see argument
 \code{na.action}). The element \code{coord} is a \code{length(which)} by 4
 matrix in which each row specifies the corners of a rectangle that contains a
 well. It is intended to be use as an argument to a subsequent call to
-\code{\link[geneplotter::imageMap]{imageMap}}.}
+\code{\link[geneplotter::imageMap]{imageMap}}. Elements \code{width} and
+\code{height} may be used to open a graphic devices that can hold the plate
+plot with the correct aspect ratio.}
 
 \seealso{\code{\link[geneplotter::imageMap]{imageMap}}}
 

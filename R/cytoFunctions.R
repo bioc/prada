@@ -27,26 +27,15 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE){
     lines(coord,lty=1,lwd=2,col=gatecol)
   } #drawLine
 
-  insidePolygon <- function(mypoint,polygon){
+  insidePolygon <- function(data, polygon){
     # determine if a point 'mypoint' is inside a polygon given by its vertices:
     # if number of intersections between a horizontal ray emanating from
     # mypoint and edges of the polyong is odd -> mypoint inside polygon
-    nVertices <- length(polygon)
-    p1 <- polygon[[1]]
-    counter <- 0
-    for (i in 2:nVertices) {
-      p2 <- polygon[[i]]
-      if (mypoint[2] >= min(p1[2],p2[2])) {
-        if (mypoint[2] <= max(p1[2],p2[2])) {
-          if (mypoint[1] <= max(p1[1],p2[1])) {
-            if (p1[2] != p2[2]) {
-              xinters = (mypoint[2]-p1[2])*(p2[1]-p1[1])/(p2[2]-p1[2])+p1[1]
-              if (p1[1] == p2[1] || mypoint[1] <= xinters)
-                counter <- counter+1
-      }}}} # all then
-      p1 <- p2
-    }#for
-    return(!(counter %% 2 == 0))
+    vertices <- matrix(as.numeric(unlist(polygon)), ncol=2, byrow=TRUE)
+    data <- cbind(as.numeric(data[,1]), as.numeric(data[,2]))
+    res <- .Call("inPolygon", data, vertices,
+                 PACKAGE="prada")
+    return(as.logical(res))
   } # insidePolygon
 
   if (is.null(totmin)) totmin <- round(min(obj))
@@ -55,9 +44,11 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE){
 
   # start plot
   if (smooth)
-    smoothScatter(obj,xlab=colnames(obj)[1],ylab=colnames(obj)[2],xlim=mylimits,ylim=mylimits)
+    smoothScatter(obj, xlab=colnames(obj)[1], ylab=colnames(obj)[2],
+                  xlim=mylimits, ylim=mylimits)
   else
-    plot(obj,pch=20,cex=0.5,xlab=colnames(obj)[1],ylab=colnames(obj)[2],xlim=mylimits,ylim=mylimits)
+    plot(obj,pch=20, cex=0.5, xlab=colnames(obj)[1], ylab=colnames(obj)[2],
+         xlim=mylimits, ylim=mylimits, col=densCols(obj))
  
   polyVertices <- c()
 
@@ -81,7 +72,7 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE){
   # process drawn box
   cat("Determining events within gate...")
   #eturn(polyVertices)
-  dataInBox <- apply(obj,1,insidePolygon,polygon=polyVertices)
+  dataInBox <- insidePolygon(obj,polyVertices)
   if (smooth)
     points(obj[which(dataInBox),,drop=FALSE],pch=20,cex=0.5,col=gatecol)
   else

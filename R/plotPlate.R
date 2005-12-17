@@ -106,7 +106,8 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   res <- devRes()
   
   ## reinitialize plot
-  if(!add)
+  device <- names(dev.cur())
+  if(!add && !device %in% c("pdf", "postscript"))
     plot.new()
 
   ## setting up aspect ratio
@@ -123,7 +124,6 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   innerFrame <- vpLocation()
 
   ## fontsize
-  device <- names(dev.cur())
   fontsize <- ceiling(12*outerFrame$size[1]/900)
 
  
@@ -212,7 +212,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   pushViewport(vp3)
   grid.text(y=c(0.95, 0.05), x=0.1, just="left", desc,
             gp=gpar(fontsize=fontsize, cex=defArgs$cex.desc,
-            fontface="bold", col=rev(col)))
+            fontface="bold", col=c(col[length(col)], col[1])))
   vp4 <- viewport(height=0.8, width=0.1, yscale=c(xrange), xscale=c(0,1),
                   x=0.1, just="left") #legend bar vp
   pushViewport(vp4)
@@ -503,12 +503,13 @@ vpLocation <- function(){
 }
 
 
-.drawLegend <- function(col=c("red", "blue"), xrange, legend=c("act", "inh")){
+.drawLegend <- function(col=c("red", "blue"), xrange, legend=c("act", "inh"),
+                        cex.legend=1, cex.desc=1.4){
   vp3 <- viewport(height=0.85, width=0.8) #legend desc vp
   pushViewport(vp3)
   grid.text(y=c(0.95, 0.05), x=0.1, just="left", legend,
-            gp=gpar(fontsize=7, cex=1.4,
-            fontface="bold", col=rev(col)))
+            gp=gpar(fontsize=7, cex=cex.desc,
+            fontface="bold", col=c(col[length(col)], col[1])))
   vp4 <- viewport(height=0.8, width=0.1, yscale=c(xrange), xscale=c(0,1),
                   x=0.1, just="left") #legend bar vp
   pushViewport(vp4)
@@ -521,6 +522,6 @@ vpLocation <- function(){
   at <- signif(seq(xrange[1], xrange[2], length=6)[2:5],2)
   grid.yaxis(at=at, gp=gpar(fontsize=7, cex=1), main=FALSE, label=FALSE)
   grid.text(x=unit(3.5, "native"), y=unit(at, "native"), at, rot=90,
-            gp=gpar(fontsize=7, cex=1))
+            gp=gpar(fontsize=7, cex=cex.legend))
   popViewport(2)
 }

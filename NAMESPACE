@@ -1,3 +1,5 @@
+useDynLib("prada")
+
 export("analysePlate", "as.all",
        "barploterrbar", "combineFrames",
        "csApply", "ddCt",
