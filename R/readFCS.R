@@ -50,6 +50,7 @@ readFCSheader <- function(con) {
 readFCStext <- function(con, offsets) {
   seek(con, offsets["textstart"])
   txt <- readChar(con, offsets["textend"]-offsets["textstart"]+1)
+  txt <- iconv(txt, "", "latin1", sub="byte")
   delimiter <- substr(txt, 1, 1)
   sp  <- strsplit(substr(txt, 2, nchar(txt)), split=delimiter, fixed=TRUE)[[1]]
   ## if(length(sp)%%2!=0)
