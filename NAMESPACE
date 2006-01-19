@@ -9,12 +9,9 @@ export("analysePlate", "as.all",
        "plotPlate", "readCytoSet",
        "readFCS", "readSDM",
        "removeCensored", "setPradaPars",
-       "thresholds", "gatePoints",
-       "threePanelPlot", "gate.matrix",
-       "gate.cytoFrame", "devRes",
-       "gate.cytoSet", "plot.matrixGate",
-       "plot.cytoFrameGate", "plot.cytoSetGate",
-       ".drawCircle", ".drawPie", "vpLocation")
+       "thresholds", "threePanelPlot",
+       "devRes", ".drawCircle", ".drawPie",
+       "vpLocation")
 
 importFrom("utils", "getFromNamespace", "assignInNamespace")
 importFrom("MASS", "cov.rob")
@@ -23,10 +20,11 @@ importFrom("geneplotter", "smoothScatter")
 importFrom("Biobase", "exprs", "exprs<-", "description", "description<-",
            "phenoData", "phenoData<-", "pData")
 S3method("$", "cytoFrame")
-exportClasses("cytoFrame", "cytoSet")
+exportClasses("cytoFrame", "cytoSet", "gate", "gateSet")
 exportMethods("colnames", "colnames<-",
               "description", "description<-",
               "exprs", "exprs<-",
               "length", "[", "[[", "[[<-",
               "pData", "phenoData", "phenoData<-",
-              "show", "plot")
+              "show", "plot", "gate", "applyGate",
+              "drawGate", "gate<-", "names", "names<-")

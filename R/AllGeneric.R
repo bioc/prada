@@ -1,0 +1,43 @@
+## ===========================================================================
+## These are already defined as generic functions:
+## ---------------------------------------------------------------------------
+if(!isGeneric("colnames<-"))
+  setGeneric("colnames<-",    function(x, value) standardGeneric("colnames<-"))
+
+if(!isGeneric("colnames"))
+  setGeneric("colnames",      function(x, do.NULL=TRUE, prefix="col") standardGeneric("colnames"))
+
+if(!isGeneric("plot"))
+  setGeneric("plot",          useAsDefault=plot)
+## ---------------------------------------------------------------------------
+
+
+## ===========================================================================
+## Generic for applyGate
+## ---------------------------------------------------------------------------
+setGeneric("applyGate", function(x, data) standardGeneric("applyGate"))
+## ---------------------------------------------------------------------------
+
+
+## ===========================================================================
+## Generic for gate
+## ---------------------------------------------------------------------------
+setGeneric("gate", function(x, ...) standardGeneric("gate"))
+setGeneric("gate<-", function(object, value) standardGeneric("gate<-"))
+## ---------------------------------------------------------------------------
+
+
+## ===========================================================================
+## Generic for names
+## ---------------------------------------------------------------------------
+setGeneric("names",    function(x) standardGeneric("names"))
+setGeneric("names<-",    function(x, value) standardGeneric("names<-"))
+## ---------------------------------------------------------------------------
+
+## ===========================================================================
+## Generic for drawGate
+## ---------------------------------------------------------------------------
+setGeneric("drawGate", function(x, ...) standardGeneric("drawGate"))
+## ---------------------------------------------------------------------------
+
+

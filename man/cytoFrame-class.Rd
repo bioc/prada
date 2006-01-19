@@ -1,6 +1,7 @@
 \name{cytoFrame-class}
 \docType{class}
 \alias{cytoFrame-class}
+\alias{cytoFrame}
 \alias{[,cytoFrame-method}
 \alias{description,cytoFrame-method}
 \alias{description<-,cytoFrame,character-method}
@@ -11,11 +12,16 @@
 \alias{show,cytoFrame-method}
 \alias{plot,cytoFrame,missing-method}
 \alias{$.cytoFrame}
-
+\alias{gate,cytoFrame-method}
+\alias{gate<-,cytoFrame,gate-method}
+\alias{gate<-,cytoFrame,gateSet-method}
+\alias{removeCensored,cytoFrame-method}
+\alias{drawGate,cytoFrame-method}
+\alias{drawGate,matrix-method}
 
 \title{'cytoFrame': a class for storing observed quantitative
-  properties from a population of cells, for example from a FACS run or
-  from automated microscopy}
+  properties from a population of cells, most likely from a FACS run or, 
+  alternatively, from automated microscopy}
 
 \description{This class represents the data contained in a
   FCS 3.0 file or similar data structures.}
@@ -57,6 +63,14 @@ or the function \code{\link[prada]{readFCS}}.}
       \code{rownames} attribute would usually not be set.}
 \item{\code{description}:}{A named character vector
       containing the experiment description as key-value pairs.}
+\item{\code{well}:}{A single integer vector giving the position of the
+     well on a microtitre plate. This only applies when using the object
+     within a \code{\link[prada]{cytoSet}} collection and will usually
+     be filled in by the function \code{\link[prada]{readCytoSet}}.}
+\item{\code{gate}:}{A list containing one or several object of class
+      \code{\link[prada]{gateSet}}. These objects can be used to
+      select defined subsets of the data, a process referred to as
+      \code{gating} in the analysis of flow-cytometry data.}
 }}
 
 \section{Methods}{\describe{
@@ -67,18 +81,32 @@ or the function \code{\link[prada]{readFCS}}.}
 \item{exprs, exprs<-}{extract or replace the intensities.}
 \item{description, description<-}{extract or replace the description.}
 \item{show}{display summary.}
-\item{plot}{scatterplot for \code{cytoFrame} objects.}
+\item{plot}{scatterplot for \code{cytoFrame} objects. The additional
+argument \code{gate} can be used to plot subsets of the data defined by
+either an object of class \code{\link[prada]{gate}} or by a character
+vector giving the name of one of the gates in the list.}
+\item{gate,gate<-}{extract or replace the list of gates.}
+\item{drawGate}{Create an object of class \code{\link[prada]{gate}} or
+\code{\link[prada]{gateSet}} based on a selection made from the
+data. See \code{\link[prada]{gateMatrix}} for further details.}
 }}
 
 \details{
-FCS 3.0 is the Data File Standard for Flow Cytometry, Version FCS3.0.
+Although objects of class \code{cytoFrame} can be used to hold arbitrary
+data of cell populations, the main focus lies on flow-cytometry data.
+ 
+FCS 3.0 is the Data File Standard for Flow Cytometry, Version
+FCS3.0. See the vignette of this package for additional information on
+using the object system for handling of flow-cytometry data. 
 }
 			
-\author{Wolfgang Huber}
+\author{Florian Hahne, Wolfgang Huber}
 
-\seealso{\code{\link[prada]{readFCS}}, \code{\link[prada]{cytoSet-class}}}
+\seealso{\code{\link[prada]{readFCS}},
+\code{\link[prada]{cytoSet}}, \code{\link[prada]{gate}},
+\code{\link[prada]{gateSet}}, \code{\link[prada]{gateMatrix}}}
+
 \examples{
-
 intens <- matrix(runif(100), ncol=4)
 colnames(intens) <- c("FL1-H", "FL2-H", "FL3-H", "FL4-H")
 
@@ -92,7 +120,10 @@ dim(exprs(a))
 a[1:3, -4]
 
 plot(a)
-
+\dontrun{
+g1 <- drawGate(a, name="Gate1")
 }
+}
+
 \keyword{classes}
 

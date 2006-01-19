@@ -1,5 +1,6 @@
 \name{cytoSet-class}
 \docType{class}
+\alias{cytoSet}
 \alias{cytoSet-class}
 \alias{[,cytoSet-method}
 \alias{[[,cytoSet-method}
@@ -11,6 +12,8 @@
 \alias{colnames<-,cytoSet-method}
 \alias{phenoData,cytoSet-method}
 \alias{phenoData<-,cytoSet,phenoData-method}
+\alias{plot,cytoSet,missing-method}
+
 
 \title{'cytoSet': a class for storing raw data from
 a quantitative cell-based assay}
@@ -48,12 +51,10 @@ Objects can be created using the function
 \section{Slots}{\describe{
 \item{\code{frames}:}{An \code{\link[base:environment]{environment}}
 containing one or more \code{\link[cytoFrame-class]{cytoFrame}} objects.}
-
 \item{\code{phenoData}:}{A
 \code{\link[Biobase:phenoData-class]{phenoData}}. Each row
 corresponds to one of the cytoFrames in the \code{frames} slot.
 It is mandatory that the pData has column named \code{name}}
-
 \item{\code{colnames}:}{A \code{character} object with the
 (common) column names of all the data matrices in the cytoFrames.}
 }}
@@ -66,6 +67,10 @@ operators for lists.}
 \item{colnames, colnames<-}{extract or replace the \code{colnames} slot.}
 \item{phenoData, phenoData<-}{extract or replace the \code{phenoData} slot.}
 \item{show}{display summary.}
+\item{plot}{Scatterplot of one or all (consecutively) \code{\link[cytoFrame]{cytoFrame}}
+objects.  The additional argument \code{gate} can be used to plot
+subsets of the data defined by an object of class
+\code{\link[prada]{gate}} or \code{\link[prada]{gateSet}}.}
 }}
 
 \section{Important note on storage and performance}{
@@ -102,9 +107,12 @@ of a \code{cytoSet} \code{x}, use
 \preformatted{y <- x[seq(along=x)]}
 }
 
-\author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
+\author{Florian Hahne, Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 
-\seealso{\code{\link[prada]{readCytoSet}}, \code{\link[prada]{cytoFrame-class}}}
+\seealso{\code{\link[prada]{readCytoSet}},
+\code{\link[prada]{cytoFrame}}, \code{\link[prada]{gate}},
+\code{\link[prada]{gateSet}}}
+
 \examples{
 cset<-readCytoSet(path=system.file("extdata", package="prada"),
   pattern="[A-Z][0-9][0-9]$")
@@ -117,7 +125,9 @@ cset[1:3]
 
 cset[[1]] <- exprs(cset[[1]])[1:100, ]
 
-plot(cset[[2]])
+\dontrun{
+plot(cset[2])
+}
 
 }
 \keyword{classes}
