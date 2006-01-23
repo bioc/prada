@@ -15,7 +15,6 @@
 \alias{gate,cytoFrame-method}
 \alias{gate<-,cytoFrame,gate-method}
 \alias{gate<-,cytoFrame,gateSet-method}
-\alias{removeCensored,cytoFrame-method}
 \alias{drawGate,cytoFrame-method}
 \alias{drawGate,matrix-method}
 

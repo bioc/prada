@@ -2,6 +2,7 @@
 \alias{removeCensored}
 \alias{removeCensored,matrix-method}
 \alias{removeCensored,data.frame-method}
+\alias{removeCensored,cytoFrame-method}
 
 \title{Remove rows that contain censored data}
 \description{Remove rows that contain censored data in the
