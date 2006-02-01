@@ -157,7 +157,7 @@ setReplaceMethod("gate", signature=c("cytoFrame", "gateSet"),
 ## drawGate method
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("drawGate",
-  signature=signature("cytoFrame", "ANY"),
+  signature=signature("cytoFrame"),
     definition=function(x, ...) {
     g <- gateMatrix(exprs(x), ...)
     return(invisible(g))})
