@@ -134,7 +134,7 @@ setMethod("plot",
     dcol <- missing(col)
     dm <- missing(main)
     sel <- TRUE
-    frames <- format(pData(cset)[,"name", drop=FALSE])
+    frames <- format(pData(x)[,"name", drop=FALSE])
     cat("Available frames in cytSet:\n")
     print(frames)
     userAnswer <- NULL
