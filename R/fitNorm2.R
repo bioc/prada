@@ -8,7 +8,8 @@
 }
 
 
-fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise) {
+fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise,
+                     gateName="fitNorm") {
 
   if(!require(rrcov))
     stop("Required package rrcov could not be found.")
@@ -26,13 +27,14 @@ fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise) {
       noise <- which(noise)
     if (!is.numeric(noise) || length(noise) > nrow(x) || length(noise)==0)
       stop("'noise' should be an index or logical vector not longer than x") 
-    x <- x[-noise,]
+    x <- x[-noise, ,drop=FALSE]
   }
   if (nrow(x)<50)
     stop("Not enough data points for reliable analysis")
+  
   if (!is.numeric(scalefac))
     stop("'scalefac' must be numeric")
-
+  
   cov <- switch(method,
     covMcd = {
       nmax <- 50000
@@ -45,16 +47,32 @@ fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise) {
       cov.rob(x)
     },
     stop("'method' must be one of 'covMcd' or 'cov.rob'")
- ) ## end of switch
+   ) ## end of switch
   
- mu   <- cov$center
- S    <- cov$cov
- Sinv <- solve(S)
- w    <- rbind(xorig[,1], xorig[,2])-mu
- z    <- Sinv %*% w
- p    <- exp(-0.5 * (z[1,]*w[1,] +  z[2,]*w[2,]))
- sel  <- p > exp(-0.5 * scalefac^2)
+  mu   <- cov$center
+  S    <- cov$cov
+  Sinv <- solve(S)
+  w    <- rbind(xorig[,1], xorig[,2])-mu
+  z    <- Sinv %*% w
+  p    <- exp(-0.5 * (z[1,]*w[1,] +  z[2,]*w[2,]))
+  sel  <- p > exp(-0.5 * scalefac^2)
 
- return(invisible(list(mu=mu, S=S, p=p, sel=sel, scalefac=scalefac, data=xorig)))
+  gfun <- function(x=x, cov, scalefac){
+    mu   <- cov$center
+    S    <- cov$cov
+    Sinv <- solve(S)
+    w    <- rbind(x[,1], x[,2])-mu
+    z    <- Sinv %*% w
+    p    <- exp(-0.5 * (z[1,]*w[1,] +  z[2,]*w[2,]))
+    return(p > exp(-0.5 * scalefac^2))
+  }
+     
+  gate <- new("gate", name=gateName,
+              gateFun=function(x) gfun(x=x, cov=cov, scalefac=scalefac),
+              colnames=colnames(x),
+              logic="&", type="fitNorm") 
+  return(invisible(list(mu=mu, S=S, p=p, sel=sel, scalefac=scalefac,
+                        data=xorig, gate=gate)))
+  
 }
 

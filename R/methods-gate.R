@@ -20,7 +20,6 @@ setMethod("show",
 ## ==========================================================================
 
 
-
 ## ==========================================================================  
 ## names method
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -35,9 +34,8 @@ setMethod("names",
 setMethod("applyGate",
   signature=signature("gate", "matrix"),
   definition=function(x, data) {
-    return(invisible(x@gateFun(data)))}, valueClass="logical") 
+    return(data[x@gateFun(data),])}, valueClass="matrix")
 ## ==========================================================================  
-
 
 
 # applyGate method on cytoFrame
@@ -45,9 +43,18 @@ setMethod("applyGate",
 setMethod("applyGate",
   signature=signature("gate", "cytoFrame"),
   definition=function(x, data) {
-    return(applyGate(x, exprs(data)))
-  })
+    exprs(data) <- applyGate(x, exprs(data))
+    return(data)
+  }, valueClass="cytoFrame")
 ## ==========================================================================
 
 
-
+# as.gate method
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("as.gateSet",
+  signature=signature("gate"),
+  definition=function(x) {
+    ret <- new("gateSet", glist=list(x), name=x@name)
+    return(ret)
+  }, valueClass="gateSet")
+## ==========================================================================

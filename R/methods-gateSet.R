@@ -82,7 +82,7 @@ setMethod("applyGate",
            "' in colnames of data matrix to apply gate\n'",
            paste(cnData[miss], collapse="' and '"),
            "' not present", sep="")
-    if(length(cng)<3)
+    if(length(cng)<2)
        return(invisible(!logical(nrow(data))))
  
     fCalls <- paste("gfuns[[", 1:length(gfuns), "]](data[,",
@@ -103,7 +103,7 @@ setMethod("applyGate",
     }else{
       allSel <- orSel
     }
-    return(invisible(allSel))}, valueClass="logical")
+    return(data[allSel,, drop=FALSE])}, valueClass="matrix")
 ## ==========================================================================
 
 # applyGate method on cytoFrame
@@ -111,6 +111,40 @@ setMethod("applyGate",
 setMethod("applyGate",
   signature=signature("gateSet", "cytoFrame"),
   definition=function(x, data) {
-    return(applyGate(x, exprs(data)))
+    exprs(data) <- applyGate(x, exprs(data))
+    return(data)
   })
+## ==========================================================================
+
+## ==========================================================================
+## subsetting method to gate
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("[[",
+  signature="gateSet",
+  definition=function(x, i, j="missing", drop="missing") {
+    if(!missing(j))
+      stop("invalid number of dimensions")
+    if(length(i)!=1)
+      stop("Subsetting to single items only")
+    if(!i %in% 1:length(x@glist))
+      stop("Subset out of bounds")
+    return(x@glist[[i]])
+   },
+   valueClass="gate")
+## ==========================================================================
+
+## ==========================================================================
+## subsetting method to gateSet
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("[",
+  signature="gateSet",
+  definition=function(x, i, j="missing", drop="missing") {
+    if(!missing(j))
+      stop("invalid number of dimensions")
+    if(!all(i %in% 1:length(x@glist)))
+      stop("Subset out of bounds")
+    x@glist <- x@glist[i]
+    return(x)
+   },
+   valueClass="gateSet")
 ## ==========================================================================

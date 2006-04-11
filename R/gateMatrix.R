@@ -48,7 +48,7 @@ insidePolygon <- function(data, polygon){
 ## do polygonial gating on two dimensional data
 ## ---------------------------------------------------------------------------
 gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE,
-                       keep=TRUE, vertices=list(), comb=FALSE){
+                       keep=TRUE, vertices=list(), comb=FALSE, add=TRUE){
   
   require(geneplotter)
   ##  check arguments:
@@ -69,10 +69,11 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE,
     plot(obj[keep,,drop=FALSE], pch=20, cex=0.5, xlab=colnames(obj)[1],
          ylab=colnames(obj)[2],
          xlim=mylimits, ylim=mylimits, col=densCols(obj)[keep])
-    points(obj[!keep,,drop=FALSE], pch=20, cex=0.5, col="lightgray")
-    if(length(vertices)>0){
+    if(add)
+      points(obj[!keep,,drop=FALSE], pch=20, cex=0.5, col="lightgray")
+    if(add && length(vertices)>0){
       for(i in 1:length(vertices))
-          lines(vertices[[i]], col=gatecol, lwd=2)
+          lines(vertices[[i]], col="darkred", lwd=2)
     }
   }
   polyVertices <- c()
@@ -103,9 +104,9 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE,
     points(obj[keep,,drop=FALSE],pch=20,cex=0.5, col=densCols(obj)[keep])
     points(obj[!(dataInBox | comb),,drop=FALSE],pch=20,cex=0.5,col="lightgray")
     lines(matrix(unlist(polyVertices), ncol=2, byrow=T), col=gatecol, lwd=2)
-    if(length(vertices)>0){
+    if(add && length(vertices)>0){
       for(i in 1:length(vertices))
-          lines(vertices[[i]], col=gatecol, lwd=2)
+          lines(vertices[[i]], col="darkred", lwd=2)
     }
   }
 
@@ -135,21 +136,27 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
   userAnswer <- "r"
   gList <- vertices <- list()
   counter <- 1
+  ovars <- NULL
  
   while(userAnswer!="f"){ # if not finished
-    combRows <- !logical(nrow(object))
+    combRows <- logical(nrow(object))
     #keepobject <- object[keepRows,,drop=FALSE]
     selectedVars <- getGateVariables(object)  #prompt to select vars
     userAnswer <- "r" #make sure to enter next while loop
     while(userAnswer=="r"){ # if redo gating
+      add <- (is.null(ovars) || setequal(ovars, selectedVars))
+      ovars <- selectedVars
       thisGate1 <- gatePoints(object[,selectedVars,drop=FALSE],
                               totmin=data.min, totmax=data.max,
                               gatecol=gate.colour, smooth=smooth,
-                              keep=keepRows)
+                              keep=keepRows, add=add)
       gate1 <- thisGate1$indices
       cat("found",sum(gate1),"\n")
-      userAnswer <- tolower(readline(paste("(R)edo this gating, (C)ombine this",
-                           "gating with another one, (P)roceed or (F)inish? ")))
+      userAnswer <- "x"
+      while(! userAnswer %in% c("r", "c", "p", "f"))  
+        userAnswer <- tolower(readline(paste("(R)edo this gating, ",
+                              "(C)ombine this gating with another one",
+                              ", (P)roceed or (F)inish? ")))
     }#end while redo
     vertices <- c(vertices, list(thisGate1$vertices))
     if (sum(gate1)==0) cat("No events in drawn gate!\n") #special case no cells in gate
@@ -175,18 +182,21 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
         counter <- counter+1
         logic <- "|" #gate is logical 'OR'
         selectedVars <- getGateVariables(object) #prompt to select vars
+        add <- setequal(selectedVars, ovars)
         userAnswer <- "r" #make sure to enter next while loop
         while (userAnswer=="r"){
           thisGate2 <- gatePoints(object[,selectedVars,drop=FALSE],
                                   totmin=data.min,totmax=data.max,
                                   gatecol=gate.colour,smooth=smooth,
                                   comb=combRows, keep=keepRows,
-                                  vertices=vertices)
+                                  vertices=vertices, add=add)
           gate2 <- thisGate2$indices 
           gList[[counter]] <- new("gate", name=paste("G", counter, sep=""),
                               gateFun=thisGate2$gFun, colnames=thisGate2$gCol,
                               logic=logic, type="polygon")#, indices=gate2) 
           cat("found",sum(gate2),"\n")
+          userAnswer <- "x"
+          while(! userAnswer %in% c("r", "a", "u", "f")) 
           userAnswer <- tolower(readline(paste("(R)edo this gating, (A)dd",
                                 "another gating to combination, (U)se this,",
                                  "combination? ")))# prompt for input
@@ -196,8 +206,10 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
       } #end while (userAnswer=="a")
       vertices <- list()
       keepRows <- combRows
-      combRows <- FALSE
+      combRows <- TRUE
       cat("Total of",length(keepRows),"events within this gate combination.\n")
+      userAnswer <- "x"
+          while(! userAnswer %in% c("p", "f")) 
       userAnswer <- readline("(P)roceed or (F)inish? ")
       counter <- counter+1
     } #end else combination
@@ -239,14 +251,14 @@ getGateVariables <- function(object){
     while(is.na(selectedVar1)){
       varanswer1 <- readline("Variable 1 ? ")
       selectedVar1 <- varnames[as.numeric(varanswer1)]
-      if (is.na(selectedVar1))
-        selectedVar1 <- varnames[grep(varanswer1,varnames,ignore.case=TRUE)[1]]
+      #if (is.na(selectedVar1))
+      #  selectedVar1 <- varnames[grep(varanswer1,varnames,ignore.case=TRUE)[1]]
       } #while
     while(is.na(selectedVar2)){
       varanswer2 <- readline("Variable 2 ? ")
       selectedVar2 <- varnames[as.numeric(varanswer2)]
-      if (is.na(selectedVar2))
-        selectedVar2 <- varnames[grep(varanswer2,varnames,ignore.case=TRUE)[1]]
+      #if (is.na(selectedVar2))
+      #  selectedVar2 <- varnames[grep(varanswer2,varnames,ignore.case=TRUE)[1]]
     } #while
     selectedVars <- c(selectedVar1,selectedVar2)
       cat("Selected Variables:")

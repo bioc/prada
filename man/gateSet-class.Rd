@@ -4,11 +4,16 @@
 \alias{gateSet}
 \alias{applyGate,gateSet,matrix-method}
 \alias{applyGate,gateSet,cytoFrame-method}
+\alias{applyGate,character,cytoFrame-method}
+\alias{applyGate,numeric,cytoFrame-method}
+\alias{applyGate,logical,cytoFrame-method}
 \alias{length,gateSet-method}
 \alias{show,gateSet-method}
 \alias{names,gateSet-method}
 \alias{names<-,gateSet-method}
 \alias{applyGate}
+\alias{[,gateSet-method}
+\alias{[[,gateSet-method}
 
 \title{'gateSet': a class for subsetting flow-cytometry data by defining
   multiple regions in two-dimesional projections of the data}
@@ -42,7 +47,12 @@ Objects can be created using methods of the generic function
       \code{\link[prada]{cytoFrame}} or \code{matrix}.}
     \item{length}{length of slot \code{glist}.}
     \item{show}{\code{display summary}
-      \item{names}{name of the individual \code{\link[prada]{gate}} objects.}} 
+      \item{names}{name of the individual \code{\link[prada]{gate}}
+	objects.}
+     \item{[}{subset to \code{\link[prada]{gateSet}}
+       objects. }}
+     \item{[[}{subset to individual \code{\link[prada]{gate}}
+	objects. }}
 }}
 
 \author{Florian Hahne}

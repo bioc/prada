@@ -150,18 +150,24 @@ theList <- list(exprs = t(the.level),
                 number     = t(number.of.all),
                 Plate      = t(the.plate))
 
- result <- new("eSet",assayData=theList,
-                      phenoData  = a,
-                      sampleNames= rownames(pData(a)),
-                      reporterNames =colnames(the.level))
+ #result <- new("eSet",assayData=theList,
+ #                     phenoData  = a,
+ #                     sampleNames= rownames(pData(a)),
+ #                     reporterNames =colnames(the.level))
+
+
+ result <- new("MultiExpressionSet")
+ assayData(result) <- theList
+ phenoData(result) <- as(a, "AnnotatedDataFrame")
+ 
  
  if (! is.null(sampleInformation)) {
    if( !("Sample" %in% colnames(pData(sampleInformation)))) stop("Your phenoData must contain a column named 'Sample'.")
    the.match <- match(rownames(pData(result)),as.character(pData(sampleInformation)$Sample))
    
    pData(result) <- cbind(pData(result),pData(sampleInformation)[the.match,colnames(pData(sampleInformation))!="Sample"])
-   phenoData(result)@varLabels<- c(varLabels(phenoData(result)),varLabels(sampleInformation)[names(varLabels(sampleInformation))!="Sample"])
-   colnames(pData(result)) <- names(phenoData(result)@varLabels)
+   #varLabels(result) <- c(varLabels(result),varLabels(sampleInformation)[names(varLabels(sampleInformation))!="Sample"])
+   #colnames(pData(result)) <- names(varLabels(result))
  }
 
 

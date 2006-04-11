@@ -4,7 +4,7 @@ plotNorm2 <- function(fn, colrange=c("gray82", "blue"), center=TRUE,
 
   #require(geneplotter)
   
-  if(!is.list(fn) || any(names(fn)!=c("mu", "S", "p", "sel", "scalefac", "data")))
+  if(!is.list(fn) || any(names(fn)!=c("mu", "S", "p", "sel", "scalefac", "data", "gate")))
     stop("Parameter 'fn' must be a list with elements mu, S, p, sel, scalefac, data")
   for(i in c("center", "selection", "ellipse"))
     if(!is.logical(get(i)))

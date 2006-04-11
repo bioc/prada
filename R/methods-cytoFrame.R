@@ -52,32 +52,11 @@ setReplaceMethod("colnames",
 ## ==========================================================================
 ## plot method
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-##fixme: quite ugly that we need the vars argument. Need a better solution here
 setMethod("plot",
   signature(x="cytoFrame", y="missing"),
-  definition=function(x, gate, vars=1:2, col=densCols(exprs(x)[,1:2]),
-    pch=20, ...){
-    sel <- TRUE
-    msg <- paste("\n'gate' must be either object of class 'gateSet' or",
-                 "a character\ndefining at least one of the gates",
-                 "assigned to it or 'TRUE' for the whole set")
+  definition=function(x, col=densCols(exprs(x)[,1:2]), pch=20, ...){
     values=exprs(x)
-    if(!missing(gate)){
-      if(is.character(gate)){
-        inNames <- which(!gate %in% names(x@gate))
-        if(length(inNames)!=0)
-          stop("\ngate not assigned to this object\n  available gates: '",
-               paste(names(x@gate), collapse="' '", sep=""), "'")
-        wh <- match(gate, names(x@gate))
-        gate <- new("gateSet", glist=x@gate@glist[wh], name="tmp")
-      }else if(is.logical(gate) && gate){
-        gate <- x@gate
-      }else if(!is(gate, "gate") & !is(gate, "gateSet"))
-        stop(msg)
-      sel <- applyGate(gate, values)
-      col=densCols(exprs(x)[sel,vars])
-    }
-    plot(values[sel,vars], col=col, pch=pch, ...)})
+    plot(values, col=col, pch=pch, ...)})
 ## ==========================================================================
 
 ## ==========================================================================
@@ -162,3 +141,68 @@ setMethod("drawGate",
     g <- gateMatrix(exprs(x), ...)
     return(invisible(g))})
 ## ==========================================================================
+
+## ==========================================================================
+## nrow method
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("nrow",
+  signature=signature("cytoFrame"),
+    definition=function(x) {
+    return(nrow(x@exprs))})
+## ==========================================================================
+
+## ==========================================================================
+## ncol method
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("ncol",
+  signature=signature("cytoFrame"),
+    definition=function(x) {
+    return(ncol(x@exprs))})
+## ==========================================================================
+
+## ==========================================================================
+## applyGate method on cytoFrame with character
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("applyGate",
+  signature=signature("character", "cytoFrame"),
+  definition=function(x, data) {
+    if(!all(x %in% names(data@gate)))
+      stop("\ngate not assigned to this object\n  available gates: '",
+           paste(names(data@gate), collapse="' '", sep=""), "'")
+    wh <- match(x, names(data@gate))
+    gate <- new("gateSet", glist=data@gate@glist[wh], name="tmp")
+    
+    exprs(data) <- applyGate(gate, exprs(data))
+    return(data)
+  }, valueClass="cytoFrame")
+## ==========================================================================
+
+## ==========================================================================
+## applyGate method on cytoFrame with logical
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("applyGate",
+  signature=signature("logical", "cytoFrame"),
+  definition=function(x, data) {
+    if(!x)
+      return(data)
+    gate <- data@gate
+    exprs(data) <- applyGate(gate, exprs(data))
+    return(data)
+  }, valueClass="cytoFrame")
+## ==========================================================================
+
+## ==========================================================================
+## applyGate method on cytoFrame with numeric
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("applyGate",
+  signature=signature("numeric", "cytoFrame"),
+  definition=function(x, data) {
+    x <- as.integer(x)
+    if(!all(x %in% 1:length(data@gate)))
+      stop("gate index out of bounds")
+    gate <- data@gate[x]
+    exprs(data) <- applyGate(gate, exprs(data))
+    return(data)
+  }, valueClass="cytoFrame")
+## ==========================================================================
+
