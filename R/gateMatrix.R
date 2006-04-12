@@ -60,6 +60,15 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE,
   if (is.null(totmax)) totmax <- round(max(obj))
   mylimits <- c(totmin,totmax)
 
+  
+  # type of gate
+  userAnswer <- "n"
+  while(!userAnswer %in% c("p", "r"))
+    userAnswer <- tolower(readline(paste("Type of gate? (P)olygon or",
+                                         "(R)ectangular?")))
+  rect <- ifelse(userAnswer=="r", TRUE, FALSE)
+
+  
   # start plot
   if (smooth){
     smoothScatter(obj, xlab=colnames(obj)[1], ylab=colnames(obj)[2],
@@ -78,22 +87,39 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE,
   }
   polyVertices <- c()
 
+ 
   # get input
-  cat("Draw gate (left click: set point, right click: end drawing).\n")
-  startpoint <- myLocator(totmin,totmax)
-  polyVertices <- c(polyVertices,list(c(startpoint$x,startpoint$y)))
-  temppoint <- "bla"
-  lastpoint <- startpoint
-  while (!is.null(temppoint)){
-    temppoint <- myLocator(totmin,totmax)
-    if (!is.null(temppoint)){
-      polyVertices <- c(polyVertices,list(c(temppoint$x,temppoint$y)))
-      drawLine(lastpoint,temppoint,gatecol)
-      lastpoint <- temppoint
-    }
-  } # while
-  drawLine(lastpoint,startpoint,gatecol)
-  polyVertices <- c(polyVertices,list(c(startpoint$x,startpoint$y)))
+  if(!rect){
+    cat("Draw gate (left click: set point, right click: end drawing).\n")
+    startpoint <- myLocator(totmin,totmax)
+    polyVertices <- c(polyVertices,list(c(startpoint$x,startpoint$y)))
+    temppoint <- "bla"
+    lastpoint <- startpoint
+    while (!is.null(temppoint)){
+      temppoint <- myLocator(totmin,totmax)
+      if (!is.null(temppoint)){
+        polyVertices <- c(polyVertices,list(c(temppoint$x,temppoint$y)))
+        drawLine(lastpoint,temppoint,gatecol)
+        lastpoint <- temppoint
+      }
+    } # while
+    drawLine(lastpoint,startpoint,gatecol)
+    polyVertices <- c(polyVertices,list(c(startpoint$x,startpoint$y)))
+  }else{
+    cat("Draw gate (left top left and bottom right corners).\n")
+    startpoint <- myLocator(totmin,totmax)
+    polyVertices <- c(polyVertices,list(c(startpoint$x,startpoint$y)))
+    lastpoint <- myLocator(totmin,totmax)
+    p <- matrix(ncol=2, nrow=4)
+    p[1,] <- unlist(startpoint)
+    p[2,] <- c(lastpoint$x, startpoint$y)
+    p[3,] <- unlist(lastpoint)
+    p[4,] <- c(startpoint$x, lastpoint$y)
+    lines(rbind(p, unlist(startpoint)), lwd=2,col=gatecol)
+    polyVertices <- c(polyVertices,list(p[2,]), list(p[3,]), list(p[4,]),
+                      list(p[1,]))
+  }
+    
   
   # process drawn box
   cat("Determining events within gate...")
@@ -112,7 +138,8 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE,
 
   gFun <- function(x) insidePolygon(data=x, polyVertices)
   return(list(indices=dataInBox, gFun=gFun, gCol=colnames(obj),
-              vertices=matrix(unlist(polyVertices), ncol=2, byrow=TRUE)))
+              vertices=matrix(unlist(polyVertices), ncol=2, byrow=TRUE),
+              type=ifelse(rect, "rectangle", "polygon")))
 }
 ## ===========================================================================
 
@@ -131,7 +158,6 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
     stop("\nmandatory parameter 'name' must be character vector of length 1") 
       
   ### 2. initialize result ###
-  # inGate <- rep(FALSE,nrow(object))# initialize
   keepRows <- !logical(nrow(object))
   userAnswer <- "r"
   gList <- vertices <- list()
@@ -140,7 +166,6 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
  
   while(userAnswer!="f"){ # if not finished
     combRows <- logical(nrow(object))
-    #keepobject <- object[keepRows,,drop=FALSE]
     selectedVars <- getGateVariables(object)  #prompt to select vars
     userAnswer <- "r" #make sure to enter next while loop
     while(userAnswer=="r"){ # if redo gating
@@ -164,9 +189,8 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
       #gate is logical 'AND'
       gList[[counter]] <- new("gate", name=paste("G", counter, sep=""),
                               gateFun=thisGate1$gFun, colnames=thisGate1$gCol,
-                              logic="&", type="polygon")#, indices=gate1)                
+                              logic="&", type=thisGate1$type)               
       keepRows <- keepRows & gate1
-      cat("Keeping only events within previous gate...\n")
       vertices <- list()
       counter <- counter+1
     } else if (userAnswer=="c"){ #if combination
@@ -174,7 +198,7 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
       logic="&"
       gList[[counter]] <- new("gate", name=paste("G", counter, sep=""),
                               gateFun=thisGate1$gFun, colnames=thisGate1$gCol,
-                              logic=logic, type="polygon")#, indices=gate1) 
+                              logic=logic, type=thisGate1$type)
       combRows <-  keepRows & gate1
       userAnswer <- "a" #make sure to enter next while loop
       while (userAnswer=="a"){
@@ -193,7 +217,7 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
           gate2 <- thisGate2$indices 
           gList[[counter]] <- new("gate", name=paste("G", counter, sep=""),
                               gateFun=thisGate2$gFun, colnames=thisGate2$gCol,
-                              logic=logic, type="polygon")#, indices=gate2) 
+                              logic=logic, type=thisGate2$type)
           cat("found",sum(gate2),"\n")
           userAnswer <- "x"
           while(! userAnswer %in% c("r", "a", "u", "f")) 
@@ -220,8 +244,8 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
   #if(length(logic)!=1)
   #  logic <- logic[-1]
   dev.off()
+  names(gList) <- sapply(gList, names)
   gset <- new("gateSet", name=name, glist=gList)
-  names(gset) <- paste(name, "_", 1:length(gset), sep="")
   return(gset)
 }
 ## ===========================================================================

@@ -3,6 +3,7 @@
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("show",
   signature="gateSet", definition=function(object) {
+    validObject(object)
     if(object@name == "ALL" && all(names(object) == "ALL")){
       cat("Initial gateSet object containing all observations\n")
     }else{
@@ -47,6 +48,7 @@ setReplaceMethod("names",
       stop("\nreplacement attribute must be same length as object")
     for(i in 1:length(x))
       x@glist[[i]]@name <- value[i]
+    validObject(x)
     return(x)})
 ## ==========================================================================
 
@@ -56,64 +58,6 @@ setReplaceMethod("names",
 setMethod("length",
   signature="gateSet", definition=function(x) {
     return(length(x@glist))}, valueClass="integer")
-## ==========================================================================
-
-## ==========================================================================
-## applyGate method on matrix
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-setMethod("applyGate",
-  signature=signature("gateSet", "matrix"),
-  definition=function(x, data) {
-    ## test for validity of objects
-    if(!is.matrix(data) || (!is.real(data) && !is.integer(data)))
-      stop("'data' must be real or integer matrix")
-    cnData <- colnames(data)  
-    gfuns <- glogics  <- NULL
-    cnGates <- list() 
-    for(i in 1:length(x)){
-      gfuns <- c(gfuns, x@glist[[i]]@gateFun)
-      glogics <- c(glogics, x@glist[[i]]@logic)
-      cnGates[[i]] <- x@glist[[i]]@colnames  
-    }
-    cng <- unique(unlist(cnGates))
-    miss <- which(!cng %in% cnData) 
-    if(length(miss)!=0)
-      stop("Need variable(s) '", paste(cng, collapse="' and '"),
-           "' in colnames of data matrix to apply gate\n'",
-           paste(cnData[miss], collapse="' and '"),
-           "' not present", sep="")
-    if(length(cng)<2)
-       return(invisible(!logical(nrow(data))))
- 
-    fCalls <- paste("gfuns[[", 1:length(gfuns), "]](data[,",
-                    paste("c(\"", lapply(cnGates, paste,
-                    collapse="\", \""), "\")", sep=""), "])", sep="")
-    or <- which(glogics=="|")
-    if(length(or)!=0)
-      andCalls <- fCalls[-c(or, or-1)]
-    else
-      andCalls <- fCalls
-    orCalls <- fCalls[sort(unique(c(or, or-1)))]
-    andSel <- eval(parse(text=paste(andCalls, collapse=" & ")))
-    orSel <-  eval(parse(text=paste(orCalls, collapse=" | ")))
-    if(length(andSel) & length(orSel)){
-      allSel <- andSel & orSel
-    }else if(length(andSel)){
-      allSel <- andSel
-    }else{
-      allSel <- orSel
-    }
-    return(data[allSel,, drop=FALSE])}, valueClass="matrix")
-## ==========================================================================
-
-# applyGate method on cytoFrame
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-setMethod("applyGate",
-  signature=signature("gateSet", "cytoFrame"),
-  definition=function(x, data) {
-    exprs(data) <- applyGate(x, exprs(data))
-    return(data)
-  })
 ## ==========================================================================
 
 ## ==========================================================================
@@ -128,7 +72,9 @@ setMethod("[[",
       stop("Subsetting to single items only")
     if(!i %in% 1:length(x@glist))
       stop("Subset out of bounds")
-    return(x@glist[[i]])
+    ret <- x@glist[[i]]
+    validObject(ret)
+    return(ret)
    },
    valueClass="gate")
 ## ==========================================================================
@@ -144,7 +90,26 @@ setMethod("[",
     if(!all(i %in% 1:length(x@glist)))
       stop("Subset out of bounds")
     x@glist <- x@glist[i]
+    validObject(x)
     return(x)
    },
    valueClass="gateSet")
 ## ==========================================================================
+
+## ==========================================================================
+## append gates method
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("appendGates",
+          signature=c("gateSet"),
+          definition=function(x, ...){
+            arglist <- list(...)
+            if(!all(sapply(arglist, is, "gate")))
+              stop("Can only append 'gate' objects")
+            gsnames <- names(x@glist)
+            gnames <- sapply(arglist, names)
+            x@glist <- c(x@glist, arglist)
+            names(x@glist) <- c(gsnames, gnames)
+            validObject(x)
+            return(x)},
+          valueClass="gateSet")
+  

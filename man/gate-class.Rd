@@ -2,12 +2,16 @@
 \docType{class}
 \alias{gate-class}
 \alias{gate}
-\alias{applyGate,gate,matrix-method}
-\alias{applyGate,gate,cytoFrame-method}
+\alias{applyGate,matrix,gate-method}
+\alias{appendGates,gateSet-method}
 \alias{show,gate-method}
 \alias{names,gate-method}
 \alias{gate<-}
 \alias{drawGate}
+\alias{combineGates}
+\alias{as.gateSet}
+\alias{as.gateSet,gate-method}
+\alias{names<-,gate-method}
 
 \title{'gate': a class for subsetting flow-cytometry data by defining
   regions in two-dimesional projections of the data}
@@ -49,10 +53,16 @@ on combining \code{gates}.}
   \describe{
     \item{applyGate:}{\code{applyGate(x, data)}\crapplies the gating of
 	object \code{x} on data objects of class
-      \code{\link[prada]{cytoFrame}} or \code{matrix}.}
+	\code{\link[prada]{cytoFrame}} or \code{matrix}.
+	In the former case \code{x} may be of class \code{gate},
+        \code{gateSet}, \code{character}, \code{numeric} or
+        \code{logical}. See vignette for details.}
     \item{show}{display summary.}
-    \item{names}{access slot name.}
-}}
+    \item{names, names<-}{access and replace slot name.}
+    \item{as.gateSet}{Convert \code{gate} object to  \code{gateSet}
+      object}
+     \item{combineGates}{Combine multiple \code{gate} objects to
+       one \code{gateSet} object} }}
 
 \author{Florian Hahne}
 
@@ -62,8 +72,23 @@ on combining \code{gates}.}
 }
 
 \examples{
-g1 <- new("gate", gateFun=function(x)x<500, logic="&",
-          colnames=c("FSC-H", "SSC-H"))
+sampdat <- readFCS(system.file("extdata", "fas-Bcl2-plate323-04-04.A01",
+                               package="prada"))
+g1 <- new("gate", name="test1", gateFun=function(x)x[,"FSC-H"]<500, logic="&",
+          colnames="FSC-H", type="misc")
+g1
+g2 <- new("gate", name="test2", gateFun=function(x)x[,"SSC-H"]>800, logic="&",
+          colnames="SSC-H", type="misc")
+gs1 <- combineGates(g1,g2)
+gs2 <- as.gateSet(g2)
+names(g1)
+names(g1) <- "testName"
+applyGate(sampdat, g1)
+applyGate(exprs(sampdat), g2)
+gate(sampdat) <- g1
+applyGate(sampdat, 1)
+applyGate(sampdat, "testName")
+applyGate(sampdat, TRUE)
 }
 \keyword{classes}
 

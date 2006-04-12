@@ -15,7 +15,7 @@ if(!isGeneric("plot"))
 ## ===========================================================================
 ## Generic for applyGate
 ## ---------------------------------------------------------------------------
-setGeneric("applyGate", function(x, data) standardGeneric("applyGate"))
+setGeneric("applyGate", function(data, x) standardGeneric("applyGate"))
 ## ---------------------------------------------------------------------------
 
 
@@ -23,7 +23,8 @@ setGeneric("applyGate", function(x, data) standardGeneric("applyGate"))
 ## Generic for gate
 ## ---------------------------------------------------------------------------
 setGeneric("gate", function(x, ...) standardGeneric("gate"))
-setGeneric("gate<-", function(object, value) standardGeneric("gate<-"))
+setGeneric("gate<-", function(object, value)
+           standardGeneric("gate<-"))
 ## ---------------------------------------------------------------------------
 
 
@@ -43,20 +44,31 @@ setGeneric("drawGate", function(x, ...) standardGeneric("drawGate"))
 ## ===========================================================================
 ## Generic for nrow
 ## ---------------------------------------------------------------------------
-setGeneric("nrow", function(x) standardGeneric("nrow"))
+if(!isGeneric("nrow"))
+  setGeneric("nrow", function(x) standardGeneric("nrow"))
 ## ---------------------------------------------------------------------------
 
 ## ===========================================================================
 ## Generic for nrow
 ## ---------------------------------------------------------------------------
-setGeneric("ncol", function(x) standardGeneric("ncol"))
+if(!isGeneric("ncol"))
+  setGeneric("ncol", function(x) standardGeneric("ncol"))
 ## ---------------------------------------------------------------------------
 
 ## ===========================================================================
-## Generic for as.gate
+## Generic for as.gateSet
 ## ---------------------------------------------------------------------------
-setGeneric("as.gateSet", function(x) standardGeneric("as.gateSet"))
+setGeneric("as.gateSet", function(from) standardGeneric("as.gateSet"))
 ## ---------------------------------------------------------------------------
+
+## ===========================================================================
+## Generic for appendGates
+## ---------------------------------------------------------------------------
+setGeneric("appendGates", function(x, ...) standardGeneric("appendGates"))
+## ---------------------------------------------------------------------------
+
+
+
 
 
 

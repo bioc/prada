@@ -3,6 +3,7 @@
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("show",
   signature="gate", definition=function(object) {
+    validObject(object)
     if(object@name=="ALL" && object@type=="ALL"){
       msg <-  paste("Initial gate object including all observations\n")
     }else{
@@ -29,32 +30,31 @@ setMethod("names",
 ## ==========================================================================
 
 
-# applyGate method on matrix
-## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-setMethod("applyGate",
-  signature=signature("gate", "matrix"),
-  definition=function(x, data) {
-    return(data[x@gateFun(data),])}, valueClass="matrix")
 ## ==========================================================================  
-
-
-# applyGate method on cytoFrame
+## repacement method for names
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-setMethod("applyGate",
-  signature=signature("gate", "cytoFrame"),
-  definition=function(x, data) {
-    exprs(data) <- applyGate(x, exprs(data))
-    return(data)
-  }, valueClass="cytoFrame")
+setReplaceMethod("names",
+  signature=c("gate"), definition=function(x, value) {
+    if(!is.character(value) || length(value) != 1)
+      stop("\nreplacement attribute must be same length as object")
+      x@name <- value
+    validObject(x)
+    return(x)})
 ## ==========================================================================
 
 
-# as.gate method
+# as.gateSet method
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("as.gateSet",
   signature=signature("gate"),
-  definition=function(x) {
-    ret <- new("gateSet", glist=list(x), name=x@name)
+  definition=function(from) {
+    theClass <- class(from)
+    if(!(theClass=="gate"))
+      stop("Can't coerce object of class '", theClass, "' to class 'gateSet'")
+    gl <- list(from)
+    names(gl) <- from@name
+    ret <- new("gateSet", glist=gl, name=from@name)
+    validObject(ret)
     return(ret)
   }, valueClass="gateSet")
 ## ==========================================================================

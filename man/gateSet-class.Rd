@@ -2,11 +2,6 @@
 \docType{class}
 \alias{gateSet-class}
 \alias{gateSet}
-\alias{applyGate,gateSet,matrix-method}
-\alias{applyGate,gateSet,cytoFrame-method}
-\alias{applyGate,character,cytoFrame-method}
-\alias{applyGate,numeric,cytoFrame-method}
-\alias{applyGate,logical,cytoFrame-method}
 \alias{length,gateSet-method}
 \alias{show,gateSet-method}
 \alias{names,gateSet-method}
@@ -14,6 +9,9 @@
 \alias{applyGate}
 \alias{[,gateSet-method}
 \alias{[[,gateSet-method}
+\alias{appendGates}
+\alias{appendGates, gateSet_method}
+\alias{applyGate,matrix,gateSet-method}
 
 \title{'gateSet': a class for subsetting flow-cytometry data by defining
   multiple regions in two-dimesional projections of the data}
@@ -47,13 +45,15 @@ Objects can be created using methods of the generic function
       \code{\link[prada]{cytoFrame}} or \code{matrix}.}
     \item{length}{length of slot \code{glist}.}
     \item{show}{\code{display summary}
-      \item{names}{name of the individual \code{\link[prada]{gate}}
+      \item{names, names<-}{extract or replace the names of the
+individual \code{\link[prada]{gate}}
 	objects.}
      \item{[}{subset to \code{\link[prada]{gateSet}}
        objects. }}
      \item{[[}{subset to individual \code{\link[prada]{gate}}
-	objects. }}
-}}
+       objects. }}
+   \item{appendGates}{append a \code{gate} or \code{gateSet} to a
+\code{cytoFrame}}}
 
 \author{Florian Hahne}
 
@@ -63,11 +63,27 @@ Objects can be created using methods of the generic function
 }
 
 \examples{
-g1 <- new("gate", gateFun=function(x)x<500, logic="&",
-          colnames=c("FSC-H", "SSC-H"))
-g2 <- new("gate", gateFun=function(x)x>800, logic="&",
-          colnames=c("FSC-H", "SSC-H"))
-gs <- new("gateSet", name="Set1", glist=list(g1, g2))
+sampdat <- readFCS(system.file("extdata", "fas-Bcl2-plate323-04-04.A01",
+                               package="prada"))
+g1 <- new("gate", name="G1", gateFun=function(x)x[,"FSC-H"]<500, logic="&",
+          colnames="FSC-H")
+g2 <- new("gate", name="G2", gateFun=function(x)x[,"SSC-H"]>800, logic="&",
+          colnames="SSC-H")
+g3 <- new("gate", name="G3", gateFun=function(x)x[,"FL1-H"]>800, logic="&",
+          colnames="FL1-H")
+gs <- new("gateSet", name="Set1", glist=list(G1=g1, G2=g2))
+length(gs)
+gs[[1]]
+gs[1]
+gsnames <- names(gs)
+names(gs) <- gsnames
+applyGate(sampdat, gs)
+applyGate(exprs(sampdat), gs)
+gate(sampdat) <- gs
+applyGate(sampdat, 1)
+applyGate(sampdat, "G1")
+applyGate(sampdat, TRUE)
+appendGates(sampdat, g3)
 
 }
 \keyword{classes}

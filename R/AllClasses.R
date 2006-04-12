@@ -14,16 +14,18 @@ setClass("gate",
                  logic="character",
                  type="character"),
   prototype=list(name="ALL", gateFun=function(x) TRUE,
-                 logic="&", type="ALL"),
+                 logic="&", type="unknown"),
   validity=function(object){
     msg <- TRUE
+    if(!is.character(object@colnames) ||
+       length(object@colnames)<1)
+      msg <- "\nslot 'colnames' must be character vector longer then 1"
+    test <- matrix(1:length(object@colnames), ncol=length(object@colnames))
+    colnames(test) <- object@colnames
     if(!is.function(object@gateFun) ||
-       !is.logical(object@gateFun(matrix(1:10, ncol=2))))
+       !is.logical(object@gateFun(test)))
       msg <- paste("\nslot 'gateFun' must be function returning logical",
                    "vector when applied to data matrix")
-    if(!is.character(object@colnames) ||
-       length(object@colnames)!=2)
-      msg <- "\nslot 'colnames' must be character vector of length 2"
     if(!is.character(object@name) ||
        length(object@name)!=1)
       msg <- "\nslot 'name' must be character vector of length 1"
@@ -56,6 +58,12 @@ setClass("gateSet",
         !all(sapply(object@glist, is, "gate")))
         msg <- paste("\nslot 'glist' must be list of length > 0",
                     "with items of class 'gate'")
+    gnames <- sapply(object@glist, names)
+    if(length(unique(gnames))!=length(gnames))
+      msg <- "names of individual gates are not unique"
+    if(is.null(names(object@glist)) ||
+       length(setdiff(names(object@glist), gnames)) != 0)
+      msg <- "names of 'glist' must match names of individual gates"
     return(msg)
   })
         
