@@ -142,4 +142,5 @@ setClass("ddCtSet", contains = "eSet",
                                         "number", "Plate"))
            if(!all(apply(sapply(assayData(object), dim), 2,
                          function(x) identical(dim(assayData(object)[[1]]), x))))
+             msg <- "all items of assayData must have same dimesions" 
            return(msg)})
