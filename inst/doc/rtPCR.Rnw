@@ -102,8 +102,8 @@ We save the results as tab-delimited text files. Therefor we use the function
 \Rfunction{eListWrite}.
 <<write Tables>>=
 eListWrite(result,file=savedir("allValues.txt"),sep="\t",row.names=FALSE)
-write.table(assayData(result)$exprs,file=savedir("level_matrix.txt"), sep = "\t", col.names = NA)
-write.table(assayData(result)$dCt,file=savedir("dCt_matrix.txt"), sep = "\t", col.names =NA)
+write.table(exprs(result),file=savedir("level_matrix.txt"), sep = "\t", col.names = NA)
+write.table((result)$dCt,file=savedir("dCt_matrix.txt"), sep = "\t", col.names =NA)
 @
 
 \end{document}

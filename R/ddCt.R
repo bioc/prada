@@ -123,41 +123,23 @@ ddCt <- function(raw.table,calibrationSample,housekeepingGenes,type="mean",sampl
 
  md <- data.frame(name = c("exprs","level.err","Ct","Ct.error","dCt","dCt.error","ddCt","ddCt.error","Difference","numberNA","number","Plate"))
  
- #theList <- new("exprList", .Data=list(exprs = t(the.level),
- #                                 level.err  = t(the.level.error),
- #                                 Ct         = t(the.Ct.values),
- #                                 Ct.error   = t(error.Ct),
- #                                 dCt        = t(dCt),
- #                                 dCt.error  = t(error.dCt),
- #                                 ddCt       = t(ddCt),
-#                                  ddCt.error = t(error.ddCt),
-  #                                Difference = t(the.difference.values),
-  #                                numberNA   = t(number.of.na),
-  #                                number     = t(number.of.all),
-  #                                Plate      = t(the.plate)),eMetadata = md)
-#
+ 
 
-theList <- list(exprs = t(the.level),
-                level.err  = t(the.level.error),
-                Ct         = t(the.Ct.values),
-                Ct.error   = t(error.Ct),
-                dCt        = t(dCt),
-                dCt.error  = t(error.dCt),
-                ddCt       = t(ddCt),
-                ddCt.error = t(error.ddCt),
-                Difference = t(the.difference.values),
-                numberNA   = t(number.of.na),
-                number     = t(number.of.all),
-                Plate      = t(the.plate))
-
- #result <- new("eSet",assayData=theList,
- #                     phenoData  = a,
- #                     sampleNames= rownames(pData(a)),
- #                     reporterNames =colnames(the.level))
-
-
- result <- new("MultiExpressionSet")
- assayData(result) <- theList
+ result <- new("ddCtSet")
+ assayData <- assayDataNew(storage.mode="list",
+                           exprs = t(the.level),
+                           level.err  = t(the.level.error),
+                           Ct         = t(the.Ct.values),
+                           Ct.error   = t(error.Ct),
+                           dCt        = t(dCt),
+                           dCt.error  = t(error.dCt),
+                           ddCt       = t(ddCt),
+                           ddCt.error = t(error.ddCt),
+                           Difference = t(the.difference.values),
+                           numberNA   = t(number.of.na),
+                           number     = t(number.of.all),
+                           Plate      = t(the.plate))
+ assayData(result) <- assayData
  phenoData(result) <- as(a, "AnnotatedDataFrame")
  
  
@@ -166,8 +148,6 @@ theList <- list(exprs = t(the.level),
    the.match <- match(rownames(pData(result)),as.character(pData(sampleInformation)$Sample))
    
    pData(result) <- cbind(pData(result),pData(sampleInformation)[the.match,colnames(pData(sampleInformation))!="Sample"])
-   #varLabels(result) <- c(varLabels(result),varLabels(sampleInformation)[names(varLabels(sampleInformation))!="Sample"])
-   #colnames(pData(result)) <- names(varLabels(result))
  }
 
 

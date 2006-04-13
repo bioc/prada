@@ -19,12 +19,13 @@ importFrom("geneplotter", "densCols")
 importFrom("geneplotter", "smoothScatter")
 importFrom("Biobase", "exprs", "exprs<-", "description", "description<-",
            "phenoData", "phenoData<-", "pData")
+importClassesFrom("Biobase", "eSet")
 S3method("$", "cytoFrame")
 S3method("range", "cytoFrame")
-exportClasses("cytoFrame", "cytoSet", "gate", "gateSet")
+exportClasses("cytoFrame", "cytoSet", "gate", "gateSet", "ddCtSet")
 exportMethods("colnames", "colnames<-",
               "description", "description<-",
-              "exprs", "exprs<-",
+              "exprs", "exprs<-", "initialize",
               "length", "[", "[[", "[[<-",
               "pData", "phenoData", "phenoData<-",
               "show", "plot", "gate", "applyGate",
