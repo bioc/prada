@@ -1,0 +1,104 @@
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+%\VignetteIndexEntry{Combining prada output and cellHTS}
+%\VignetteDepends{prada}
+%\VignetteKeywords{}
+%\VignettePackage{none}
+\documentclass[11pt]{article}
+\usepackage{times}
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rvariable}[1]{{\textit{#1}}}
+
+\begin{document}
+\title{Feeding the output of a cell-based assay into cellHTS}
+\author{Florian Hahne}
+\maketitle
+
+The package \Rpackage{prada} can be used to analyze flow cytometry raw
+data derived from cell-based assays. The output of these analyses are
+highly processed data or even scored hit lists. However, for some
+applications it might also be useful to integrate this output into the
+\Rpackage{cellHTS} package in order to make use of its excellent
+visualization and QA features.  Although \Rpackage{cellHTS} is more
+geared towards the analysis of unprocessed raw data data the process
+is rather straight forward. To exemplify the procedure we added some
+sample files derived from an apoptosis assay to this package which
+contain all the necessary information to be provided for
+\Rpackage{cellHTS}. The generation of these files can be accomplished
+using any of the available file handling functions provided by R or by
+using any text processing software. 
+The data consist of scored effect sizes (odds ratios) for two
+replicates of two 96 well plates. Cells in each well were transfected
+with a different overexpression construct for a protein of unknown
+function and the induction of apoptosis was measured using FACS
+readout. The file \emph{Platelist.txt} maps the contents of the data
+files for each plate to plate and replicate idenitfiers. 
+We first load the necessary R packages.
+<<prepare>>=
+library(prada)
+library(cellHTS)
+@ 
+
+
+By calling \Rfunction{readPlateData} we can import the
+data and generate a \Rpackage{cellHTS} object:
+<<readPlateData>>=
+experimentName = "ApoptosisScreen"
+dataPath = system.file("extdata", package = "prada")
+x = readPlateData("Platelist.txt", name = experimentName, 
+                  path = dataPath, plateType="96")
+x
+@ 
+
+In a second step we tell \Rpackage{cellHTS} where to expect controls
+on the plates and also give some details about the experiment. This
+information is provided by the files \emph{Plateconf.txt},
+\emph{Screenlog.txt} and \emph{Description.txt}.
+
+<<configure>>=
+confFile = file.path(dataPath, "Plateconf.txt")
+logFile = file.path(dataPath, "Screenlog.txt")
+descripFile = file.path(dataPath, "Description.txt")
+x = configure(x, confFile, logFile, descripFile)
+@ 
+
+We ommit the normalization step since normalization has already been done
+during our analysis. However, we do need to tell \Rpackage{cellHTS}
+that this step is no longer necessary in order to proceed to the following
+steps. We also want to calculate the negative log transformation of the
+odds ratio to ensure symmetry around zero.
+
+<<normalize>>=
+x$xnorm <- -log10(x$xraw)
+x$state["normalized"] <- TRUE
+@ 
+
+In the final step we include annotation information for both plates
+(provided by the file \emph{GeneIDs} and generate the HTML report.
+
+<<report, eval=FALSE>>=
+geneIDFile = file.path(dataPath, "GeneIDs.txt")
+x = annotate(x, geneIDFile)
+writeReport(x, force = TRUE, plotPlateArgs = list(xrange = c(0.2,
+    1.5), xcol=c("white", "red")), 
+    imageScreenArgs = list(zrange = c(-2, 6.5), ar = 1))
+@ The final report can now be inspected in the subfolder
+\emph{ApoptosisScreen} of the current working directory. For more
+information on each individual step and the content of the report
+please consult the vignette of the \Rpackage{cellHTS} package.
+
+
+\end{document}
+
+

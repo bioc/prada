@@ -107,8 +107,12 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   
   ## reinitialize plot
   device <- names(dev.cur())
-  if(!add && !device %in% c("pdf", "postscript"))
+  if(!add && !device %in% c("pdf", "postscript")){
+    mar <- par("mar")
+    par(mar=rep(0,4))
     plot.new()
+    par(mar=mar)
+  }
 
   ## setting up aspect ratio
   devWidth <- par("fin")[1]*res[1]

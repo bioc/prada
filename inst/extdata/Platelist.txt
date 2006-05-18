@@ -1,0 +1,6 @@
+Filename	Plate	Replicate
+plate3_1.txt	1	1
+plate3_2.txt	1	2 
+plate4_1.txt	2	1
+plate4_2.txt	2	2
+

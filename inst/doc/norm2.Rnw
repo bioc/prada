@@ -1,7 +1,7 @@
 % NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
 % likely to be overwritten.
 %
-%\VignetteIndexEntry{FACS quality control}
+%\VignetteIndexEntry{Removal of contaminants from FACS data}
 %\VignetteDepends{prada}
 %\VignetteKeywords{}
 %\VignettePackage{none}

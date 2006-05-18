@@ -1,0 +1,15 @@
+[Description]	
+Screen	ApoScreen
+Screentitle	"Sample Screen"
+Version	1.0
+Date	"04 Jan 2006"
+Screentype	Overexpression
+Organism	Human
+Celltype	HEK293T
+Assay	"Apoptosis by FACS measurement of Caspase-3 activation"
+	
+[Files]	
+plateList	Platelist.txt
+annotation	GeneIDs.txt
+plateConf	Plateconf.txt
+screenLog	Screenlog.txt
