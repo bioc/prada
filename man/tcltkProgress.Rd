@@ -36,8 +36,10 @@
 \examples{
 if(interactive()){
   progress(message="This is a progress display...")
-  for(i in 1:10000)
-  updateProgress(ceiling(i/100), autoKill=TRUE)
+  for(i in 1:50) {
+     zz = rnorm(1e5)
+     updateProgress(i*2, autoKill=TRUE)
+  }
 }
 }
 \keyword{misc}

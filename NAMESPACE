@@ -11,7 +11,8 @@ export("analysePlate", "as.all",
        "removeCensored", "setPradaPars",
        "thresholds", "threePanelPlot",
        "devRes", ".drawCircle", ".drawPie",
-       "vpLocation", "touchFCS", "combineGates")
+       "vpLocation", "touchFCS", "combineGates",
+       "progress", "updateProgress", "killProgress")
 
 importFrom("utils", "getFromNamespace", "assignInNamespace")
 importFrom("MASS", "cov.rob")
