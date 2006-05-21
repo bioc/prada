@@ -234,7 +234,7 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
       cat("Total of",length(keepRows),"events within this gate combination.\n")
       userAnswer <- "x"
           while(! userAnswer %in% c("p", "f")) 
-      userAnswer <- readline("(P)roceed or (F)inish? ")
+      userAnswer <- tolower(readline("(P)roceed or (F)inish? "))
       counter <- counter+1
     } #end else combination
   }#end while userAnswer!="f"
