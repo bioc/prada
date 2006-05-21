@@ -13,6 +13,7 @@ Collate: AllGeneric.R AllClasses.R methods-cytoFrame.R methods-cytoSet.R
 	 cytoFunctions.R ddCt.R eListWrite.R fitNorm2.R gateMatrix.R 
 	 getPradaPar.R plotNorm2.R plotPlate.R readCytoSet.R readFCS.R 
 	 readSDM.R removeCensored.R thresholds.R touchFCS.R zzz.R methods-ddCtSet.R
+         tcltkProgress.R
 LazyLoad: true
 Description: Tools for analysing and navigating data from high-throughput phenotyping experiments 
  based on cellular assays and fluorescent detection (flow cytometry (FACS), high-content screening 

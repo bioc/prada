@@ -29,7 +29,7 @@ updateProgress <- function(percentage, autoKill=FALSE){
   percentage <- as.integer(percentage)
   tclvalue(.tkprogress.labelText) <<- percentage
   if(autoKill)
-    if(percentage==100)
+    if(percentage>=100)
       killProgress()
 }
 
