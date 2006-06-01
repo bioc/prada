@@ -36,21 +36,20 @@ is rather straight forward. To exemplify the procedure we added some
 sample files derived from an apoptosis assay to this package which
 contain all the necessary information to be provided for
 \Rpackage{cellHTS}. The generation of these files can be accomplished
-using any of the available file handling functions provided by R or by
-using any text processing software. 
+using the available file handling functions provided by R or by
+using text processing software. 
 The data consist of scored effect sizes (odds ratios) for two
 replicates of two 96 well plates. Cells in each well were transfected
 with a different overexpression construct for a protein of unknown
 function and the induction of apoptosis was measured using FACS
 readout. The file \emph{Platelist.txt} maps the contents of the data
 files for each plate to plate and replicate idenitfiers. 
-We first load the necessary R packages.
-<<prepare>>=
-library(prada)
-library(cellHTS)
+We first load the package.
+%
+<<prepare, results=hide>>=
+library("cellHTS")
 @ 
-
-
+%
 By calling \Rfunction{readPlateData} we can import the
 data and generate a \Rpackage{cellHTS} object:
 <<readPlateData>>=
