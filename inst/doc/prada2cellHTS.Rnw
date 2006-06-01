@@ -21,7 +21,7 @@
 \newcommand{\Rvariable}[1]{{\textit{#1}}}
 
 \begin{document}
-\title{Feeding the output of a cell-based assay into cellHTS}
+\title{Feeding the output of a flow cytometry assay into cellHTS}
 \author{Florian Hahne}
 \maketitle
 
