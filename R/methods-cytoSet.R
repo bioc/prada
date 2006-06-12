@@ -173,6 +173,51 @@ setMethod("plot",
   })
 ## ==========================================================================
 
+## ==========================================================================
+## hist method
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("hist",
+  signature(x="cytoSet"),
+  definition=function(x, ..., variable=colnames(x)){
+    args <- list(...)
+    dm <- !"main" %in% names(args)
+    dl <- !"xlab" %in% names(args)
+    sel <- TRUE
+    frames <- format(pData(x)[,"name", drop=FALSE])
+    cat("Available frames in cytSet:\n")
+    print(frames)
+    userAnswer <- NULL
+    while(is.null(userAnswer)){
+      userAnswer <- readline("Plot which frame? ('a' for all): ")
+      if(userAnswer == "a"){
+          for(i in 1:length(x)){
+            if(dm)
+              args$main = paste("frame #", i, " (", frames[i,], ")", sep="")
+            if(dl)
+              args$xlab = "x"
+            data <- exprs(x[[i]][, variable])
+            do.call("hist", c(list(x=data), args))
+            par(ask=TRUE)
+          } #end for
+       }else{
+         if(! userAnswer %in% as.character(1:length(x))){
+           userAnswer <- NULL
+           cat("Invalid entry!")
+         }else{
+           if(dm)
+             args$main = paste("frame #", userAnswer, " (",
+                           frames[as.integer(userAnswer),], ")", sep="")
+           if(dl)
+              args$xlab = "x"
+           data <- exprs(x[[as.integer(userAnswer)]])[, variable]
+           do.call("hist", c(list(x=data), args))
+         } #end else
+       } #end else
+    } #end while
+    par(ask=FALSE)
+  })
+## ==========================================================================
+
 
 
 

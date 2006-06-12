@@ -13,6 +13,7 @@
 \alias{phenoData,cytoSet-method}
 \alias{phenoData<-,cytoSet,phenoData-method}
 \alias{plot,cytoSet,missing-method}
+\alias{hist,cytoSet-method}
 
 
 \title{'cytoSet': a class for storing raw data from
@@ -71,6 +72,8 @@ operators for lists.}
 objects.  The additional argument \code{gate} can be used to plot
 subsets of the data defined by an object of class
 \code{\link[prada]{gate}} or \code{\link[prada]{gateSet}}.}
+\item{hist}{Draw histogram of the data. The additional argument
+\code{variable} can be used to subset to one variable prior to plotting.}
 }}
 
 \section{Important note on storage and performance}{

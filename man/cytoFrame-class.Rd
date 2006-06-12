@@ -26,6 +26,7 @@
 \alias{applyGate,cytoFrame,character-method}
 \alias{applyGate,cytoFrame,numeric-method}
 \alias{applyGate,cytoFrame,logical-method}
+\alias{hist,cytoFrame-method}
 
 
 \title{'cytoFrame': a class for storing observed quantitative
@@ -86,7 +87,6 @@ or the function \code{\link[prada]{readFCS}}.}
 \item{[}{subsetting. Returns an object of class \code{cytoFrame}.
   The subsetting is applied to the \code{exprs} slot, while the
   \code{description} slot is unchanged.}
-% \item{[<-}{replace subsets.}
 \item{exprs, exprs<-}{extract or replace the intensities.}
 \item{description, description<-}{extract or replace the description.}
 \item{show}{display summary.}
@@ -100,6 +100,7 @@ vector giving the name of one of the gates in the list.}
 \item{drawGate}{Create an object of class \code{\link[prada]{gate}} or
 \code{\link[prada]{gateSet}} based on a selection made from the
 data. See \code{\link[prada]{gateMatrix}} for further details.}
+\item{hist}{Draw a histogram of the data}
 }}
 
 \details{

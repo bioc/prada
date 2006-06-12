@@ -9,6 +9,9 @@ if(!isGeneric("colnames"))
 
 if(!isGeneric("plot"))
   setGeneric("plot",          useAsDefault=plot)
+
+if(!isGeneric("hist"))
+  setGeneric("hist",          useAsDefault=hist)
 ## ---------------------------------------------------------------------------
 
 
