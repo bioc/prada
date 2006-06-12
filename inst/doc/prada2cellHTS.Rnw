@@ -56,7 +56,7 @@ data and generate a \Rpackage{cellHTS} object:
 experimentName = "ApoptosisScreen"
 dataPath = system.file("extdata", package = "prada")
 x = readPlateData("Platelist.txt", name = experimentName, 
-                  path = dataPath, plateType="96")
+                  path = dataPath)
 x
 @ 
 
