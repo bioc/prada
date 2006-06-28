@@ -12,6 +12,9 @@ if(!isGeneric("plot"))
 
 if(!isGeneric("hist"))
   setGeneric("hist",          useAsDefault=hist)
+
+if(!isGeneric("lines"))
+  setGeneric("lines",          useAsDefault=lines)
 ## ---------------------------------------------------------------------------
 
 

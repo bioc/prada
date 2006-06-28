@@ -1,6 +1,9 @@
 require("Biobase")
 
 
+#### FIXME: Might be useful to create a virtual gate class with subclasses
+#### for different types of gates (polygon, elliptical, rectangular...)
+
 ## ===========================================================================
 ## gate
 ## ---------------------------------------------------------------------------
@@ -12,9 +15,11 @@ setClass("gate",
                  gateFun="function",
                  colnames="character",
                  logic="character",
-                 type="character"),
+                 type="character",
+                 boundaries="matrix" ## this is important for plotting
+                 ),
   prototype=list(name="ALL", gateFun=function(x) TRUE,
-                 logic="&", type="unknown"),
+                 logic="&", type="unknown", boundaries=matrix(ncol=2, nrow=0)),
   validity=function(object){
     msg <- TRUE
     if(!is.character(object@colnames) ||

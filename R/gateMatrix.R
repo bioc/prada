@@ -189,7 +189,8 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
       #gate is logical 'AND'
       gList[[counter]] <- new("gate", name=paste("G", counter, sep=""),
                               gateFun=thisGate1$gFun, colnames=thisGate1$gCol,
-                              logic="&", type=thisGate1$type)               
+                              logic="&", type=thisGate1$type,
+                              boundaries=thisGate1$vertices)               
       keepRows <- keepRows & gate1
       vertices <- list()
       counter <- counter+1
@@ -198,7 +199,8 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
       logic="&"
       gList[[counter]] <- new("gate", name=paste("G", counter, sep=""),
                               gateFun=thisGate1$gFun, colnames=thisGate1$gCol,
-                              logic=logic, type=thisGate1$type)
+                              logic=logic, type=thisGate1$type,
+                              boundaries=thisGate1$vertices)
       combRows <-  keepRows & gate1
       userAnswer <- "a" #make sure to enter next while loop
       while (userAnswer=="a"){
@@ -213,11 +215,12 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
                                   totmin=data.min,totmax=data.max,
                                   gatecol=gate.colour,smooth=smooth,
                                   comb=combRows, keep=keepRows,
-                                  vertices=vertices, add=add)
+                                  vertices=thisGate2$vertices, add=add)
           gate2 <- thisGate2$indices 
           gList[[counter]] <- new("gate", name=paste("G", counter, sep=""),
                               gateFun=thisGate2$gFun, colnames=thisGate2$gCol,
-                              logic=logic, type=thisGate2$type)
+                              logic=logic, type=thisGate2$type,
+                              boundaries=vertices)
           cat("found",sum(gate2),"\n")
           userAnswer <- "x"
           while(! userAnswer %in% c("r", "a", "u", "f")) 

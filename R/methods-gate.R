@@ -58,3 +58,15 @@ setMethod("as.gateSet",
     return(ret)
   }, valueClass="gateSet")
 ## ==========================================================================
+
+
+## ==========================================================================  
+## lines method
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("lines",
+  signature="gate", definition=function(x, ...) {
+    if(!x@type %in% c("polygon", "rectangle"))
+      stop("Don't know how to deal with gate of type '", x@type, "'")
+    if(nrow(x@boundaries)>0)
+      lines(x@boundaries, ...)})
+## ==========================================================================

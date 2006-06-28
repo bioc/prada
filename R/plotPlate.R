@@ -522,7 +522,7 @@ vpLocation <- function(){
   i <- 1:nb
     grid.rect(y=unit(0+i/nb, "npc"), height=unit(1/nb, "npc"),
               gp=gpar(fill=cols[i], col=cols[i]), just="top")
-  grid.rect()
+  grid.rect(gp=gpar(fill=NA))
   at <- signif(seq(xrange[1], xrange[2], length=6)[2:5],2)
   grid.yaxis(at=at, gp=gpar(fontsize=7, cex=1), main=FALSE, label=FALSE)
   grid.text(x=unit(3.5, "native"), y=unit(at, "native"), at, rot=90,

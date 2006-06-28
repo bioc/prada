@@ -45,7 +45,9 @@ that class. See \code{link[prada]{gateSet}} for additional information
 on combining \code{gates}.}
 \item{\code{type}:}{A \code{character} giving the type of the
   object. This is currently not used but might become important in the
-  future.}
+  future.}  \item{\code{boundaries}:}{A \code{matrix} with two columns
+giving the boundaries of the gate in two dimensional space. Can be used
+to superimpose the gate boundaries on a plot using \code{lines()}.}
 }}
 
 
@@ -61,8 +63,10 @@ on combining \code{gates}.}
     \item{names, names<-}{access and replace slot name.}
     \item{as.gateSet}{Convert \code{gate} object to  \code{gateSet}
       object}
-     \item{combineGates}{Combine multiple \code{gate} objects to
-       one \code{gateSet} object} }}
+    \item{combineGates}{Combine multiple \code{gate} objects to
+       one \code{gateSet} object}
+    \item{lines}{Draw the boundaries of the gate.}
+ }}
 
 \author{Florian Hahne}
 

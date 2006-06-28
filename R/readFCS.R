@@ -87,7 +87,7 @@ readFCSdata <- function(con, offsets, x) {
   seek(con, offsets["datastart"])
 
   size <- bitwidth/8
-  if (!size %in% c(2, 4, 8))
+  if (!size %in% c(1, 2, 4, 8))
     stop(paste("Don't know how to deal with bitwidth", bitwidth))
 
   dat <- readBin(con, dattype, n = (offsets["dataend"]-offsets["datastart"]+1)/size,
@@ -99,3 +99,20 @@ readFCSdata <- function(con, offsets, x) {
   return(dat) 
 }
 
+
+read.fcs <- function(filename, objectModel="prada", ...){
+  if(objectModel=="prada"){
+    require(prada)
+    return(readFCS(filename))
+  }
+  ## use rflowcyt's function
+  if(objectModel=="FCS"){
+    require(rflowcyt)
+    ## use rflowcyt's function
+    return(read.FCS(filename, ...))
+    ## use prada's function and convert to rflowcyt
+    ##  return(as(readFCS(filename), "FCS"))
+  }
+  stop("'objectModel' must be either 'prada' or 'FCS'")
+}
+  
