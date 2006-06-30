@@ -6,7 +6,7 @@
   Cytometry, Version FCS3.0}
 \usage{
   readFCS(filename)
-  read.fcs(filename, objectModel="prada", ...)
+  read.fcs(filename=NULL, objectModel="prada", ...)
 }
 \arguments{
   \item{filename}{Character of length 1: filename}

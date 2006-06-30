@@ -66,10 +66,13 @@ fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise,
     p    <- exp(-0.5 * (z[1,]*w[1,] +  z[2,]*w[2,]))
     return(p > exp(-0.5 * scalefac^2))
   }
+  cn <- colnames(x)
+  if(is.null(cn))
+    colnames(xorig) <- c("x", "y")
      
   gate <- new("gate", name=gateName,
               gateFun=function(x) gfun(x=x, cov=cov, scalefac=scalefac),
-              colnames=colnames(x),
+              colnames=colnames(xorig),
               logic="&", type="fitNorm") 
   return(invisible(list(mu=mu, S=S, p=p, sel=sel, scalefac=scalefac,
                         data=xorig, gate=gate)))

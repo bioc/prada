@@ -186,6 +186,8 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   nrcolors = 256
   thepalette = colorRampPalette(col)(nrcolors)
   z2icol <- function(z) {
+    #if(length(unique(z))==1) #if all z values are the same
+    #  return(ceiling(nrcolors/2))
     res = round((z - xrange[1])/diff(xrange) * (nrcolors - 1)) + 1
     res[res > nrcolors] = nrcolors
     res[res < 1] = 1
@@ -194,7 +196,8 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   icol2z <- function(i) {
     (i - 1)/(nrcolors - 1) * diff(xrange) + xrange[1]
   }
-  stopifnot(all(z2icol(icol2z(1:nrcolors)) == 1:nrcolors))
+  stopifnot(length(unique(xrange))!=0 ||
+                   all(z2icol(icol2z(1:nrcolors)) == 1:nrcolors))
   circcol <- matrix(thepalette[z2icol(data)], ncol=ncol(data), nrow=nrow(data))
   
   ############################## deal with NA values #################################

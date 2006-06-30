@@ -100,18 +100,35 @@ readFCSdata <- function(con, offsets, x) {
 }
 
 
-read.fcs <- function(filename, objectModel="prada", ...){
+
+## This is a wrapper for all flow cytometry import function
+## in prada and rflowcyt. Be specifying the objectModel argument
+## the user can choose between the different data representations
+
+read.fcs <- function(filename=NULL, objectModel="prada", ...){
   if(objectModel=="prada"){
     require(prada)
-    return(readFCS(filename))
+    if(!is.null(filename) && length(filename)==1){
+      return(readFCS(filename))
+    }else{
+      if(!is.null(filename)){
+        return(readCytoSet(filename, ...))
+      }else{
+        return(readCytoSet(...))
+      }
+    }  
   }
   ## use rflowcyt's function
   if(objectModel=="FCS"){
     require(rflowcyt)
-    ## use rflowcyt's function
-    return(read.FCS(filename, ...))
-    ## use prada's function and convert to rflowcyt
-    ##  return(as(readFCS(filename), "FCS"))
+    if(!is.null(filename) && length(filename)==1){
+      ## use rflowcyt's function
+      return(read.FCS(filename, ...))
+      ## use prada's function and convert to rflowcyt
+      ##  return(as(readFCS(filename), "FCS"))
+    }else{
+      return(read.series.FCS(filename, ...))
+    }
   }
   stop("'objectModel' must be either 'prada' or 'FCS'")
 }
