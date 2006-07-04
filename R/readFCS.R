@@ -111,12 +111,8 @@ read.fcs <- function(filename=NULL, objectModel="prada", ...){
     if(!is.null(filename) && length(filename)==1){
       return(readFCS(filename))
     }else{
-      if(!is.null(filename)){
-        return(readCytoSet(filename, ...))
-      }else{
-        return(readCytoSet(...))
-      }
-    }  
+      return(readCytoSet(filename, ...))
+    }
   }
   ## use rflowcyt's function
   if(objectModel=="FCS"){

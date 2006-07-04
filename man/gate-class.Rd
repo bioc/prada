@@ -12,6 +12,7 @@
 \alias{as.gateSet}
 \alias{as.gateSet,gate-method}
 \alias{names<-,gate-method}
+\alias{lines,gate-method}
 
 \title{'gate': a class for subsetting flow-cytometry data by defining
   regions in two-dimesional projections of the data}
