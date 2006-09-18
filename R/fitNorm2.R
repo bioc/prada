@@ -1,13 +1,3 @@
-.pradaMakeX    <- function(x, y) {
-  ## check correct input
-  if (!is.matrix(x) || ncol(x)<2)
-    x <- cbind(x, y)
-  if (!is.matrix(x) && ncol(x)==2)
-    stop("Wrong size of arguments 'x' (and/or 'y')")
-  return(x)
-}
-
-
 fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise,
                      gateName="fitNorm") {
 

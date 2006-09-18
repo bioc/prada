@@ -3,8 +3,7 @@ useDynLib("prada")
 
 importFrom("utils", "getFromNamespace", "assignInNamespace")
 importFrom("MASS", "cov.rob")
-importFrom("geneplotter", "densCols")
-importFrom("geneplotter", "smoothScatter")
+importFrom("geneplotter", "densCols", "smoothScatter")
 importFrom("Biobase", "exprs", "exprs<-", "description", "description<-",
            "phenoData", "phenoData<-", "pData")
 importClassesFrom("Biobase", "eSet")
