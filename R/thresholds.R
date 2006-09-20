@@ -1,5 +1,9 @@
 thresholds = function(x, y, xthr, ythr){
-  xn    <- geneplotter:::.pradaMakeX(x, y)
+  if(!missing(y)){
+    xn <- cbind(x, y)
+  }else{
+    xn <- x
+  }
   if(!is.numeric(xthr) | !is.numeric(ythr))
     stop("'xthr' and 'ythr' must be numeric vectors")
  
