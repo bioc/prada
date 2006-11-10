@@ -8,8 +8,8 @@ readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t",
     if(is.character(phenoData))
       phenoData = read.phenoData(file.path(path, phenoData), header = TRUE,
         as.is = TRUE, sep=sep, ...)
-    if(!is(phenoData, "phenoData"))
-      stop("Argument 'phenoData' must be of type 'phenoData'.")
+    if(!is(phenoData, "AnnotatedDataFrame"))
+      stop("Argument 'phenoData' must be of type 'AnnotatedDataFrame'.")
     if(!("name" %in% colnames(pData(phenoData))))
       stop("'phenoData' must contain a column 'name'")
     if(!is.null(files))
@@ -24,11 +24,11 @@ readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t",
   }
   if(!is.character(files))
     stop("'files' must be a character vector")
-
+  
   if(missing(phenoData))
-    phenoData <- new("phenoData",
-       pData     = data.frame(name=I(files)),
-       varLabels = list(name="Name of the FCS 3.0 file"))
+    phenoData=new("AnnotatedDataFrame",
+      data=data.frame(name=I(files)),
+      varMetadata=data.frame(labelDescription="Name of the FCS 3.0 file", row.names="name"))
   
   ## now we have everything in place: files, and phenoData
   
@@ -59,8 +59,8 @@ readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t",
     pDat <- as.data.frame(pData(phenoData)[!pData(phenoData)[,"name"]
                                            %in% empty,])
     colnames(pDat) <- colnames(pData(phenoData))                  
-    phenoData <- new("phenoData",
-       pData     = pDat, varLabels = varLabels(phenoData))
+    phenoData <- new("AnnotatedDataFrame",
+       data     = pDat, varLabels = varMetadata(phenoData))
     warning(length(empty), " FCS files containing no data were omitted!",
             call.=FALSE)
   }

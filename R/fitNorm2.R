@@ -1,8 +1,6 @@
 fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise,
                      gateName="fitNorm") {
 
-  if(!require(rrcov))
-    stop("Required package rrcov could not be found.")
   if(is(x, "cytoFrame"))
     x <- exprs(x)[,1:2]
     

@@ -2,7 +2,7 @@
 \docType{class}
 \alias{cytoFrame-class}
 \alias{cytoFrame}
-\alias{[,cytoFrame-method}
+\alias{[,cytoFrame,ANY,ANY,ANY-method}
 \alias{description,cytoFrame-method}
 \alias{description<-,cytoFrame,character-method}
 \alias{exprs,cytoFrame-method}

@@ -64,10 +64,8 @@ setMethod("length",
 ## subsetting method to gate
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("[[",
-  signature="gateSet",
-  definition=function(x, i, j="missing", drop="missing") {
-    if(!missing(j))
-      stop("invalid number of dimensions")
+  signature=c(x="gateSet", i="ANY", j="missing"),
+  definition=function(x, i, j) {
     if(length(i)!=1)
       stop("Subsetting to single items only")
     if(!i %in% 1:length(x@glist))
@@ -83,10 +81,8 @@ setMethod("[[",
 ## subsetting method to gateSet
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("[",
-  signature="gateSet",
-  definition=function(x, i, j="missing", drop="missing") {
-    if(!missing(j))
-      stop("invalid number of dimensions")
+  signature=c(x="gateSet", j="missing", drop="missing"),
+  definition=function(x, i, j) {
     if(!all(i %in% 1:length(x@glist)))
       stop("Subset out of bounds")
     x@glist <- x@glist[i]

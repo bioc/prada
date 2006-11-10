@@ -112,16 +112,17 @@ setClass("cytoFrame",
 ## ---------------------------------------------------------------------------
 setClass("cytoSet",                   
   representation(frames="environment",
-                 phenoData="phenoData",
+                 phenoData="AnnotatedDataFrame",
                  colnames="character"),
   prototype=list(frames=new.env(),
-                 phenoData=new("phenoData",
-                   pData=data.frame(name=I(character(0))),
-                   varLabels=list(name="Name in frame")),
+                 phenoData=new.env(),
+                 phenoData=new("AnnotatedDataFrame",
+                   data=data.frame(name=I(character(0))),
+                   varMetadata=data.frame(labelDescription="Name in frame", row.names="name")),
                  colnames=character(0)),
   validity=function(object){
     nc <- length(colnames(object))
-    is(object@phenoData, "phenoData") &&
+    is(object@phenoData, "AnnotatedDataFrame") &&
     is(object@colnames, "character") &&
     is(object@frames, "environment") &&
     "name" %in% colnames(pData(object@phenoData)) &&

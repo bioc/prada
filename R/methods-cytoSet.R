@@ -16,10 +16,10 @@ setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
 ## ==========================================================================
 
 ## ==========================================================================
-##  accessor method for slot phenoData@pData
+##  accessor method for slot phenoData@data
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("pData",
-  signature="cytoSet", definition=function(object) object@phenoData@pData,
+  signature="cytoSet", definition=function(object) object@phenoData@data,
   valueClass="data.frame")
 ## ==========================================================================
 
@@ -55,15 +55,15 @@ setMethod("show",
 ## length method
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("length",signature(x="cytoSet"),
-          function(x) nrow(x@phenoData@pData))
+          function(x) nrow(x@phenoData@data))
 ## ==========================================================================
 
 ## ==========================================================================
 ## subsetting method to cytoSet
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("[",
-  signature="cytoSet",
-  definition=function(x, i, j="missing", drop="missing") {
+  signature=c(x="cytoSet", i="ANY", j="missing", drop="missing"),
+  definition=function(x, i, j) {
     fr <-new.env(hash=TRUE)
     if(is.numeric(i)||is.logical(i)) {
       nm <- x@phenoData$name[i]
@@ -84,7 +84,7 @@ setMethod("[",
 ## subsetting method to cytoFrame
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("[[",
-  signature="cytoSet",
+  signature=c(x="cytoSet", i="ANY", j="missing"),
   definition=function(x, i, j="missing") {
     if(length(i)!=1)
       stop("subscript out of bounds (index must have length 1 in '[[')")

@@ -50,7 +50,6 @@ insidePolygon <- function(data, polygon){
 gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE,
                        keep=TRUE, vertices=list(), comb=FALSE, add=TRUE){
   
-  require(geneplotter)
   ##  check arguments:
   if (!is.matrix(obj)) stop("First argument is no matrix!\n")
   if (ncol(obj)!=2) stop("Data matrix does not have two columns!\n")

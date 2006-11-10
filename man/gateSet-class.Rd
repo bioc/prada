@@ -7,8 +7,8 @@
 \alias{names,gateSet-method}
 \alias{names<-,gateSet-method}
 \alias{applyGate}
-\alias{[,gateSet-method}
-\alias{[[,gateSet-method}
+\alias{[,gateSet,ANY,missing,missing-method}
+\alias{[[,gateSet,ANY,missing-method}
 \alias{appendGates}
 \alias{appendGates, gateSet_method}
 \alias{applyGate,matrix,gateSet-method}

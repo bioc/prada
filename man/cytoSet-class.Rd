@@ -2,8 +2,8 @@
 \docType{class}
 \alias{cytoSet}
 \alias{cytoSet-class}
-\alias{[,cytoSet-method}
-\alias{[[,cytoSet-method}
+\alias{[,cytoSet,ANY,missing,missing-method}
+\alias{[[,cytoSet,ANY,missing-method}
 \alias{[[<-,cytoSet-method}
 \alias{show,cytoSet-method}
 \alias{length,cytoSet-method}
