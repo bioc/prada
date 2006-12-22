@@ -37,7 +37,7 @@ setGeneric("gate<-", function(object, value)
 ## ===========================================================================
 ## Generic for names
 ## ---------------------------------------------------------------------------
-setGeneric("names",    function(x) standardGeneric("names"))
+#setGeneric("names",    function(x) standardGeneric("names"))
 setGeneric("names<-",    function(x, value) standardGeneric("names<-"))
 ## ---------------------------------------------------------------------------
 
