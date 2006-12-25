@@ -74,7 +74,3 @@ setGeneric("appendGates", function(x, ...) standardGeneric("appendGates"))
 ## ---------------------------------------------------------------------------
 
 
-
-
-
-

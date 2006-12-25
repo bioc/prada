@@ -1,5 +1,5 @@
 Package: prada
-Version: 1.11.2
+Version: 1.11.3
 Date: 21. December 2006
 Title: Data analysis for cell-based functional assays
 Author:  Florian Hahne <f.hahne@dkfz.de>, Wolfgang Huber <huber@ebi.ac.uk>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, Joern Toedling <toedling@ebi.ac.uk>
@@ -10,10 +10,9 @@ Imports: MASS, KernSmooth, RColorBrewer, geneplotter, rrcov
 Collate: AllGeneric.R AllClasses.R methods-cytoFrame.R methods-cytoSet.R
 	 methods-gate.R methods-gateSet.R methods-misc.R analysePlate.R 
 	 as.all.R barploterrbar.R combineFrames.R csApply.R combineGates.R
-	 cytoFunctions.R ddCt.R eListWrite.R fitNorm2.R gateMatrix.R 
+	 cytoFunctions.R fitNorm2.R gateMatrix.R 
 	 getPradaPar.R plotNorm2.R plotPlate.R readCytoSet.R readFCS.R 
-	 readSDM.R removeCensored.R thresholds.R touchFCS.R zzz.R methods-ddCtSet.R
-         tcltkProgress.R
+	 readSDM.R removeCensored.R thresholds.R touchFCS.R zzz.R tcltkProgress.R
 LazyLoad: true
 Description: Tools for analysing and navigating data from high-throughput phenotyping experiments 
  based on cellular assays and fluorescent detection (flow cytometry (FACS), high-content screening 

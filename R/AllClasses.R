@@ -133,20 +133,3 @@ setClass("cytoSet",
         ncol(exprs(fr))==nc } ))
   })
 
-## ===========================================================================
-## ddCtSet
-## ---------------------------------------------------------------------------
-## A subclass to the virtual eSet class to store rtPCR data that has been
-## analyzed using the ddCt method.
-## ---------------------------------------------------------------------------
-setClass("ddCtSet", contains = "eSet",
-         validity=function(object){
-           msg <- TRUE
-           msg <- assayDataValidMembers(assayData(object), c("exprs", "level.err",
-                                        "Ct", "Ct.error", "dCt", "dCt.error", "ddCt",
-                                        "ddCt.error", "Difference", "numberNA",
-                                        "number", "Plate"))
-           if(!all(apply(sapply(assayData(object), dim), 2,
-                         function(x) identical(dim(assayData(object)[[1]]), x))))
-             msg <- "all items of assayData must have same dimesions" 
-           return(msg)})

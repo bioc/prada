@@ -7,17 +7,14 @@ importFrom("rrcov", "covMcd")
 importFrom("geneplotter", "densCols", "smoothScatter")
 importFrom("Biobase", "exprs", "exprs<-", "description", "description<-",
            "phenoData", "phenoData<-", "pData")
-importClassesFrom("Biobase", "eSet")
 
 
 export("analysePlate", "as.all",
        "barploterrbar", "combineFrames",
-       "csApply", "ddCt",
-       "eListWrite",
-       "fitNorm2", "getPradaPar",
+       "csApply", "fitNorm2", "getPradaPar",
        "plotNorm2", "devDims",
        "plotPlate", "readCytoSet",
-       "readFCS", "readSDM", "read.fcs",
+       "readFCS", "read.fcs",
        "removeCensored", "setPradaPars",
        "thresholds", "threePanelPlot",
        "devRes", ".drawCircle", ".drawPie",
@@ -27,10 +24,10 @@ export("analysePlate", "as.all",
 
 S3method("$", "cytoFrame")
 S3method("range", "cytoFrame")
-exportClasses("cytoFrame", "cytoSet", "gate", "gateSet", "ddCtSet")
+exportClasses("cytoFrame", "cytoSet", "gate", "gateSet")
 exportMethods("colnames", "colnames<-",
               "description", "description<-",
-              "exprs", "exprs<-", "initialize",
+              "exprs", "exprs<-",
               "length", "[", "[[", "[[<-",
               "pData", "phenoData", "phenoData<-",
               "show", "plot", "gate", "applyGate",
