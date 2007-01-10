@@ -3,7 +3,8 @@
 \title{Barplot with error bars.}
 \description{Barplot with error bars.}
 \usage{
-barploterrbar(y, yl, yh, barcol="orange", errcol="black", horiz=FALSE, w=0.2, ...)
+barploterrbar(y, yl, yh, barcol="orange", errcol="black", horiz=FALSE,
+w=0.2, ylim=c(0, max(yh)*1.05), ...)
 }
 \arguments{
   \item{y}{Numeric vector.}
@@ -12,7 +13,9 @@ barploterrbar(y, yl, yh, barcol="orange", errcol="black", horiz=FALSE, w=0.2, ..
   \item{barcol}{Color of the bars.}
   \item{errcol}{Color of the error bars.}
   \item{horiz}{Logical. As in \code{\link[graphics:barplot]{barplot}}.}
-  \item{w}{Size of the error bar ticks.}
+  \item{w}{The plot limits. The default value wil cause the error bars
+    to fit nicely on the plotting device.}
+  \item{ylim}{Size of the error bar ticks.}
   \item{...}{Further arguments that get passed on to
      \code{\link[graphics:barplot]{barplot}}.}
 }

@@ -1,5 +1,5 @@
-barploterrbar <- function(y, yl, yh, barcol="orange", errcol="black", horiz=FALSE, w=0.2, ...) {
- barplot(y, space=0.2, width=1, col=barcol, horiz=horiz, ...)
+barploterrbar <- function(y, yl, yh, barcol="orange", errcol="black", horiz=FALSE, w=0.2, ylim=c(0, max(yh)*1.05), ...) {
+ barplot(y, space=0.2, width=1, col=barcol, horiz=horiz, ylim=ylim, ...)
  x <- 1.2*seq(along=y) - 0.5
  lwd <- 3
  if(!horiz) {

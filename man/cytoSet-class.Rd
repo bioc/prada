@@ -14,6 +14,7 @@
 \alias{phenoData<-,cytoSet,phenoData-method}
 \alias{plot,cytoSet,missing-method}
 \alias{hist,cytoSet-method}
+\alias{split,cytoSet-method}
 
 
 \title{'cytoSet': a class for storing raw data from

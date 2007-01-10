@@ -6,8 +6,8 @@
 readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t", ...) {
   if(!missing(phenoData)) {
     if(is.character(phenoData))
-      phenoData = read.phenoData(file.path(path, phenoData), header = TRUE,
-        as.is = TRUE, sep=sep, ...)
+      phenoData = read.AnnotatedDataFrame(file.path(path, phenoData),
+        header = TRUE, as.is = TRUE, sep=sep, ...)
     if(!is(phenoData, "AnnotatedDataFrame"))
       stop("Argument 'phenoData' must be of type 'AnnotatedDataFrame'.")
     if(!("name" %in% colnames(pData(phenoData))))
@@ -60,7 +60,7 @@ readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t",
                                            %in% empty,])
     colnames(pDat) <- colnames(pData(phenoData))                  
     phenoData <- new("AnnotatedDataFrame",
-       data     = pDat, varLabels = varMetadata(phenoData))
+       data     = pDat, varMetadata = varMetadata(phenoData))
     warning(length(empty), " FCS files containing no data were omitted!",
             call.=FALSE)
   }

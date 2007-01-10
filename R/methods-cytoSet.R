@@ -9,7 +9,7 @@ setMethod("phenoData",
 ## ========================================================================== 
 ## replace method for slot phenoData
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-setReplaceMethod("phenoData", c("cytoSet", "phenoData"),
+setReplaceMethod("phenoData", c("cytoSet", "AnnotatedDataFrame"),
   function(object, value) {
     object@phenoData <- value
     return(object)})      
@@ -22,6 +22,25 @@ setMethod("pData",
   signature="cytoSet", definition=function(object) object@phenoData@data,
   valueClass="data.frame")
 ## ==========================================================================
+
+## ========================================================================== 
+## replace method for slot phenoData@data
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setReplaceMethod("pData", c("cytoSet", "data.frame"),
+  function(object, value) {
+    if(! "name" %in% colnames(value) || !inherits(value, "data.frame"))
+      stop("replacement value must be data frame including column 'name'")
+    cn <- colnames(value)
+    nc <- which(cn=="name")
+    vm <- data.frame(labelDescription=I(rep("undefined", ncol(value))),
+                     row.names=colnames(value))
+    vm[1,nc] <- "Name of the FCS 3.0 file" 
+    phenoData <- new("AnnotatedDataFrame", data=value,
+                     varMetadata=vm)
+    object@phenoData <- phenoData
+    return(object)})      
+## ==========================================================================
+
 
 ## ==========================================================================
 ## accessor method for slot colnames
@@ -218,6 +237,24 @@ setMethod("hist",
   })
 ## ==========================================================================
 
+## ==========================================================================
+## split method
+## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setMethod("split",signature(x="cytoSet"),
+          function(x, f, drop=FALSE,...){
+            if(is.character(f) && length(f)==1){
+              if(! f %in% colnames(pData(x)))
+                stop("'f' must be a factor or a colname of one of the columns in 'pData(x)'")
+              sp <- split(1:length(x), pData(x)[[f]])
+            }else{
+              sp <- split(1:length(x), f)
+            }
+            res <- list()
+            for(i in 1:length(sp))
+              res[[names(sp)[i]]] <- x[sp[[i]]]
+              return(res)
+            })
+## ==========================================================================
 
 
 

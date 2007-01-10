@@ -32,4 +32,5 @@ exportMethods("colnames", "colnames<-",
               "pData", "phenoData", "phenoData<-",
               "show", "plot", "gate", "applyGate",
               "drawGate", "gate<-", "names", "names<-",
-              "as.gateSet", "nrow", "ncol", "appendGates", "lines")
+              "as.gateSet", "nrow", "ncol", "appendGates", "lines",
+              "split")
