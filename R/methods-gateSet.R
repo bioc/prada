@@ -66,8 +66,6 @@ setMethod("length",
 setMethod("[[",
   signature="gateSet",
   definition=function(x, i, j="missing", drop="missing") {
-    if(!missing(j))
-      stop("invalid number of dimensions")
     if(length(i)!=1)
       stop("Subsetting to single items only")
     if(!i %in% 1:length(x@glist))

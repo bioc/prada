@@ -1,12 +1,11 @@
 useDynLib("prada")
 
-
+importClassesFrom("Biobase", "eSet", "VersionedBiobase", "Versioned")
 importFrom("utils", "getFromNamespace", "assignInNamespace")
 importFrom("MASS", "cov.rob")
 importFrom("geneplotter", "densCols", "smoothScatter")
 importFrom("Biobase", "exprs", "exprs<-", "description", "description<-",
            "phenoData", "phenoData<-", "pData")
-importClassesFrom("Biobase", "eSet")
 
 
 export("analysePlate", "as.all",

@@ -13,8 +13,8 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   ## and .defaultPlot do the actual plotting. It then calculates the coordinates
   ## for the imageMap
 
-  require(geneplotter)
-  require(grid)
+  #require(geneplotter)
+  #require(grid)
 
   ############################## parameter validation ################################
   ## ncol
