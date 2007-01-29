@@ -11,10 +11,10 @@
 \alias{colnames,cytoSet-method}
 \alias{colnames<-,cytoSet-method}
 \alias{phenoData,cytoSet-method}
-\alias{phenoData<-,cytoSet,phenoData-method}
+\alias{phenoData<-,cytoSet,AnnotatedDataFrame-method}
 \alias{plot,cytoSet,missing-method}
 \alias{hist,cytoSet-method}
-\alias{split,cytoSet-method}
+\alias{split,cytoSet,ANY,ANY-method}
 
 
 \title{'cytoSet': a class for storing raw data from
