@@ -5,13 +5,14 @@
 \title{A simple tcltk progress window}
 \description{Show progress of a task in a tcltk window as percentage}
 \usage{
-  progress(title="processing task...", message="")
-  updateProgress(percentage, autoKill=FALSE)
+  progress(title="processing task...", message="", sub="")
+  updateProgress(percentage, autoKill=FALSE, sub="")
   killProgress()
 }
 \arguments{
   \item{title}{The title of the tcltk window}
   \item{message}{A short test message to add to the window}
+  \item{sub}{An additional text field that can be updated via\code{updateProgress}}
   \item{percentage}{An integer giving the percentage of completion}
   \item{autoKill}{Logical indicating whether to kill the display after
     100 is reached}
@@ -35,10 +36,10 @@
 
 \examples{
 if(interactive()){
-  progress(message="This is a progress display...")
+  progress(message="This is a progress display...", sub="(step 1 of 50)")
   for(i in 1:50) {
      zz = rnorm(1e5)
-     updateProgress(i*2, autoKill=TRUE)
+     updateProgress(i*2, autoKill=TRUE, sub=paste("(step", i, "of 50)"))
   }
 }
 }
