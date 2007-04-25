@@ -214,12 +214,12 @@ gateMatrix <- function(object,gate.colour="red", smooth=FALSE,
                                   totmin=data.min,totmax=data.max,
                                   gatecol=gate.colour,smooth=smooth,
                                   comb=combRows, keep=keepRows,
-                                  vertices=thisGate2$vertices, add=add)
+                                  vertices=thisGate1$vertices, add=add)
           gate2 <- thisGate2$indices 
           gList[[counter]] <- new("gate", name=paste("G", counter, sep=""),
                               gateFun=thisGate2$gFun, colnames=thisGate2$gCol,
                               logic=logic, type=thisGate2$type,
-                              boundaries=vertices)
+                              boundaries=thisGate2$vertices)
           cat("found",sum(gate2),"\n")
           userAnswer <- "x"
           while(! userAnswer %in% c("r", "a", "u", "f")) 
