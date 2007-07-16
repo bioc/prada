@@ -10,11 +10,13 @@ readCytoSet <- function(files=NULL, path=".", pattern=NULL, phenoData, sep="\t",
         header = TRUE, as.is = TRUE, sep=sep, ...)
     if(!is(phenoData, "AnnotatedDataFrame"))
       stop("Argument 'phenoData' must be of type 'AnnotatedDataFrame'.")
-    if(!("name" %in% colnames(pData(phenoData))))
-      stop("'phenoData' must contain a column 'name'")
+    #if(!("name" %in% colnames(pData(phenoData))))
+    #  stop("'phenoData' must contain a column 'name'")
     if(!is.null(files))
       warning("Argument 'files' is ignored.")
-    files <- phenoData$name
+    files <- gsub("\"", "", sampleNames(phenoData))
+    pData(phenoData)$name <- files
+    rbind(name="fileNames", varMetadata(phenoData))
   }
 
   if(is.null(files)) {

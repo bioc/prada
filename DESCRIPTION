@@ -1,6 +1,6 @@
 Package: prada
-Version: 1.13.1
-Date: 25. April 2007
+Version: 1.13.2
+Date: 26. June 2007
 Title: Data analysis for cell-based functional assays
 Author:  Florian Hahne <f.hahne@dkfz.de>, Wolfgang Huber <huber@ebi.ac.uk>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, Joern Toedling <toedling@ebi.ac.uk>
 Maintainer: Florian Hahne <f.hahne@dkfz.de>
