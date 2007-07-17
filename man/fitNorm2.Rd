@@ -20,7 +20,7 @@
   \item{noise}{Numeric or logical index vector defining value pairs in x
 that are not used for fitting of distributions. Can be used to deal with
 noisy data.}
- \item{gateName}{Character giving the name of the gate object.}}
+ \item{gateName}{Character giving the name of the gate object.}
 }
 
 \details{Computes the densities of a bivariate normal distribution from
@@ -35,7 +35,6 @@ noisy data.}
   (factor of standard deviations used for data selection), \code{data}
   (x and y values of data points) and \code{gate}, an object of class
   \code{gate} containing the selection.}
-}  
 
 \seealso{\code{\link[MASS::cov.rob]{cov.rob}},
   \code{\link[rrcov::covMcd]{covMcd}},
