@@ -90,10 +90,12 @@ setMethod("[",
       nm <- i
       i <- match(nm, x@phenoData$name)
     }
-    multiassign(nm, mget(nm, x@frames), envir=fr, inherits=FALSE) 
+    multiassign(nm, mget(nm, x@frames), envir=fr, inherits=FALSE)
+    pd <- phenoData(x)
+    pData(pd) <- pData(pd)[i,]
     new("cytoSet",
       frames=fr,
-      phenoData=x@phenoData[i, ],
+      phenoData=pd,
       colnames=colnames(x))
    },
    valueClass="cytoSet")
