@@ -13,7 +13,7 @@ combineFrames <- function(x, by) {
     s <- lapply(s, unique)
     if(all(listLen(s)==1)) {
       df <- cbind(df, unlist(s))
-      vl <- rbind(vl, I(varMetadata(phenoData(x))[i,]), deparse.level=0)
+      vl <- rbind(vl, varMetadata(phenoData(x))[i,], deparse.level=0)
       rownames(vl) <- c(rownames(vl)[-(nrow(vl))],
                         varLabels(phenoData(x))[[i]]) 
       colnames(df)[ncol(df)] <- names(vl)[length(vl)] <- colnames(pData(x))[i]

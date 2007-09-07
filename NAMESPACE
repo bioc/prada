@@ -6,7 +6,7 @@ importFrom("MASS", "cov.rob")
 importFrom("rrcov", "covMcd")
 importFrom("geneplotter", "densCols", "smoothScatter")
 importFrom("Biobase", "exprs", "exprs<-", "description", "description<-",
-           "phenoData", "phenoData<-", "pData")
+           "phenoData", "phenoData<-", "pData", "pData<-")
 
 
 export("analysePlate", "as.all",

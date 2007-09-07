@@ -92,7 +92,8 @@ setMethod("[",
     }
     multiassign(nm, mget(nm, x@frames), envir=fr, inherits=FALSE)
     pd <- phenoData(x)
-    pData(pd) <- pData(pd)[i,]
+    pda <- pData(pd)[i,,drop=FALSE]
+    pData(pd) <- pda
     new("cytoSet",
       frames=fr,
       phenoData=pd,
