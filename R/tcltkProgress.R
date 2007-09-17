@@ -1,6 +1,12 @@
 progress <- function(title="processing task...", message="",
                      sub=""){
 
+  ## check for tcltk installation and exit gracefully if none
+  if(!capabilities("tcltk")){
+    warning("Need tcltk for the status bar")
+    return(NULL)
+  }
+  
   ## check arguments
   options(warn=-1)
   require(tcltk)
@@ -57,6 +63,9 @@ progress <- function(title="processing task...", message="",
 }
 
 updateProgress <- function(percentage, autoKill=FALSE, sub=""){
+  ## check for tcltk installation and exit gracefully if none
+  if(!capabilities("tcltk"))
+    return(NULL)
   percentage <- as.integer(percentage)
   tclvalue(.tkprogress.iterator) <<- percentage
   tclvalue(.tkprogress.fallbackIterator) <<- paste(percentage, "%")
@@ -72,6 +81,9 @@ updateProgress <- function(percentage, autoKill=FALSE, sub=""){
 }
 
 killProgress <- function(){
+   ## check for tcltk installation and exit gracefully if none
+  if(!capabilities("tcltk"))
+    return(NULL)
   if(!.tkprogress.canceled)
     tkdestroy(.tkprogress.window)
 }
