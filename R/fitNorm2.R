@@ -27,9 +27,11 @@ fitNorm2 <- function(x, y=NA, scalefac=1, method="covMcd", noise,
     covMcd = {
       nmax <- 50000
       if (nrow(x)>nmax)
-        covMcd(x[sample(nrow(x), nmax),])
+        tmp <- CovMcd(x[sample(nrow(x), nmax),])
       else
-        covMcd(x)
+        tmp <- CovMcd(x)
+      ## CovMcd output is now S4, need to convert to list
+      list(center=tmp@center, cov=tmp@cov)
     },
     cov.rob = {
       cov.rob(x)

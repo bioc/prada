@@ -1,12 +1,12 @@
 Package: prada
-Version: 1.13.4
-Date: 17. September 2007
+Version: 1.13.5
+Date: 2. Oktober 2007
 Title: Data analysis for cell-based functional assays
 Author:  Florian Hahne <f.hahne@dkfz.de>, Wolfgang Huber <huber@ebi.ac.uk>, Markus Ruschhaupt <m.ruschhhaupt@dkfz.de>, Joern Toedling <toedling@ebi.ac.uk>
 Maintainer: Florian Hahne <f.hahne@dkfz.de>
-Depends: R (>= 2.1.0), Biobase, RColorBrewer, grid, methods
+Depends: R (>= 2.1.0), Biobase, RColorBrewer, grid, methods, rrcov
 Suggests: cellHTS, rflowcyt, tcltk
-Imports: MASS, KernSmooth, RColorBrewer, geneplotter, rrcov
+Imports: MASS, KernSmooth, RColorBrewer, geneplotter
 Collate: AllGeneric.R AllClasses.R methods-cytoFrame.R methods-cytoSet.R
 	 methods-gate.R methods-gateSet.R methods-misc.R analysePlate.R 
 	 as.all.R barploterrbar.R combineFrames.R csApply.R combineGates.R
