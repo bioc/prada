@@ -43,7 +43,7 @@ replicates of two 96 well plates. Cells in each well were transfected
 with a different overexpression construct for a protein of unknown
 function and the induction of apoptosis was measured using FACS
 readout. The file \emph{Platelist.txt} maps the contents of the data
-files for each plate to plate and replicate idenitfiers. 
+files for each plate to plate and replicate identifiers. 
 We first load the package.
 %
 <<prepare, results=hide>>=
@@ -56,7 +56,7 @@ data and generate a \Rpackage{cellHTS} object:
 experimentName = "ApoptosisScreen"
 dataPath = system.file("extdata", package = "prada")
 x = readPlateData("Platelist.txt", name = experimentName, 
-                  path = dataPath)
+                  path = dataPath, verbose = FALSE)
 x
 @ 
 
@@ -72,7 +72,7 @@ descripFile = file.path(dataPath, "Description.txt")
 x = configure(x, confFile, logFile, descripFile)
 @ 
 
-We ommit the normalization step since normalization has already been done
+We omit the normalization step since normalization has already been done
 during our analysis. However, we do need to tell \Rpackage{cellHTS}
 that this step is no longer necessary in order to proceed to the following
 steps. We also want to calculate the negative log transformation of the
@@ -99,5 +99,3 @@ please consult the vignette of the \Rpackage{cellHTS} package.
 
 
 \end{document}
-
-
