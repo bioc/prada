@@ -15,6 +15,8 @@
 \alias{plot,cytoSet,missing-method}
 \alias{hist,cytoSet-method}
 \alias{split,cytoSet,ANY,ANY-method}
+\alias{split,cytoSet,ANY-method}
+\alias{split,cytoSet-method}
 
 
 \title{'cytoSet': a class for storing raw data from
