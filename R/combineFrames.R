@@ -20,7 +20,7 @@ combineFrames <- function(x, by) {
     }
   }
   for(lev in df$name) {
-    cf <- new("cytoFrame", exprs=do.call("rbind", args=csApply(x[which(by==lev)], function(z) z, simplify=FALSE)))
+    cf <- new("cytoFrame", exprs=do.call(rbind, args=csApply(x[which(by==lev)], function(z) z, simplify=FALSE)))
     colnames(cf) <- NULL
     assign(lev, cf, envir=e)
   }

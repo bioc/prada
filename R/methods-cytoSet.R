@@ -218,7 +218,7 @@ setMethod("hist",
             if(dl)
               args$xlab = "x"
             data <- exprs(x[[i]][, variable])
-            do.call("hist", c(list(x=data), args))
+            do.call(hist, c(list(x=data), args))
             par(ask=TRUE)
           } #end for
        }else{
@@ -232,7 +232,7 @@ setMethod("hist",
            if(dl)
               args$xlab = "x"
            data <- exprs(x[[as.integer(userAnswer)]])[, variable]
-           do.call("hist", c(list(x=data), args))
+           do.call(hist, c(list(x=data), args))
          } #end else
        } #end else
     } #end while
