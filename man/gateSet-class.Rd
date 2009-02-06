@@ -42,18 +42,20 @@ Objects can be created using methods of the generic function
   \describe{
     \item{applyGate:}{\code{applyGate(x, data)}\crapplies the gating of
       object \code{x} on data objects of class
-      \code{\link[prada]{cytoFrame}} or \code{matrix}.}
-    \item{length}{length of slot \code{glist}.}
-    \item{show}{\code{display summary}
-      \item{names, names<-}{extract or replace the names of the
-individual \code{\link[prada]{gate}}
+      \code{\link[prada]{cytoFrame}} or \code{matrix}}
+    \item{length}{length of slot \code{glist}}
+    \item{show}{\code{display summary}}
+    \item{names, names<-}{extract or replace the names of the
+        individual \code{\link[prada]{gate}}
 	objects.}
-     \item{[}{subset to \code{\link[prada]{gateSet}}
-       objects. }}
-     \item{[[}{subset to individual \code{\link[prada]{gate}}
-       objects. }}
-   \item{appendGates}{append a \code{gate} or \code{gateSet} to a
-\code{cytoFrame}}}
+    \item{[}{subset to \code{\link[prada]{gateSet}}
+       objects.}
+    \item{[[}{subset to individual \code{\link[prada]{gate}}
+       objects.}   
+    \item{appendGates}{append a \code{gate} or \code{gateSet} to a
+       \code{cytoFrame}}
+}
+}
 
 \author{Florian Hahne}
 

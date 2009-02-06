@@ -45,7 +45,7 @@ a quantitative cell-based assay}
 \section{Creating Objects}{
 Objects can be created using the function
 \code{\link[prada]{readCytoSet}} or via\cr
-\code{  new('cytoSet,}\cr
+\code{  new('cytoSet',}\cr
 \code{    frames = ....,   # environment with cytoFrames}\cr
 \code{    phenoData = .... # object of class phenoData}\cr
 \code{    colnames = ....  # object of class character}\cr

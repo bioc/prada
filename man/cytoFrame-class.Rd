@@ -59,7 +59,7 @@
 
 \section{Creating Objects}{
 Objects can be created using\cr
-\code{  new('cytoFrame,}\cr
+\code{  new('cytoFrame',}\cr
 \code{    exprs       = ...., # Object of class matrix}\cr
 \code{    description = ....  # Object of class character}\cr
 \code{  )}\cr
