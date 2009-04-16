@@ -1,13 +1,27 @@
 useDynLib("prada")
 
-
-importFrom("utils", "getFromNamespace", "assignInNamespace")
-importFrom("MASS", "cov.rob")
-importFrom("geneplotter", "densCols", "smoothScatter")
-importFrom("Biobase", "exprs", "exprs<-", "description", "description<-",
-           "phenoData", "phenoData<-", "pData", "pData<-")
-importFrom("graphics", "plot")
-
+importClassesFrom(Biobase, AnnotatedDataFrame)
+importClassesFrom(methods, ANY, character, data.frame, environment,
+                  "function", integer, list, logical, matrix, missing,
+                  numeric)
+importMethodsFrom(Biobase, description, "description<-", exprs,
+                  "exprs<-", pData, "pData<-", phenoData,
+                  "phenoData<-", sampleNames, varLabels, varMetadata)
+importMethodsFrom(methods, show)
+importFrom(Biobase, listLen, multiassign, read.AnnotatedDataFrame)
+importFrom(graphics, barplot, locator, par, plot, plot.new, points,
+           polygon, segments, smoothScatter, title)
+importFrom(grDevices, colorRampPalette, densCols, dev.cur, dev.off)
+importFrom(grid, convertHeight, convertWidth, convertX, convertY,
+           current.transform, current.viewport, current.vpTree, gpar,
+           grid.circle, grid.lines, grid.polygon, grid.rect, grid.text,
+           grid.yaxis, popViewport, pushViewport, unit, viewport)
+importFrom(MASS, cov.rob)
+importFrom(methods, "@<-", is, new, validObject)
+importFrom(RColorBrewer, brewer.pal)
+importFrom(rrcov, CovMcd)
+importFrom(utils, assignInNamespace, getFromNamespace, read.table,
+           select.list)
 
 
 export("analysePlate", "as.all",

@@ -146,7 +146,6 @@ If you think that scatterplots with thousands of points are hard to
 read and annoying to view in a PDF viewer, have a look at the
 function \Rfunction{smoothScatter} (see Fig.~\ref{fig:smoothscatter}):
 <<smoothscatter, fig=TRUE, include=FALSE, width=8, height=8>>=
-require(geneplotter)
 smoothScatter(fdat[,c("FSC-H", "SSC-H")], nrpoints=50) 
 @ 
 %
