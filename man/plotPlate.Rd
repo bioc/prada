@@ -24,7 +24,7 @@ funArgs=NULL,...)
 
   \item{col}{Character vector. Usually the names of two or three colors
     between which the color map is interpolated, using the function
-    \code{\link[geneplotter::colorRampPalette]{colorRampPalette}}.}
+    \code{\link[grDevices::colorRampPalette]{colorRampPalette}}.}
 
   \item{ind}{Optional integer vector of equal length as \code{x}. It
     indicates the position of the respective value of
@@ -110,7 +110,7 @@ It returns a list withfour elements. The element \code{which} is a vector with
 the indices of those elements in \code{x} that were plotted (see argument
 \code{na.action}). The element \code{coord} is a \code{length(which)} by 4
 matrix in which each row specifies the corners of a rectangle that contains a
-well. It is intended to be use as an argument to a subsequent call to
+well. It is intended to be used as an argument to a subsequent call to
 \code{\link[geneplotter::imageMap]{imageMap}}. Elements \code{width} and
 \code{height} may be used to open a graphic devices that can hold the plate
 plot with the correct aspect ratio.}
