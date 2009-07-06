@@ -40,7 +40,7 @@ Objects can be created using methods of the generic function
 }
 \section{Methods}{
   \describe{
-    \item{applyGate:}{\code{applyGate(x, data)}\crapplies the gating of
+    \item{applyGate:}{\code{applyGate(x, data)} applies the gating of
       object \code{x} on data objects of class
       \code{\link[prada]{cytoFrame}} or \code{matrix}}
     \item{length}{length of slot \code{glist}}

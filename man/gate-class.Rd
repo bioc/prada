@@ -54,7 +54,7 @@ to superimpose the gate boundaries on a plot using \code{lines()}.}
 
 \section{Methods}{
   \describe{
-    \item{applyGate:}{\code{applyGate(x, data)}\crapplies the gating of
+    \item{applyGate:}{\code{applyGate(x, data)} applies the gating of
 	object \code{x} on data objects of class
 	\code{\link[prada]{cytoFrame}} or \code{matrix}.
 	In the former case \code{x} may be of class \code{gate},
