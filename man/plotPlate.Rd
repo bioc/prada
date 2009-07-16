@@ -8,7 +8,7 @@
 
 \usage{
 plotPlate(x,nrow = 8, ncol = 12, col=c("red", "blue"),
-ind = 1:(ncol*nrow), xrange=range(x, na.rm=TRUE), na.action = "zero",
+ind = 1:(ncol*nrow), xrange=function(y) range(y, na.rm=TRUE), na.action = "zero",
 main, char, desc = character(2), add=FALSE, gridFun="default",
 funArgs=NULL,...)
 }
@@ -32,7 +32,10 @@ funArgs=NULL,...)
     values. Each well that is not allocated a value of \code{x} by
     \code{ind} will not be plotted.}
 
-  \item{xrange}{Range of \code{x} that is mapped into the color scale.}
+  \item{xrange}{Numeric vector of length two giving thwe range of
+    \code{x} that is mapped into the color scale. Alternatively, this
+    can be a function which takes the values of \code{x} as input and
+    creates such a vector.}
 
   \item{na.action}{Character. One of \code{"zero"} \code{"omit"} or
     \code{"xout"}.

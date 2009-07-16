@@ -3,7 +3,7 @@
 ######################################################################################
 
 plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
-                      ind = 1:(ncol*nrow), xrange=range(x, na.rm=TRUE),
+                      ind = 1:(ncol*nrow), xrange=function(y) range(y, na.rm=TRUE),
                       na.action = "zero", main, char,
                       desc = character(2), add=FALSE,
                       gridFun="default", funArgs=NULL, ...){
@@ -47,8 +47,11 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   }#end if
   
   ## xrange
+  if(is.function(xrange))
+      xrange <- xrange(x)
   if (!is.numeric(xrange) || length(xrange) != 2 || any(is.na(xrange)))
-    stop("'xrange' must be a numeric vector of length 2 with no NA.")
+    stop("'xrange' must be a numeric vector of length 2 with no NA or ",
+         "a function producing such a vector.")
   
   ## desc
   if(default)
