@@ -119,8 +119,14 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   devWidth <- par("fin")[1]*res[1]
   devHeight <- par("fin")[2]*res[2]
   outerFrame <- vpLocation()
-  outerFrame$size[2] <- min(outerFrame$size[2], outerFrame$size[1]/
-                            (((ncol+1)*0.1+ncol+1)/((nrow+1)*0.1+nrow+1)))                        
+  if(ncol>nrow)
+  {
+      outerFrame$size[2] <- min(outerFrame$size[2], outerFrame$size[1]/
+                                (((ncol+1)*0.1+ncol+1)/((nrow+1)*0.1+nrow+1)))
+  }else{
+      outerFrame$size[1] <- min(outerFrame$size[1], outerFrame$size[2]/
+                                (((nrow+1)*0.1+nrow+1)/((ncol+1)*0.1+ncol+1)))
+  }
   outerVp <- viewport(width=unit(outerFrame$size[1]*72/res[1], "bigpts"),
                       height=unit(outerFrame$size[2]*72/res[2], "bigpts"))
   pushViewport(outerVp)  # this vp makes sure we plot in the correct aspect ratio
@@ -128,8 +134,13 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   pushViewport(innerVp)
   innerFrame <- vpLocation()
 
-  ## fontsize
+  ## The optimal fontsizes
+  availSize <- min(((innerFrame$isize*c(0.9, ifelse(missing(main), 1, 0.9)))/
+                    c(ncol*nchar(ncol), nrow*((nrow%/%26)+1)) * 0.8))*72
   fontsize <- ceiling(12*outerFrame$size[1]/900)
+  defArgs$fontsize.lab <- min(fontsize, defArgs$cex.lab * availSize, availSize)
+  defArgs$fontsize.char <- min(fontsize, defArgs$cex.char * availSize, availSize)
+  
 
  
 
@@ -260,14 +271,18 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
               r=unit(radius-0.02, "native"),
               gp=gpar(fill=circcol[wh]))
   if(na.action=="xout")
-    for (i in sel){
-      grid.lines(unit(c(x0[i]-0.39, x0[i]+0.39), "native"), unit(c(y0[i]-0.39,
-                 y0[i]+0.39), "native"), gp=gpar(lwd=2, col="darkgray")) 
-      grid.lines(unit(c(x0[i]-0.39, x0[i]+0.39), "native"), unit(c(y0[i]+0.39,
-                 y0[i]-0.39), "native"), gp=gpar(lwd=2, col="darkgray"))
-    }#end for
+  {
+      grid.segments(x0=unit(x0[sel]-0.39, "native"),
+                    x1=unit(x0[sel]+0.39, "native"),
+                    y0=unit(y0[sel]-0.39, "native"),
+                    y1=unit(y0[sel]+0.39, "native"), gp=gpar(lwd=2, col="darkgray"))
+      grid.segments(x0=unit(x0[sel]-0.39, "native"),
+                    x1=unit(x0[sel]+0.39, "native"),
+                    y0=unit(y0[sel]+0.39, "native"),
+                    y1=unit(y0[sel]-0.39, "native"), gp=gpar(lwd=2, col="darkgray")) 
+  }#end if
   grid.text(x=unit(x0[wh], "native"), y=unit(y0[wh], "native"), info[wh],
-            gp=gpar(fontsize=fontsize, cex=defArgs$cex.char))
+            gp=gpar(fontsize=defArgs$fontsize.char, cex=defArgs$cex.char))
   popViewport(1)
   
   ##plot well description
@@ -275,8 +290,14 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
             "npc"), x=unit(1/(ncol+1), "npc"), y=unit(1/(nrow+1), "npc"),
             just=c("left","top"), xscale=c(0, ncol), yscale=c(0, 1)) #horiz. text vp
   pushViewport(vp7)
+  nre <- nrow %% 26
+  nl <- nrow %/% 26
+  rn <- if(nrow<=26) LETTERS[1:nrow] else paste(rep(LETTERS[seq_len(nl+1)],
+           c(rep(26, nl), nre)), c(rep(LETTERS[seq_len(26)], nl), LETTERS[seq_len(nre)]),
+           sep="")
   grid.text(x=unit(unique(x0), "native"), y=unit(0.9, "native"),
-            1:ncol, just="top", gp=gpar(fontsize=fontsize, cex=defArgs$cex.lab,
+            seq_len(ncol), just="top", gp=gpar(fontsize=defArgs$fontsize.lab,
+                                       cex=defArgs$cex.lab,
                                   fontface="bold"))
   popViewport(1)
   vp8 <- viewport(width=unit(1/(ncol+1), "npc"), height=unit(1-(1/(nrow+1)),
@@ -284,7 +305,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
             just=c("right","bottom"), xscale=c(0, 1),yscale=c(0, nrow)) #vert. text vp
   pushViewport(vp8)
   grid.text(x=unit(0.9, "native"), y=unit(unique(y0), "native"),
-            LETTERS[1:nrow], gp=gpar(fontsize=fontsize, cex=defArgs$cex.lab,
+            rn, gp=gpar(fontsize=defArgs$fontsize.lab, cex=defArgs$cex.lab,
                                fontface="bold"), just="right")
   popViewport(3)
   
