@@ -270,7 +270,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   grid.circle(x=unit(x0[wh], "native"), y=unit(y0[wh], "native"),
               r=unit(radius-0.02, "native"),
               gp=gpar(fill=circcol[wh]))
-  if(na.action=="xout")
+  if(na.action=="xout" && length(sel))
   {
       grid.segments(x0=unit(x0[sel]-0.39, "native"),
                     x1=unit(x0[sel]+0.39, "native"),
