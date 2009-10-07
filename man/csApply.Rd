@@ -2,7 +2,7 @@
 \alias{csApply}
 \title{Apply a function over the intensities in a cytoSet}
 \description{This a wrapper for \code{\link[base:lapply]{sapply}} for
-  objects of class \code{\link[prada]{cytoSet-class}}.}
+  objects of class \code{\link{cytoSet-class}}.}
 \usage{
 csApply(X, FUN, ..., simplify = TRUE)
 }

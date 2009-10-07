@@ -17,7 +17,7 @@ devRes()
   \code{yres}, the resolution in \code{x} and \code{y} direction
 respectively.}
 
-\seealso{\code{\link[prada::plotPlate]{plotPlate}}}
+\seealso{\code{\link{plotPlate}}}
 
 
 \author{Florian Hahne}

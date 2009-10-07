@@ -23,7 +23,7 @@
 
 \section{Creating Objects}{
 Objects can be created using methods of the generic function 
-\code{\link[prada]{drawGate}} or via\cr
+\code{\link{drawGate}} or via\cr
 \code{  new("gate",}\cr
 \code{    gateFun = ....,   # function returning logical vector}\cr
 \code{    colnames = .... # object of class character and length 2}\cr
@@ -42,7 +42,7 @@ gating function is to be applied.}
 \item{\code{logic}:}{A \code{character} object, either \code{&} or
   \code{|}. This specifies the logical operation that will be applied
   when combining the selection from the \code{gate} with other object of
-that class. See \code{link[prada]{gateSet}} for additional information
+that class. See \code{link{gateSet}} for additional information
 on combining \code{gates}.}
 \item{\code{type}:}{A \code{character} giving the type of the
   object. This is currently not used but might become important in the
@@ -56,7 +56,7 @@ to superimpose the gate boundaries on a plot using \code{lines()}.}
   \describe{
     \item{applyGate:}{\code{applyGate(x, data)} applies the gating of
 	object \code{x} on data objects of class
-	\code{\link[prada]{cytoFrame}} or \code{matrix}.
+	\code{\link{cytoFrame}} or \code{matrix}.
 	In the former case \code{x} may be of class \code{gate},
         \code{gateSet}, \code{character}, \code{numeric} or
         \code{logical}. See vignette for details.}
@@ -72,8 +72,8 @@ to superimpose the gate boundaries on a plot using \code{lines()}.}
 \author{Florian Hahne}
 
 \seealso{
-  \code{\link[prada]{cytoFrame}}, \code{\link[prada]{gateMatrix}},
-\code{\link[prada]{gateSet}}
+  \code{\link{cytoFrame}}, \code{\link{gateMatrix}},
+\code{\link{gateSet}}
 }
 
 \examples{

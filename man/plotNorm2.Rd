@@ -2,7 +2,7 @@
 \alias{plotNorm2}
 \title{Plot fitted bivariate normal distribution.}
 \description{Plots objects derived from function
-  \code{\link[prada::fitNorm2]{fitNorm2}} in false color represenation.
+  \code{\link{fitNorm2}} in false color represenation.
 }
 \usage{
 plotNorm2(fn, colrange=c("gray82", "blue"), center=TRUE, selection=FALSE,
@@ -10,7 +10,7 @@ plotNorm2(fn, colrange=c("gray82", "blue"), center=TRUE, selection=FALSE,
 }
 \arguments{
   \item{fn}{List. Object derived from  function
-    \code{\link[prada::fitNorm2]{fitNorm2}}}
+    \code{\link{fitNorm2}}}
   \item{colrange}{Character vector with valid color
     identifiers (eg name or RGB values) from which a smooth color
     palette is derived.}
@@ -27,7 +27,7 @@ plotNorm2(fn, colrange=c("gray82", "blue"), center=TRUE, selection=FALSE,
 
 \details{Produces a scatterplot of paired data showing the densities of
   the fitted bivariate distribution from function
-  \code{\link[prada::fitNorm2]{fitNorm}} in false color
+  \code{\link{fitNorm}} in false color
   representation. Additionally a selection of data points can be
   highlighted either by marking outliers or by showing its area.
 }
@@ -37,7 +37,7 @@ plotNorm2(fn, colrange=c("gray82", "blue"), center=TRUE, selection=FALSE,
   distribution, covariance matrix).
 }  
 
-\seealso{\code{\link[prada::fitNorm2]{fitNorm2}}, \code{\link[prada::addEllipse]{addEllipse}}}
+\seealso{\code{\link{fitNorm2}}, \code{\link{addEllipse}}}
 
 \author{Florian Hahne}
 \keyword{}

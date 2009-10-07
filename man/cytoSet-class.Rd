@@ -23,7 +23,7 @@
 a quantitative cell-based assay}
 
 \description{This class is a container for a set of
-  \code{\link[prada]{cytoFrame}} objects}
+  \code{\link{cytoFrame}} objects}
 
 %\usage{
 %\S4method{phenoData}{cytoSet}(object)
@@ -44,7 +44,7 @@ a quantitative cell-based assay}
 
 \section{Creating Objects}{
 Objects can be created using the function
-\code{\link[prada]{readCytoSet}} or via\cr
+\code{\link{readCytoSet}} or via\cr
 \code{  new('cytoSet',}\cr
 \code{    frames = ....,   # environment with cytoFrames}\cr
 \code{    phenoData = .... # object of class phenoData}\cr
@@ -74,7 +74,7 @@ operators for lists.}
 \item{plot}{Scatterplot of one or all (consecutively) \code{\link[cytoFrame]{cytoFrame}}
 objects.  The additional argument \code{gate} can be used to plot
 subsets of the data defined by an object of class
-\code{\link[prada]{gate}} or \code{\link[prada]{gateSet}}.}
+\code{\link{gate}} or \code{\link{gateSet}}.}
 \item{hist}{Draw histogram of the data. The additional argument
 \code{variable} can be used to subset to one variable prior to plotting.}
 }}
@@ -115,9 +115,9 @@ of a \code{cytoSet} \code{x}, use
 
 \author{Florian Hahne, Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 
-\seealso{\code{\link[prada]{readCytoSet}},
-\code{\link[prada]{cytoFrame}}, \code{\link[prada]{gate}},
-\code{\link[prada]{gateSet}}}
+\seealso{\code{\link{readCytoSet}},
+\code{\link{cytoFrame}}, \code{\link{gate}},
+\code{\link{gateSet}}}
 
 \examples{
 cset<-readCytoSet(path=system.file("extdata", package="prada"),

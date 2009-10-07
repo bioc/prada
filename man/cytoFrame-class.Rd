@@ -63,7 +63,7 @@ Objects can be created using\cr
 \code{    exprs       = ...., # Object of class matrix}\cr
 \code{    description = ....  # Object of class character}\cr
 \code{  )}\cr
-or the function \code{\link[prada]{readFCS}}.}
+or the function \code{\link{readFCS}}.}
 
 \section{Slots}{\describe{
 \item{\code{exprs}:}{Object of class \code{matrix} containing
@@ -75,10 +75,10 @@ or the function \code{\link[prada]{readFCS}}.}
       containing the experiment description as key-value pairs.}
 \item{\code{well}:}{A single integer vector giving the position of the
      well on a microtitre plate. This only applies when using the object
-     within a \code{\link[prada]{cytoSet}} collection and will usually
-     be filled in by the function \code{\link[prada]{readCytoSet}}.}
+     within a \code{\link{cytoSet}} collection and will usually
+     be filled in by the function \code{\link{readCytoSet}}.}
 \item{\code{gate}:}{An object of class
-      \code{\link[prada]{gateSet}}. This object can be used to
+      \code{\link{gateSet}}. This object can be used to
       select defined subsets of the data, a process referred to as
       \code{gating} in the analysis of flow-cytometry data.}
 }}
@@ -92,14 +92,14 @@ or the function \code{\link[prada]{readFCS}}.}
 \item{show}{display summary.}
 \item{plot}{scatterplot for \code{cytoFrame} objects. The additional
 argument \code{gate} can be used to plot subsets of the data defined by
-either an object of class \code{\link[prada]{gate}} or by a character
+either an object of class \code{\link{gate}} or by a character
 vector giving the name of one of the gates in the list.}
 \item{gate,gate<-}{extract or replace the list of gates.}
 \item{ncol,nrow}{extract the dimensions of the data matrix.}
 \item{appendGate}{Append a gate or gateSet to the gate slot.}
-\item{drawGate}{Create an object of class \code{\link[prada]{gate}} or
-\code{\link[prada]{gateSet}} based on a selection made from the
-data. See \code{\link[prada]{gateMatrix}} for further details.}
+\item{drawGate}{Create an object of class \code{\link{gate}} or
+\code{\link{gateSet}} based on a selection made from the
+data. See \code{\link{gateMatrix}} for further details.}
 \item{hist}{Draw a histogram of the data}
 }}
 
@@ -114,9 +114,9 @@ using the object system for handling of flow-cytometry data.
 			
 \author{Florian Hahne, Wolfgang Huber}
 
-\seealso{\code{\link[prada]{readFCS}},
-\code{\link[prada]{cytoSet}}, \code{\link[prada]{gate}},
-\code{\link[prada]{gateSet}}, \code{\link[prada]{gateMatrix}}}
+\seealso{\code{\link{readFCS}},
+\code{\link{cytoSet}}, \code{\link{gate}},
+\code{\link{gateSet}}, \code{\link{gateMatrix}}}
 
 \examples{
 intens <- matrix(runif(100), ncol=4)

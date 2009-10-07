@@ -21,7 +21,7 @@
 
 \section{Creating Objects}{
 Objects can be created using methods of the generic function 
-\code{\link[prada]{drawGate}} or via\cr
+\code{\link{drawGate}} or via\cr
 \code{  new("gateSet",}\cr
 \code{    glist = ....,   # object of class list}\cr
 \code{  )}\cr
@@ -33,8 +33,8 @@ Objects can be created using methods of the generic function
     of the object. You can reference the object by its name for subsequent
     operations (e.g. plotting).}
     \item{\code{glist}:}{Object of class \code{"list"} with items of
-      class \code{\link[prada]{gate}}. The individual
-      \code{\link[prada]{gate}} objects will be combined according to
+      class \code{\link{gate}}. The individual
+      \code{\link{gate}} objects will be combined according to
       the value of their slot \code{logic}.}
   }
 }
@@ -42,15 +42,15 @@ Objects can be created using methods of the generic function
   \describe{
     \item{applyGate:}{\code{applyGate(x, data)} applies the gating of
       object \code{x} on data objects of class
-      \code{\link[prada]{cytoFrame}} or \code{matrix}}
+      \code{\link{cytoFrame}} or \code{matrix}}
     \item{length}{length of slot \code{glist}}
     \item{show}{\code{display summary}}
     \item{names, names<-}{extract or replace the names of the
-        individual \code{\link[prada]{gate}}
+        individual \code{\link{gate}}
 	objects.}
-    \item{[}{subset to \code{\link[prada]{gateSet}}
+    \item{[}{subset to \code{\link{gateSet}}
        objects.}
-    \item{[[}{subset to individual \code{\link[prada]{gate}}
+    \item{[[}{subset to individual \code{\link{gate}}
        objects.}   
     \item{appendGates}{append a \code{gate} or \code{gateSet} to a
        \code{cytoFrame}}
@@ -60,8 +60,8 @@ Objects can be created using methods of the generic function
 \author{Florian Hahne}
 
 \seealso{
-\code{\link[prada]{cytoFrame}}, \code{\link[prada]{gateMatrix}},
-\code{\link[prada]{gate}}
+\code{\link{cytoFrame}}, \code{\link{gateMatrix}},
+\code{\link{gate}}
 }
 
 \examples{

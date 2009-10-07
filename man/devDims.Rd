@@ -26,7 +26,7 @@ devDims(width, height, ncol=12, nrow=8, res=72)
   \code{pheight}. These are the width and height values in inches and
   pixels respectively.}
 
-\seealso{\code{\link[prada::plotPlate]{plotPlate}}}
+\seealso{\code{\link{plotPlate}}}
 
 
 \author{Florian Hahne}

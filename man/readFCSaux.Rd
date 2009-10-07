@@ -22,12 +22,12 @@
 }
 
 \details{These functions are not normally called by the user. See
-  \code{\link[prada]{readFCS}} instead.}
+  \code{\link{readFCS}} instead.}
 
 \value{Various.}
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
-\seealso{\code{\link[prada]{readFCS}}}
+\seealso{\code{\link{readFCS}}}
 \examples{}
 \keyword{IO}
 

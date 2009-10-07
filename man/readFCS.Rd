@@ -12,7 +12,7 @@
 \arguments{
   \item{filename}{Character of length 1: filename}
   \item{objectModel}{Character of length 1: the object model to use for the
-    output. Either 'prada' for \code{\link[prada]{cytoFrame}} objects or
+    output. Either 'prada' for \code{\link{cytoFrame}} objects or
     'FCS' for \code{rflowcyt}'s \code{\link[rflowcyt]{FCS}} objects.}
   \item{...}{Arguments that get passed on to higher-level import functions.}}
 
@@ -29,7 +29,7 @@ the way flow cytometry data is imported into R using the \code{prada} or
 \code{rflowcyt} packages. If the \code{filename} argument to
 \code{read.fcs} is a character vector of \code{length > 1}, multiple FCS
 files can be imported. Please see the documentation for
-\code{\link[prada]{readCytoSet}} and
+\code{\link{readCytoSet}} and
 \code{\link[rflowcyt]{read.series.FCS}} for alternatives ways to import
 multiple FCS files and for more details on the higher-level
 import function.
@@ -42,13 +42,13 @@ For specifications of FCS 3.0 see
 \url{../doc/fcs3.html} in the \code{doc} directory of the package.
 }
 
-\value{An object of class \code{\link[prada]{cytoFrame}} or
+\value{An object of class \code{\link{cytoFrame}} or
   \code{\link[rflowcyt]{FCS}}.}
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}, Florian Hahne}
 
 \seealso{\code{\link[rflowcyt]{read.FCS}},
-  \code{\link[rflowcyt]{read.series.FCS}}, \code{\link[prada]{readCytoSet}}}
+  \code{\link[rflowcyt]{read.series.FCS}}, \code{\link{readCytoSet}}}
 
 \examples{
 sampdat <- readFCS(system.file("extdata", "fas-Bcl2-plate323-04-04.A01",
