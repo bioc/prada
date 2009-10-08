@@ -54,7 +54,7 @@ Objects can be created using the function
 
 \section{Slots}{\describe{
 \item{\code{frames}:}{An \code{\link[base:environment]{environment}}
-containing one or more \code{\link[cytoFrame-class]{cytoFrame}} objects.}
+containing one or more \code{\linkS4class{cytoFrame}} objects.}
 \item{\code{phenoData}:}{A
 \code{\link[Biobase:phenoData-class]{phenoData}}. Each row
 corresponds to one of the cytoFrames in the \code{frames} slot.
@@ -71,7 +71,7 @@ operators for lists.}
 \item{colnames, colnames<-}{extract or replace the \code{colnames} slot.}
 \item{phenoData, phenoData<-}{extract or replace the \code{phenoData} slot.}
 \item{show}{display summary.}
-\item{plot}{Scatterplot of one or all (consecutively) \code{\link[cytoFrame]{cytoFrame}}
+\item{plot}{Scatterplot of one or all (consecutively) \code{\linkS4class{cytoFrame}}
 objects.  The additional argument \code{gate} can be used to plot
 subsets of the data defined by an object of class
 \code{\link{gate}} or \code{\link{gateSet}}.}

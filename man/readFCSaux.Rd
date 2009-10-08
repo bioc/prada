@@ -28,6 +28,6 @@
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \seealso{\code{\link{readFCS}}}
-\examples{}
+
 \keyword{IO}
 

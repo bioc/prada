@@ -99,7 +99,7 @@ vector giving the name of one of the gates in the list.}
 \item{appendGate}{Append a gate or gateSet to the gate slot.}
 \item{drawGate}{Create an object of class \code{\link{gate}} or
 \code{\link{gateSet}} based on a selection made from the
-data. See \code{\link{gateMatrix}} for further details.}
+data.}
 \item{hist}{Draw a histogram of the data}
 }}
 
@@ -116,7 +116,7 @@ using the object system for handling of flow-cytometry data.
 
 \seealso{\code{\link{readFCS}},
 \code{\link{cytoSet}}, \code{\link{gate}},
-\code{\link{gateSet}}, \code{\link{gateMatrix}}}
+\code{\link{gateSet}}}
 
 \examples{
 intens <- matrix(runif(100), ncol=4)

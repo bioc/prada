@@ -27,7 +27,7 @@ plotNorm2(fn, colrange=c("gray82", "blue"), center=TRUE, selection=FALSE,
 
 \details{Produces a scatterplot of paired data showing the densities of
   the fitted bivariate distribution from function
-  \code{\link{fitNorm}} in false color
+  \code{\link{fitNorm2}} in false color
   representation. Additionally a selection of data points can be
   highlighted either by marking outliers or by showing its area.
 }
@@ -37,10 +37,10 @@ plotNorm2(fn, colrange=c("gray82", "blue"), center=TRUE, selection=FALSE,
   distribution, covariance matrix).
 }  
 
-\seealso{\code{\link{fitNorm2}}, \code{\link{addEllipse}}}
+\seealso{\code{\link{fitNorm2}}}
 
 \author{Florian Hahne}
-\keyword{}
+
 \examples{
  sampdat <- readFCS(system.file("extdata",
    "fas-Bcl2-plate323-04-04.A01", package="prada"))

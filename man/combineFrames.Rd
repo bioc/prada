@@ -12,14 +12,12 @@
 \item{by}{factor. Length must be same as that of \code{x}.}
 }
 
-\details{}
 
 \value{cytoSet.}  
 
-\seealso{}
 
 \author{Wolfgang Huber <huber@ebi.ac.uk>}
-\keyword{}
+
 \examples{
 cset <- readCytoSet(path=system.file("extdata", package="prada"),
                  pattern="[A-Z][0-9][0-9]$")

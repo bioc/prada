@@ -36,10 +36,9 @@
 
 \value{Object of the same class as \code{x}, with some rows removed.}  
 
-\seealso{}
 
-\author{Florian Hahne <f.hahne@dkfz.de>, Wolfgang Huber <huber@ebi.ac.uk>}
-\keyword{}
+\author{Florian Hahne, Wolfgang Huber}
+
 \examples{
 set.seed(8215)
 mat <- matrix(floor(runif(20000)*1024), ncol=4)

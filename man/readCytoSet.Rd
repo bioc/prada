@@ -40,7 +40,7 @@
   calling   \code{dir(path, pattern)}.
 }
 
-\value{An object of class \code{\link[cytoSet-class]{cytoSet}}.}
+\value{An object of class \code{\linkS4class{cytoSet}}.}
 
 \author{Wolfgang Huber \url{http://www.ebi.ac.uk/huber}}
 \seealso{\code{\link{readFCSdata}}}

@@ -32,10 +32,10 @@
 \value{The functions are called for their side effects.}
 
 \author{Florian Hahne}
-\seealso{}
+
 
 \examples{
-if(interactive()){
+if(interactive() && capabilities()["tcltk"]){
   progress(message="This is a progress display...", sub="(step 1 of 50)")
   for(i in 1:50) {
      zz = rnorm(1e5)

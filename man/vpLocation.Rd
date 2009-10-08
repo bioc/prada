@@ -25,7 +25,7 @@ vpLocation()
 
 
 \author{Florian Hahne}
-\keyword{}
+
 \examples{
 vpLocation()
 }

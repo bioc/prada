@@ -21,7 +21,7 @@ respectively.}
 
 
 \author{Florian Hahne}
-\keyword{}
+
 \examples{
 devRes()
 }

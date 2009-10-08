@@ -33,6 +33,6 @@ reporting is performed, and the return value is a data frame.}
   \code{well-ID} (from \code{x[, wellcol]}), and the
   results from statfun.}
 
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber}
 \keyword{manip}
 \examples{##see vignette}

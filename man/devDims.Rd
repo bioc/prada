@@ -30,7 +30,7 @@ devDims(width, height, ncol=12, nrow=8, res=72)
 
 
 \author{Florian Hahne}
-\keyword{}
+
 \examples{
 devDims(width=10)
 }

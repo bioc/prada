@@ -25,7 +25,7 @@ noisy data.}
 
 \details{Computes the densities of a bivariate normal distribution from
   the covariance matrix of the paired data. Covariance matrices are
-  acquired either by function \code{\link[rrcov]{covMcd}}
+  acquired either by function \code{covMcd}
   (considerably faster) or by function \code{\link[MASS]{cov.rob}}.
 }
 
@@ -36,12 +36,12 @@ noisy data.}
   (x and y values of data points) and \code{gate}, an object of class
   \code{gate} containing the selection.}
 
-\seealso{\code{\link[MASS]{cov.rob}},
-  \code{\link[rrcov]{covMcd}},
+\seealso{\code{\link[MASS:cov.rob]{cov.rob}},
+  \code{covMcd},
   \code{\link{plotNorm2}}}
 
 \author{Florian Hahne}
-\keyword{}
+
 \examples{
  sampdat <- readFCS(system.file("extdata",
    "fas-Bcl2-plate323-04-04.A01", package="prada"))

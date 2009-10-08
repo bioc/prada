@@ -22,10 +22,9 @@ counted to the left or down respectively.}
 
 \value{2x2 matrix.}  
 
-\seealso{}
 
 \author{Florian Hahne}
-\keyword{}
+
 \examples{
 thresholds(cbind(c(1, 1, 2, 2, 2, 4), c(1, 4, 2, 4, 5, 4)), xthr=3, ythr=3)
 }

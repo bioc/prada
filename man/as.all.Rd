@@ -20,7 +20,7 @@ as.all(x, what)
 
 \seealso{\code{\link[methods:as]{as}}}
 
-\author{Wolfgang Huber \url{http://www.dkfz.de/abt0840/whuber}}
+\author{Wolfgang Huber}
 \keyword{manip}
 \examples{
   as.all(runif(5)*10, "integer")

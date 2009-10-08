@@ -60,7 +60,7 @@ Objects can be created using methods of the generic function
 \author{Florian Hahne}
 
 \seealso{
-\code{\link{cytoFrame}}, \code{\link{gateMatrix}},
+\code{\link{cytoFrame}},
 \code{\link{gate}}
 }
 

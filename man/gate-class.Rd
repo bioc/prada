@@ -72,7 +72,7 @@ to superimpose the gate boundaries on a plot using \code{lines()}.}
 \author{Florian Hahne}
 
 \seealso{
-  \code{\link{cytoFrame}}, \code{\link{gateMatrix}},
+  \code{\link{cytoFrame}},
 \code{\link{gateSet}}
 }
 
