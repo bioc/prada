@@ -13,7 +13,7 @@
   \item{filename}{Character of length 1: filename}
   \item{objectModel}{Character of length 1: the object model to use for the
     output. Either 'prada' for \code{\link{cytoFrame}} objects or
-    'FCS' for \code{rflowcyt}'s \code{\link[rflowcyt]{FCS}} objects.}
+    'FCS' for \code{rflowcyt}'s \code{FCS} objects.}
   \item{...}{Arguments that get passed on to higher-level import functions.}}
 
 \details{

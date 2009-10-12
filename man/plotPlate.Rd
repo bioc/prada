@@ -24,7 +24,7 @@ funArgs=NULL,...)
 
   \item{col}{Character vector. Usually the names of two or three colors
     between which the color map is interpolated, using the function
-    \code{\link[grDevices]{colorRampPalette}}.}
+    \code{\link[grDevices:colorRamp]{colorRampPalette}}.}
 
   \item{ind}{Optional integer vector of equal length as \code{x}. It
     indicates the position of the respective value of

@@ -13,23 +13,22 @@
   \item{phenoData}{Either an object of class \code{phenoData} or 
     \code{character}.}
   \item{sep}{Separator character that gets passed on to
-    \code{\link[Biobase]{read.phenoData}}.}
+    \code{\link[Biobase]{read.AnnotatedDataFrame}}.}
   \item{...}{Further arguments that get passed on to
-    \code{\link[Biobase]{read.phenoData}}, see details.}
+    \code{\link[Biobase]{read.AnnotatedDataFrame}}, see details.}
 }
 
 \details{There are three different ways to specify the file names:
   
   First, if the argument \code{phenoData} is present and is of class
-  \code{\link[Biobase:phenoData]{phenoData}}, then it is
-  obtained from its column \code{name}. The column is mandatory, and an
-  error will be generated if it is not there.
-  Alternatively, the argument \code{phenoData} can be of class
-  \code{character}, in which case this function tries to read a
-  \code{phenoData} object from the file with that name by 
-  calling
-  \code{\link[Biobase]{read.phenoData}} with arguments \code{file.path(path,
-      phenoData), ...}.
+  \code{\linkS4class{AnnotatedDataFrame}}, then it is obtained
+  from its column \code{name}. The column is mandatory, and an error
+  will be generated if it is not there.  Alternatively, the argument
+  \code{phenoData} can be of class \code{character}, in which case this
+  function tries to read a \code{AnnotatedDataFrame} object from the
+  file with that name by calling
+  \code{\link[Biobase]{read.AnnotatedDataFrame}} with arguments
+  \code{file.path(path, phenoData), ...}.
   
   Second, if the argument \code{phenoData} is not present and
   the argument \code{files} is not \code{NULL}, then \code{files}
