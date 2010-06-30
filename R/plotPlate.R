@@ -443,10 +443,10 @@ devRes <- function(){
   ## find R's resolution for the current device
   if(current.viewport()$name != "ROOT"){
     vpt <- current.vpTree()
-    popViewport(0)
+    depth <- upViewport(0)
     xres <- abs(as.numeric(convertWidth(unit(1, "inches"), "native")))
     yres <- abs(as.numeric(convertHeight(unit(1, "inches"), "native")))
-    pushViewport(vpt)
+    downViewport(depth)
   }else{
     xres <- abs(as.numeric(convertWidth(unit(1, "inches"), "native")))
     yres <- abs(as.numeric(convertHeight(unit(1, "inches"), "native")))
