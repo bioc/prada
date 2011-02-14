@@ -7,7 +7,7 @@ Depends: R (>= 2.1.0), Biobase, RColorBrewer, grid, methods, rrcov
 Suggests: cellHTS, rflowcyt, tcltk
 Imports: Biobase, graphics, grDevices, grid, MASS, methods,
          RColorBrewer, rrcov, utils
-Collate: AllGeneric.R AllClasses.R methods-cytoFrame.R methods-cytoSet.R
+Collate: AllGenerics.R AllClasses.R methods-cytoFrame.R methods-cytoSet.R
 	 methods-gate.R methods-gateSet.R methods-misc.R analysePlate.R 
 	 as.all.R barploterrbar.R combineFrames.R csApply.R combineGates.R
 	 cytoFunctions.R fitNorm2.R gateMatrix.R 
