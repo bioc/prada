@@ -102,7 +102,7 @@ readFCSdata <- function(con, offsets, x) {
 
 
 ## This is a wrapper for all flow cytometry import function
-## in prada and rflowcyt. Be specifying the objectModel argument
+## in prada and rflowcyt (which is now defunct). Be specifying the objectModel argument
 ## the user can choose between the different data representations
 
 read.fcs <- function(filename=NULL, objectModel="prada", ...){
@@ -114,17 +114,9 @@ read.fcs <- function(filename=NULL, objectModel="prada", ...){
       return(readCytoSet(filename, ...))
     }
   }
-  ## use rflowcyt's function
+  ## Give defunct message
   if(objectModel=="FCS"){
-    require(rflowcyt)
-    if(!is.null(filename) && length(filename)==1){
-      ## use rflowcyt's function
-      return(read.FCS(filename, ...))
-      ## use prada's function and convert to rflowcyt
-      ##  return(as(readFCS(filename), "FCS"))
-    }else{
-      return(read.series.FCS(filename, ...))
-    }
+      .Defunct(msg="The rflowcyt package is no longer part of Bioconductor. Please consider using package 'flowCore'")
   }
   stop("'objectModel' must be either 'prada' or 'FCS'")
 }

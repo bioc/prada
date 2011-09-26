@@ -1,10 +1,10 @@
 Package: prada
-Version: 1.29.0
+Version: 1.29.1
 Title: Data analysis for cell-based functional assays
 Author:  Florian Hahne <florian.hahne@novartis.com>, Wolfgang Huber <huber@ebi.ac.uk>, Markus Ruschhaupt, Joern Toedling <toedling@ebi.ac.uk>
 Maintainer: Florian Hahne <florian.hahne@novartis.com>
-Depends: R (>= 2.1.0), Biobase, RColorBrewer, grid, methods, rrcov
-Suggests: cellHTS, rflowcyt, tcltk
+Depends: R (>= 2.10.0), Biobase, RColorBrewer, grid, methods, rrcov
+Suggests: cellHTS, tcltk
 Imports: Biobase, graphics, grDevices, grid, MASS, methods,
          RColorBrewer, rrcov, utils
 Collate: AllGenerics.R AllClasses.R methods-cytoFrame.R methods-cytoSet.R
@@ -12,7 +12,7 @@ Collate: AllGenerics.R AllClasses.R methods-cytoFrame.R methods-cytoSet.R
 	 as.all.R barploterrbar.R combineFrames.R csApply.R combineGates.R
 	 cytoFunctions.R fitNorm2.R gateMatrix.R 
 	 getPradaPar.R plotNorm2.R plotPlate.R readCytoSet.R readFCS.R 
-	 readSDM.R removeCensored.R thresholds.R touchFCS.R zzz.R tcltkProgress.R
+	 readSDM.R removeCensored.R thresholds.R touchFCS.R tcltkProgress.R
 Description: Tools for analysing and navigating data from high-throughput phenotyping experiments 
  based on cellular assays and fluorescent detection (flow cytometry (FACS), high-content screening 
  microscopy).
