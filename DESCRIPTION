@@ -1,5 +1,5 @@
 Package: prada
-Version: 1.30.0
+Version: 1.31.0
 Title: Data analysis for cell-based functional assays
 Author:  Florian Hahne <florian.hahne@novartis.com>, Wolfgang Huber <huber@ebi.ac.uk>, Markus Ruschhaupt, Joern Toedling <toedling@ebi.ac.uk>
 Maintainer: Florian Hahne <florian.hahne@novartis.com>
