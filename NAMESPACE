@@ -8,8 +8,9 @@ importMethodsFrom(Biobase, description, "description<-", exprs,
                   "exprs<-", pData, "pData<-", phenoData,
                   "phenoData<-", sampleNames, varLabels, varMetadata)
 importMethodsFrom(methods, show)
+importFrom(BiocGenerics, colnames, plot)
 importFrom(Biobase, listLen, multiassign, read.AnnotatedDataFrame)
-importFrom(graphics, barplot, locator, par, plot, plot.new, points,
+importFrom(graphics, barplot, locator, par, plot.new, points,
            polygon, segments, smoothScatter, title)
 importFrom(grDevices, colorRampPalette, densCols, dev.cur, dev.off)
 importFrom(grid, convertHeight, convertWidth, convertX, convertY,

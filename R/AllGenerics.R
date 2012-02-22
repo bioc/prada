@@ -4,12 +4,6 @@
 if(!isGeneric("colnames<-"))
   setGeneric("colnames<-",    function(x, value) standardGeneric("colnames<-"))
 
-if(!isGeneric("colnames"))
-  setGeneric("colnames",      function(x, do.NULL=TRUE, prefix="col") standardGeneric("colnames"))
-
-if(!isGeneric("plot"))
-  setGeneric("plot",          useAsDefault=plot)
-
 if(!isGeneric("hist"))
   setGeneric("hist",          useAsDefault=hist)
 
