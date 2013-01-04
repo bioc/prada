@@ -18,7 +18,7 @@ importFrom(grid, convertHeight, convertWidth, convertX, convertY,
            grid.circle, grid.lines, grid.polygon, grid.rect, grid.text,
            grid.yaxis, popViewport, pushViewport, unit, viewport)
 importFrom(MASS, cov.rob)
-importFrom(methods, "@<-", is, new, validObject)
+importFrom(methods, is, new, validObject)
 importFrom(RColorBrewer, brewer.pal)
 importFrom(rrcov, CovMcd)
 importFrom(stats4, plot)
