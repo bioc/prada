@@ -194,7 +194,7 @@ setMethod("applyGate",
   signature=signature("matrix", "gateSet"),
   definition=function(data, x) {
     ## test for validity of objects
-    if(!is.matrix(data) || (!is.real(data) && !is.integer(data)))
+    if(!is.matrix(data) || (!is.double(data) && !is.integer(data)))
       stop("'data' must be real or integer matrix")
     cnData <- colnames(data)  
     gfuns <- glogics  <- NULL
