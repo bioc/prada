@@ -34,7 +34,7 @@ the higher-level import function.
 
 For specifications of FCS 3.0 see
 \url{http://www.isac-net.org} and the file
-\url{../vignettes/fcs3.html} in the \code{vignettes} directory of the package.
+\url{../doc/fcs3.html} in the \code{doc} directory of the package.
 }
 
 \value{An object of class \code{\link{cytoFrame}}.}
