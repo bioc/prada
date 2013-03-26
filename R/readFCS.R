@@ -1,6 +1,6 @@
 ## For specifications of FACS 3.0 see
 ## http://www.isac-net.org and the file
-## fcs3.html in the doc directory
+## fcs3.html in the vignettes directory
 
 readFCS <- function(filename)
 {
