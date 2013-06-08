@@ -1,9 +1,9 @@
 Package: prada
-Version: 1.37.0
+Version: 1.37.1
 Title: Data analysis for cell-based functional assays
 Author:  Florian Hahne <florian.hahne@novartis.com>, Wolfgang Huber <huber@ebi.ac.uk>, Markus Ruschhaupt, Joern Toedling <toedling@ebi.ac.uk>
 Maintainer: Florian Hahne <florian.hahne@novartis.com>
-Depends: R (>= 2.10.0), Biobase, RColorBrewer, grid, methods, rrcov
+Depends: R, Biobase, RColorBrewer, grid, methods, rrcov
 Suggests: cellHTS, tcltk
 Imports: Biobase, BiocGenerics, graphics, grDevices, grid, MASS, methods,
          RColorBrewer, rrcov, stats4, utils
@@ -17,6 +17,5 @@ Description: Tools for analysing and navigating data from high-throughput phenot
  based on cellular assays and fluorescent detection (flow cytometry (FACS), high-content screening 
  microscopy).
 License: LGPL
-URL: http://www.dkfz.de/mga/whuber, http://www.dkfz.de/LIFEdb
 biocViews: CellBasedAssays, Visualization
 LazyLoad: yes
