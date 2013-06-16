@@ -290,11 +290,7 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
             "npc"), x=unit(1/(ncol+1), "npc"), y=unit(1/(nrow+1), "npc"),
             just=c("left","top"), xscale=c(0, ncol), yscale=c(0, 1)) #horiz. text vp
   pushViewport(vp7)
-  nre <- nrow %% 26
-  nl <- nrow %/% 26
-  rn <- if(nrow<=26) LETTERS[1:nrow] else paste(rep(LETTERS[seq_len(nl+1)],
-           c(rep(26, nl), nre)), c(rep(LETTERS[seq_len(26)], nl), LETTERS[seq_len(nre)]),
-           sep="")
+  rn <- getAlphaNumeric(horizontal=1:nrow, vertical=1)$id.alpha
   grid.text(x=unit(unique(x0), "native"), y=unit(0.9, "native"),
             seq_len(ncol), just="top", gp=gpar(fontsize=defArgs$fontsize.lab,
                                        cex=defArgs$cex.lab,

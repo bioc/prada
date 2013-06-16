@@ -36,7 +36,8 @@ export("analysePlate", "as.all",
        "thresholds", "threePanelPlot",
        "devRes", ".drawCircle", ".drawPie",
        "vpLocation", "touchFCS", "combineGates",
-       "progress", "updateProgress", "killProgress")
+       "progress", "updateProgress", "killProgress",
+       "getAlphaNumeric")
 
 
 S3method("$", "cytoFrame")
