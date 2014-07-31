@@ -50,7 +50,7 @@ setClass("gate",
 ## An object describing a set of individual gating functions to subset
 ## data, possibly in several dimensions.
 ## ---------------------------------------------------------------------------
-setClass("gateSet",      
+setClass("gateSet",
   representation(name="character",
                  glist="list"),
   prototype=list(name="ALL", glist=list(ALL=new("gate"))),
@@ -71,18 +71,18 @@ setClass("gateSet",
       msg <- "names of 'glist' must match names of individual gates"
     return(msg)
   })
-        
+
 
 ## ===========================================================================
 ## cytoFrame
 ## ---------------------------------------------------------------------------
 ## A container for flow cytometry measurements with slots exprs, description
-## and well. Exprs contains measurement values, description contains 
+## and well. Exprs contains measurement values, description contains
 ## information from file headers of FCS file and well contains well position
 ## on microtiter plate from experiment. Gate contains an object of class
 ## gateSet, which may be assessed for subsequent operations, e.g.plotting.
 ## ---------------------------------------------------------------------------
-setClass("cytoFrame",                
+setClass("cytoFrame",
   representation(exprs="matrix",
                  description="character",
                  well="integer",
@@ -106,11 +106,11 @@ setClass("cytoFrame",
 ## ===========================================================================
 ## cytoSet
 ## ---------------------------------------------------------------------------
-## A collection of several cytoFrames making up one experiment. Slots 
+## A collection of several cytoFrames making up one experiment. Slots
 ## frames, phenoData, colnames. Frames contains the cytoFrame objects,
-## phenoData the experiment meta data and colnames the channel names. 
+## phenoData the experiment meta data and colnames the channel names.
 ## ---------------------------------------------------------------------------
-setClass("cytoSet",                   
+setClass("cytoSet",
   representation(frames="environment",
                  phenoData="AnnotatedDataFrame",
                  colnames="character"),
@@ -121,15 +121,12 @@ setClass("cytoSet",
                    varMetadata=data.frame(labelDescription="Name in frame", row.names="name")),
                  colnames=character(0)),
   validity=function(object){
-    nc <- length(colnames(object))
-    is(object@phenoData, "AnnotatedDataFrame") &&
-    is(object@colnames, "character") &&
-    is(object@frames, "environment") &&
-    "name" %in% colnames(pData(object@phenoData)) &&
-    setequal(ls(object@frames, all.names=TRUE), object@phenoData$name) &&
-    all(sapply(ls(object@frames, all.names=TRUE), function(x)
-      { fr <- get(x, envir=object@frames, inherits=FALSE)
-       is(fr, "cytoFrame") && is.null(colnames(fr))  &&
-        ncol(exprs(fr))==nc } ))
+      nc <- length(object@colnames)
+      is(object@phenoData, "AnnotatedDataFrame") && is(object@colnames, "character") &&
+          is(object@frames, "environment") && "name" %in% colnames(pData(object@phenoData)) &&
+                      setequal(ls(object@frames, all.names=TRUE), object@phenoData$name) &&
+                          all(unlist(eapply(object@frames, function(fr){
+                              is(fr, "cytoFrame") && (is.null(colnames(fr))  || ncol(exprs(fr))==nc) },
+                                            all.names=TRUE)))
   })
 

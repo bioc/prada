@@ -6,13 +6,13 @@ setMethod("phenoData",
   valueClass="phenoData")
 ## ==========================================================================
 
-## ========================================================================== 
+## ==========================================================================
 ## replace method for slot phenoData
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setReplaceMethod("phenoData", c("cytoSet", "AnnotatedDataFrame"),
   function(object, value) {
     object@phenoData <- value
-    return(object)})      
+    return(object)})
 ## ==========================================================================
 
 ## ==========================================================================
@@ -23,7 +23,7 @@ setMethod("pData",
   valueClass="data.frame")
 ## ==========================================================================
 
-## ========================================================================== 
+## ==========================================================================
 ## replace method for slot phenoData@data
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setReplaceMethod("pData", c("cytoSet", "data.frame"),
@@ -34,11 +34,11 @@ setReplaceMethod("pData", c("cytoSet", "data.frame"),
     nc <- which(cn=="name")
     vm <- data.frame(labelDescription=I(rep("undefined", ncol(value))),
                      row.names=colnames(value))
-    vm[1,nc] <- "Name of the FCS 3.0 file" 
+    vm[1,nc] <- "Name of the FCS 3.0 file"
     phenoData <- new("AnnotatedDataFrame", data=value,
                      varMetadata=vm)
     object@phenoData <- phenoData
-    return(object)})      
+    return(object)})
 ## ==========================================================================
 
 
@@ -47,8 +47,9 @@ setReplaceMethod("pData", c("cytoSet", "data.frame"),
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod("colnames",
   signature="cytoSet",
-  definition=function(x, do.NULL="missing", prefix="missing") x@colnames,
-  valueClass="character")
+  definition=function(x, do.NULL="missing", prefix="missing"){
+      return(x@colnames)
+  })
 ## ==========================================================================
 
 ## ==========================================================================
@@ -170,7 +171,7 @@ setMethod("plot",
             if(dcol)
               col <- densCols(values[sel,1:2])
             if(dm)
-              main <- paste("frame #", i, " (", frames[i,], ")", sep="") 
+              main <- paste("frame #", i, " (", frames[i,], ")", sep="")
             plot(values[sel,], main=main, col=col, pch=pch, ...)
             par(ask=TRUE)
           } #end for
@@ -186,7 +187,7 @@ setMethod("plot",
              col=densCols(values[sel,1:2])
            if(dm)
              main <- paste("frame #", userAnswer, " (",
-                           frames[as.integer(userAnswer),], ")", sep="") 
+                           frames[as.integer(userAnswer),], ")", sep="")
            plot(values[sel,], col=col, main=main, pch=pch, ...)
          } #end else
        } #end else

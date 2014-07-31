@@ -1,11 +1,11 @@
 gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE){
-  
+
   ##  check arguments:
   if (!is.matrix(obj)) stop("First argument is no matrix!\n")
   if (ncol(obj)!=2) stop("Data matrix does not have two columns!\n")
   if (is.null(colnames(obj))) colnames(obj) <- c("x","y")
   options(locatorBell=FALSE)
-  
+
   ##  auxiliary functions:
   myLocator <- function(mymin=0,mymax=1023){
     mypoint <- locator(1)
@@ -49,7 +49,7 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE){
   else
     plot(obj,pch=20, cex=0.5, xlab=colnames(obj)[1], ylab=colnames(obj)[2],
          xlim=mylimits, ylim=mylimits, col=densCols(obj))
- 
+
   polyVertices <- c()
 
   # get input
@@ -68,7 +68,7 @@ gatePoints <- function(obj,totmin=0,totmax=1023,gatecol="red",smooth=FALSE){
   } # while
   drawLine(lastpoint,startpoint,gatecol)
   polyVertices <- c(polyVertices,list(c(startpoint$x,startpoint$y)))
-  
+
   # process drawn box
   cat("Determining events within gate...")
   #eturn(polyVertices)
@@ -87,7 +87,7 @@ gate.matrix <- function(object,gate.colour="red",use.smoothScatter=FALSE,
   ### 0. check arguments ###
   if (!is.matrix(object))
     stop("Function 'gate.matrix' can only be applied to matrices!\n")
-  n.obs <- nrow(object) 
+  n.obs <- nrow(object)
   if (n.obs > max.observations){
     object <- object[1:max.observations,,drop=FALSE]
     warning(paste("gate.matrix: matrix contained more than",max.observations,
@@ -97,7 +97,7 @@ gate.matrix <- function(object,gate.colour="red",use.smoothScatter=FALSE,
   if (is.null(colnames(object)))
     colnames(object) <- paste("Variable",1:ncol(object),sep="")
 
-  ### 1. define auxiliary functions ###    
+  ### 1. define auxiliary functions ###
   getGateVariables <- function(object){
     varnames <- colnames(object)
     selectedVar1 = selectedVar2 <- NA
@@ -112,7 +112,7 @@ gate.matrix <- function(object,gate.colour="red",use.smoothScatter=FALSE,
       cat(selectedVar2,"\n")
       selectedVars <- c(selectedVar1,selectedVar2)
     } else { # Unix
-      cat("\nChoose two of the following variables for gating:\n")    
+      cat("\nChoose two of the following variables for gating:\n")
       print(varnames)
       while(is.na(selectedVar1)){
         varanswer1 <- readline("Variable 1 ? ")
@@ -132,12 +132,12 @@ gate.matrix <- function(object,gate.colour="red",use.smoothScatter=FALSE,
     } # else Unix
     return(selectedVars)
   } #getGateVariables
-      
+
   ### 2. initialize result ###
   inGate <- rep(FALSE,nrow(object))# initialize
   keepRows <- 1:nrow(object)
   userAnswer <- "r"
-  
+
   while (length(grep("^[fF]",userAnswer))==0){ # if not finished
     combRows <- numeric()
     keepobject <- object[keepRows,,drop=FALSE]
@@ -184,7 +184,7 @@ gate.cytoFrame <- function(object,gate.colour="red",use.smoothScatter=FALSE,
   ### 0. check arguments ###
   if (class(object)!="cytoFrame")
     stop("Function 'gate.cytoFrame' can only be applied to objects of class 'cytoFrame'!\n")
-  
+
   ### 1. call 'gate.matrix'
   result <- gate.matrix(exprs(object),gate.colour=gate.colour,
                         use.smoothScatter=use.smoothScatter,
@@ -211,7 +211,7 @@ gate.cytoSet <- function(object,gate.colour="red",use.smoothScatter=FALSE,
     names(result) <- paste("frame",1:n.cytoFrames,sep="")
   class(result) <- "cytoSetGate"
   on.exit(return(result))
-  
+
   ## CONTINUE HERE! ##
   ### 2. call 'gate.matrix'
   for (i in 1:n.cytoFrames){
@@ -276,7 +276,7 @@ plot.cytoSetGate <- function(x,y,x.panels=c(1,4,5),y.panels=c(2,3,6),
 
   ### 1. prepare plot
   par(mfrow=c(n.cytoFrames,3))
-  
+
   ### 2. call 'plot.cytoFrameGate'
   for (i in 1:n.cytoFrames){
     cat("Working on cytoFrame '",frame.names[i],"'...\n",sep="")
@@ -285,13 +285,13 @@ plot.cytoSetGate <- function(x,y,x.panels=c(1,4,5),y.panels=c(2,3,6),
     thisFrameGate <- x[[i]]
     class(thisFrameGate) <- "cytoFrameGate"
     thisPlotTitle <- paste("Gated Frame",abbreviate(frame.names[i],15))
-    
+
     plot.cytoFrameGate(thisFrameGate,thisFrame,
                        x.panels=x.panels,y.panels=y.panels,
                        gate.colour=gate.colour, plotTitle=thisPlotTitle,
                        use.smoothScatter=use.smoothScatter,
                        limits = limits, new.device=FALSE, verbose=verbose,...)
-    
+
   } # for (i in 1:n.cytoFrames)
 
   invisible(NULL)
@@ -310,7 +310,6 @@ threePanelPlot <- function(data,x.panels=c(1,4,5),y.panels=c(2,3,6),
   # check arguments
   if (verbose) cat("Checking arguments...\n")
   stopifnot(all(c(x.panels,y.panels) %in% 1:ncol(data)))
-  if (use.smoothScatter) require(RColorBrewer)    
 
   # prepare data:
   if (verbose) cat("Preparing data...\n")
@@ -322,7 +321,7 @@ threePanelPlot <- function(data,x.panels=c(1,4,5),y.panels=c(2,3,6),
   ncells <- nrow(data)
   sampled.events <- sample(1:ncells,min(ncells,maxcells),replace=FALSE)
   data <- data[sampled.events,,drop=FALSE]
-  
+
   # prepare plot
   if (verbose) cat("Plotting...\n")
   if (new.device){
@@ -345,4 +344,4 @@ threePanelPlot <- function(data,x.panels=c(1,4,5),y.panels=c(2,3,6),
 
 } # threePanelPlot
 
-    
+
