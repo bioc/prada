@@ -37,8 +37,8 @@ plotPlate <- function(x,nrow = 8, ncol = 12, col=c("red", "blue"),
   info <- character(nrwell)
   if(!missing(char)){
     if (!is.vector(char) || length(char) != length(ind) ||
-        !all(nchar(char)<=2))
-      stop(paste("\n'char' must be a  vector of length 'ncol*nrow'",
+       !all(nchar(char, keepNA=FALSE)<=2))
+       stop(paste("\n'char' must be a  vector of length 'ncol*nrow'",
                  "\nor of length equal to inf with vector items nchar<=2",
                  "or 'NA'.\nYou might want to include indices for ",
                  "missing wells."))

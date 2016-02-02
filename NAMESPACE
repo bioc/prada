@@ -16,7 +16,8 @@ importFrom(grDevices, colorRampPalette, densCols, dev.cur, dev.off)
 importFrom(grid, convertHeight, convertWidth, convertX, convertY,
            current.transform, current.viewport, current.vpTree, gpar,
            grid.circle, grid.lines, grid.polygon, grid.rect, grid.text,
-           grid.yaxis, popViewport, pushViewport, unit, viewport)
+           grid.yaxis, popViewport, pushViewport, unit, viewport, 
+           grid.segments, upViewport, downViewport)
 importFrom(MASS, cov.rob)
 importFrom(methods, is, new, validObject)
 importFrom(RColorBrewer, brewer.pal)
